@@ -3,6 +3,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.mapper.Mapper;
 import com.excilys.model.Company;
 import com.excilys.sqlShenanigans.SqlConnector;
@@ -20,6 +23,8 @@ public class CompanyDAO{
 	private static final String SELECT_ALL="select id, name from "+ CompanyDAO.tbName;
 	private static final String SELECT_SOME="SELECT * FROM "+CompanyDAO.tbName+ " ORDER BY id LIMIT ? OFFSET ?";
 
+	public static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	
 /**
  * View company.
  *
@@ -27,6 +32,8 @@ public class CompanyDAO{
  * @return The list of all companies queried
  * @throws SQLException 
  */
+
+
 public List<Company> viewCompany() throws SQLException {
 	   
 
@@ -42,9 +49,10 @@ public List<Company> viewCompany() throws SQLException {
 		        	companies.add(company);
 		        }
 		    } catch (SQLException e ) {
+		    	logger.error("Connection to the database could not be established",e);
 		        Xeptions.printSQLException(e);
 		    } finally {
-		        if (stmt != null) { stmt.close(); }
+		        if (stmt != null) { stmt.close(); logger.debug("Connection to the database was terminated"); }
 		    }
 		    
 		    return companies;
@@ -82,9 +90,10 @@ public List<Company> viewSomeCompanies(Page page) throws SQLException {
        		companies.add(company);
        				}
    } catch (SQLException e ) {
+	   logger.error("Connection to the database could not be established",e);
        Xeptions.printSQLException(e);
    } finally {
-       if (pstmt != null) { pstmt.close(); }
+       if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
    }
    return companies;
 }

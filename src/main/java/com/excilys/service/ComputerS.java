@@ -6,6 +6,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
@@ -18,6 +21,7 @@ public class ComputerS {
 
 /** The comp DAO. */
 private ComputerDAO compDAO = new ComputerDAO();
+public static Logger logger= LoggerFactory.getLogger(ComputerS.class);
 	
 
 	/**
@@ -47,6 +51,7 @@ private ComputerDAO compDAO = new ComputerDAO();
 	public Computer viewSomeComputer(Connection con, int pageNumber) throws SQLException
 	{
 		Page page = new Page(pageNumber);
+		logger.debug("Page object initialized",page);
 		page.setMax(page.countDb("company"));
 		page.calcPages(page.getAmount(),page.getMax());
 		return compDAO.viewSomeComputer( page);

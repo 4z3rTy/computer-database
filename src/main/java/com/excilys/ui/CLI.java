@@ -14,6 +14,9 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyS;
@@ -43,6 +46,9 @@ public class CLI {
 		
 		CompanyS anyS=new CompanyS();
 		ComputerS compS=new ComputerS();
+		Logger logger = LoggerFactory.getLogger(CLI.class);
+		logger.info("Log4j Enabled");
+		
 		
 		    
 		

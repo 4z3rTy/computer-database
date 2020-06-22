@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.sqlShenanigans.Xeptions;
 
@@ -14,6 +17,8 @@ public class Page {
 	 int maxItems;
 	 int pageTotal;
 	 int currentPage;
+	 
+	 public static Logger logger= LoggerFactory.getLogger(CLI.class);
 	 
 	 public Page(int userChoice)
 	 {
@@ -25,8 +30,7 @@ public class Page {
 		{
 			Statement stmt =null;
 			int count=-1;
-			String query =
-			        "select COUNT(*) from "+tbName;
+			String query =  "select COUNT(*) from "+tbName;
 			try {
 			Connection con=SqlConnector.getInstance();
 	        stmt = con.createStatement();
@@ -35,9 +39,10 @@ public class Page {
 	        count=rs.getInt(1);
 			}
 			 catch (SQLException e ) {
+				 logger.error("Connection to the database could not be established",e);
 			    Xeptions.printSQLException(e);
 			} finally {
-			    if (stmt != null) { stmt.close(); }
+			    if (stmt != null) { stmt.close(); logger.debug("Connection to the database was terminated"); }
 			}
 	    return count;
 	}

@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.mapper.Mapper;
 import com.excilys.model.Computer;
 import com.excilys.sqlShenanigans.SqlConnector;
@@ -23,6 +26,7 @@ public class ComputerDAO {
 	private static final String DELETE="DELETE FROM computer WHERE id =?";
 	private static final String SELECT_WHERE="SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=? ";
 	
+	public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	/**
 	 * View computer.
 	 *
@@ -46,9 +50,10 @@ public class ComputerDAO {
 		
 		    }}
 		     catch (SQLException e ) {
+		    	logger.error("Connection to the database could not be established",e);
 		        Xeptions.printSQLException(e);
 		    } finally {
-		        if (stmt != null) { stmt.close(); }
+		        if (stmt != null) { stmt.close(); logger.debug("Connection to the database was terminated"); }
 		    }
 		    return computers;
 	}
@@ -84,9 +89,10 @@ public class ComputerDAO {
 	        	computer=Mapper.map(rs);
 	        }
 	    } catch (SQLException e ) {
+	    	logger.error("Connection to the database could not be established",e);
 	        Xeptions.printSQLException(e);
 	    } finally {
-	        if (pstmt != null) { pstmt.close(); }
+	        if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
 	    }
 	    return computer;
 }
@@ -120,7 +126,7 @@ public class ComputerDAO {
          
         }
         finally {
-            if (pstmt != null) pstmt.close();
+            if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
         }
     }
     
@@ -154,11 +160,11 @@ public class ComputerDAO {
                 }
                 else
                 {
-                	System.out.println("Sorry there seems to be an incoherence with your dates input. Creation aborted");
+                	logger.info("Sorry there seems to be an incoherence with your date format input. Update failed to resolve");
                 }
             }
             finally {
-                if (pstmt != null) pstmt.close();
+                if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
             }
             return bool;
         }
@@ -201,14 +207,14 @@ public class ComputerDAO {
     		} 
     		else
     			{
-    			System.out.println("Sorry there seems to be an incoherence with your dates input. Creation aborted");
+    			logger.info("Sorry there seems to be an incoherence with your date format input. Creation was aborted");
 
     			}
     		}
     			catch (SQLException e ) {
     		Xeptions.printSQLException(e);
     		} finally {
-    		if (stmt != null) { stmt.close(); 
+    		if (stmt != null) { stmt.close(); logger.debug("Connection to the database was terminated");
     					}}
 			return comp;}
     
@@ -233,7 +239,7 @@ public class ComputerDAO {
                 pstmt.executeUpdate();
             }
             finally {
-                if (pstmt != null) pstmt.close();
+                if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
             }
         }
     
@@ -261,11 +267,12 @@ public class ComputerDAO {
     	        
     	        while (rs.next()) {
     	        	computer=Mapper.map(rs);
-    	        	System.out.println(computer.toString());
+    	        	//System.out.println(computer.toString());
+    	        	logger.info(computer.toString());
     	        				}
         }
         finally {
-            if (pstmt != null) pstmt.close();
+            if (pstmt != null) { pstmt.close(); logger.debug("Connection to the database was terminated"); }
         }
         return computer;
  }

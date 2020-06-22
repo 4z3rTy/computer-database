@@ -3,6 +3,9 @@ package com.excilys.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.sqlShenanigans.SqlConnector;
@@ -16,7 +19,7 @@ public class CompanyS {
 
 /** The any DAO. */
 private CompanyDAO anyDAO = new CompanyDAO();
-	
+	Logger logger = LoggerFactory.getLogger(CompanyS.class);
 
 	/**
 	 * Gets the all companies.
@@ -42,6 +45,7 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	public List<Company> viewSomeCompanies(int pageNumber) throws SQLException
 	{
 		Page page = new Page(pageNumber);
+		logger.debug("Page object initialized",page);
 		page.setMax(page.countDb("company"));
 		page.calcPages(page.getAmount(),page.getMax());
 		return anyDAO.viewSomeCompanies(page);
