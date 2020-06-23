@@ -1,6 +1,7 @@
 package com.excilys.service;
 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -29,8 +30,10 @@ public static Logger logger= LoggerFactory.getLogger(ComputerS.class);
 	 *
 	 * @return the all computer
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public List<Computer> getAllComputer() throws SQLException
+	public List<Computer> getAllComputer() throws SQLException, ClassNotFoundException, IOException
 	{
 		return compDAO.viewComputer();
 	
@@ -42,13 +45,15 @@ public static Logger logger= LoggerFactory.getLogger(ComputerS.class);
 	 * @param pageNumber the page number
 	 * @return the list
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	
-	  public Computer getCompDetails(int computerID) throws SQLException {
+	  public Computer getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 		  return compDAO.viewCompDetails( computerID);
 	  }
 	  
-	public Computer viewSomeComputer(Connection con, int pageNumber) throws SQLException
+	public Computer viewSomeComputer(Connection con, int pageNumber) throws SQLException, ClassNotFoundException, IOException
 	{
 		Page page = new Page(pageNumber);
 		logger.debug("Page object initialized",page);
@@ -58,23 +63,23 @@ public static Logger logger= LoggerFactory.getLogger(ComputerS.class);
 	}
 	
 	
-	public void updateComputerName(String newName, int computerID) throws SQLException {
+	public void updateComputerName(String newName, int computerID) throws SQLException, ClassNotFoundException, IOException {
 		compDAO.updateComputerName( newName, computerID);
 	}
 	
 	 public int updateComputerDisc(Date intr, Date disc, int computerID)
-	            throws SQLException {
+	            throws SQLException, ClassNotFoundException, IOException {
 		 return compDAO.updateComputerDisc( intr, disc, computerID);
 	 }
 	 
 	 
 	 public void insertComputer(String computerName, int companyID, Date intro, Date disco)
-	    		throws SQLException {
+	    		throws SQLException, ClassNotFoundException, IOException {
 		 compDAO.insertComputer( computerName, companyID, intro, disco);
 	 }
 	
 	 public void deleteComputer(int computerID)
-	            throws SQLException {
+	            throws SQLException, ClassNotFoundException, IOException {
 		 compDAO.deleteComputer( computerID);
 	 }
 	

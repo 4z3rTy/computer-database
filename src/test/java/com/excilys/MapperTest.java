@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -36,22 +37,25 @@ public class MapperTest {
 		String i="2017-12-12";
 		String d="2018-12-12";
 		java.sql.Date intro = Date.valueOf(i);
+		LocalDate intro2=intro.toLocalDate();
 		java.sql.Date disco = Date.valueOf(d);
-		
+		LocalDate disco2=disco.toLocalDate();
+		Computer c2= new Computer(580,"RRR",intro2,disco2);
 		ResultSet mockRS= Mockito.mock(ResultSet.class);
+		//Mockito.when(mockRS.getInt("id")).thenReturn(580);
+		//Mockito.when(mockRS.getString("name")).thenReturn("RRR");
+		//Mockito.when(mockRS.getDate("intro")).thenReturn(intro);
+		//Mockito.when(mockRS.getDate("disco")).thenReturn(disco);
+		Mockito.when(mockRS.getInt("id")).thenReturn(0);
+		Mockito.when(mockRS.getString("name")).thenReturn(null);
+		Mockito.when(mockRS.getDate("intro")).thenReturn(null);
+		Mockito.when(mockRS.getDate("disco")).thenReturn(null);
 		Computer c=Mapper.map(mockRS);
-		Mockito.when(mockRS.getInt("id")).thenReturn(580);
-		//Mockito.when(c.setId(mockRS.getInt("id"))).thenReturn(580);
-		Mockito.when(mockRS.getString("name")).thenReturn("RRR");
-		Mockito.when(mockRS.getDate("intro")).thenReturn(intro);
-		Mockito.when(mockRS.getDate("disco")).thenReturn(disco);
 		
-		
-		assertEquals(c.getId(),580);
-		assertEquals(c.getName(),"RRR");
-		assertEquals(c.getIntro(),intro);
-		assertEquals(c.getIntro(),disco);
-		// ??????????????????????????????
+		assertEquals(c.getId(),c2.getId());
+		assertEquals(c.getName(),c2.getName());
+		assertEquals(c.getIntro(),c2.getIntro());
+		assertEquals(c.getIntro(),c2.getIntro());
 		
 		
 		

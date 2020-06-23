@@ -1,6 +1,7 @@
 package com.excilys.ui;
 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class Page {
 	 }
 	 
 	 
-	 public int countDb(String tbName) throws SQLException
+	 public int countDb(String tbName) throws SQLException, ClassNotFoundException, IOException
 		{
 			Statement stmt =null;
 			int count=-1;

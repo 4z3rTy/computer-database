@@ -59,6 +59,13 @@ public class Computer {
 	
 	
 	
+	public Computer(int i, String string, LocalDate intro2, LocalDate disco2) {
+		this.id=i;
+		this.name=string;
+		this.introduced=intro2;
+		this.discontinued=disco2;
+	}
+
 	/**
 	 * Gets the id.
 	 *

@@ -1,5 +1,6 @@
 package com.excilys.persistence;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,10 @@ public class ComputerDAO {
 	 * @param con the con
 	 * @return the list
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public List<Computer> viewComputer() throws SQLException {
+	public List<Computer> viewComputer() throws SQLException, ClassNotFoundException, IOException {
 		
 		    Statement stmt = null;
 		    Computer computer=null;
@@ -67,8 +70,10 @@ public class ComputerDAO {
 	 * @param page the page
 	 * @return the list
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public Computer viewSomeComputer(Page page) throws SQLException {
+	public Computer viewSomeComputer(Page page) throws SQLException, ClassNotFoundException, IOException {
 		
 		 PreparedStatement pstmt = null;   
 	    
@@ -105,9 +110,11 @@ public class ComputerDAO {
      * @param newName the new name
      * @param computerID the computer ID
      * @throws SQLException the SQL exception
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public void updateComputerName(String newName, int computerID)
-        throws SQLException {
+        throws SQLException, ClassNotFoundException, IOException {
 
 
         PreparedStatement pstmt = null;   
@@ -139,9 +146,11 @@ public class ComputerDAO {
      * @param computerID the computer ID
      * @return the int
      * @throws SQLException the SQL exception
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public int updateComputerDisc(Date intr, Date disc, int computerID)
-            throws SQLException {
+            throws SQLException, ClassNotFoundException, IOException {
     		int bool=0;
             PreparedStatement pstmt = null;   
           
@@ -179,9 +188,11 @@ public class ComputerDAO {
      * @param intro the intro
      * @param disco the disco
      * @throws SQLException the SQL exception
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public  Computer insertComputer(String computerName, int companyID, Date intro, Date disco)
-    		throws SQLException {
+    		throws SQLException, ClassNotFoundException, IOException {
     		Computer comp = new Computer();
     		Statement stmt=null;
     		try(Connection con=SqlConnector.getInstance()){
@@ -224,9 +235,11 @@ public class ComputerDAO {
      * @param con the con
      * @param computerID the computer ID
      * @throws SQLException the SQL exception
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public void deleteComputer(int computerID)
-            throws SQLException {
+            throws SQLException, ClassNotFoundException, IOException {
       
             PreparedStatement pstmt = null;   
           
@@ -251,8 +264,10 @@ public class ComputerDAO {
      * @param computerID the computer ID
      * @return the computer
      * @throws SQLException the SQL exception
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
-    public Computer viewCompDetails(int computerID) throws SQLException {
+    public Computer viewCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 
        
         PreparedStatement pstmt = null;   

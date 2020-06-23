@@ -1,4 +1,5 @@
 package com.excilys.persistence;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,12 @@ public class CompanyDAO{
  * @param con the SqlConnection
  * @return The list of all companies queried
  * @throws SQLException 
+ * @throws IOException 
+ * @throws ClassNotFoundException 
  */
 
 
-public List<Company> viewCompany() throws SQLException {
+public List<Company> viewCompany() throws SQLException, ClassNotFoundException, IOException {
 	   
 
 		    Statement stmt = null;
@@ -65,8 +68,10 @@ public List<Company> viewCompany() throws SQLException {
  * @param page the page number the user wishes to display
  * @return the list of all the companies
  * @throws SQLException
+ * @throws IOException 
+ * @throws ClassNotFoundException 
  */
-public List<Company> viewSomeCompanies(Page page) throws SQLException {
+public List<Company> viewSomeCompanies(Page page) throws SQLException, ClassNotFoundException, IOException {
 	
 	 PreparedStatement pstmt = null;   
    

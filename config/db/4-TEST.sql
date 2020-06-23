@@ -1,7 +1,6 @@
 drop schema if exists `test-db`;
-drop schema if exists `computer-database-db`;
-  create schema if not exists `computer-database-db`;
-  use `computer-database-db`;
+  create schema if not exists `test-db`;
+  use `test-db`;
 
   drop table if exists computer;
   drop table if exists company;

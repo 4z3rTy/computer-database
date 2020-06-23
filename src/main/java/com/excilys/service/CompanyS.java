@@ -1,5 +1,6 @@
 package com.excilys.service;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,8 +27,10 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	 *
 	 * @return the all companies
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public List<Company> getAllCompanies() throws SQLException
+	public List<Company> getAllCompanies() throws SQLException, ClassNotFoundException, IOException
 	{
 		SqlConnector.getInstance();
 		return anyDAO.viewCompany();
@@ -41,8 +44,10 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	 * @param pageNumber the page number
 	 * @return the list
 	 * @throws SQLException the SQL exception
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public List<Company> viewSomeCompanies(int pageNumber) throws SQLException
+	public List<Company> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException
 	{
 		Page page = new Page(pageNumber);
 		logger.debug("Page object initialized",page);

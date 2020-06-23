@@ -31,8 +31,9 @@ public class CLI {
   	 * @throws IOException Signals that an I/O exception has occurred.
   	 * @throws SQLException the SQL exception
   	 * @throws ParseException the parse exception
+	 * @throws ClassNotFoundException 
   	 */
-  	public static void main(String[] args) throws IOException, SQLException ,ParseException {
+  	public static void main(String[] args) throws IOException, SQLException ,ParseException, ClassNotFoundException {
 	  
 	    Scanner sc = new Scanner(System.in);
 		
