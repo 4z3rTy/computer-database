@@ -26,8 +26,38 @@ public class ComputerDAO {
 	private static final String UPDATE="UPDATE computer SET name=? WHERE id=?";
 	private static final String DELETE="DELETE FROM computer WHERE id =?";
 	private static final String SELECT_WHERE="SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=? ";
-	
+	private static final String COUNT="SELECT COUNT(*) from " + tbName;
 	public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	
+	
+	
+	
+	public int countDb(String tbName) throws SQLException, ClassNotFoundException, IOException {
+		Statement stmt = null;
+		int count = -1;
+		try {
+			Connection con = SqlConnector.getInstance();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(COUNT);
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return count;
+	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * View computer.
 	 *

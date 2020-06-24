@@ -2,7 +2,6 @@ package com.excilys.sqlShenanigans;
 
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -23,8 +22,8 @@ public class SqlConnector {  // Lazy Initialization Singleton
 
 	/** The connection. */
   private static Connection con;
-  private static String username="admincdb";
-  private static String password = "qwerty1234";
+  //private static String username="admincdb";
+  //private static String password = "qwerty1234";
   
   public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
@@ -41,7 +40,6 @@ public class SqlConnector {  // Lazy Initialization Singleton
 	{
 		if(con==null||con.isClosed())
 		{
-			Properties p =new Properties();
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			InputStream inputStream = new FileInputStream("local.properties");
 			Properties properties = new Properties();
@@ -61,7 +59,6 @@ public class SqlConnector {  // Lazy Initialization Singleton
 	 */
 	private SqlConnector() throws ClassNotFoundException, IOException{	
 		try {
-			Properties p =new Properties();
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			InputStream inputStream = new FileInputStream("local.properties");
 			Properties properties = new Properties();

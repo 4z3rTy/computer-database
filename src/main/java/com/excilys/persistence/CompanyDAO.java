@@ -23,8 +23,32 @@ public class CompanyDAO{
 	static String tbName="company";
 	private static final String SELECT_ALL="select id, name from "+ CompanyDAO.tbName;
 	private static final String SELECT_SOME="SELECT * FROM "+CompanyDAO.tbName+ " ORDER BY id LIMIT ? OFFSET ?";
+	private static final String COUNT="SELECT COUNT(*) from " + tbName;
 
 	public static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+
+	
+	public int countDb(String tbName) throws SQLException, ClassNotFoundException, IOException {
+		Statement stmt = null;
+		int count = -1;
+		try {
+			Connection con = SqlConnector.getInstance();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(COUNT);
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return count;
+	}
+	
 	
 /**
  * View company.

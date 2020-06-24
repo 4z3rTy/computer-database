@@ -18,10 +18,17 @@ import com.excilys.ui.Page;
  */
 public class CompanyS {
 
+	
+	
 /** The any DAO. */
 private CompanyDAO anyDAO = new CompanyDAO();
 	Logger logger = LoggerFactory.getLogger(CompanyS.class);
 
+	
+	
+	public int count(String tbName) throws SQLException, ClassNotFoundException, IOException {
+		return anyDAO.countDb(tbName);
+	}
 	/**
 	 * Gets the all companies.
 	 *
@@ -51,7 +58,7 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	{
 		Page page = new Page(pageNumber);
 		logger.debug("Page object initialized",page);
-		page.setMax(page.countDb("company"));
+		page.setMax(count("company"));
 		page.calcPages(page.getAmount(),page.getMax());
 		return anyDAO.viewSomeCompanies(page);
 	}
