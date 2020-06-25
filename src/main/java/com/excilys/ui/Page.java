@@ -1,32 +1,46 @@
 package com.excilys.ui;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.sqlShenanigans.SqlConnector;
-import com.excilys.sqlShenanigans.Xeptions;
+import com.excilys.service.ComputerS;
+import com.excilys.service.CompanyS;
+
 
 public class Page {
 	int itemsNb = 10;
 	int maxItems;
 	int pageTotal;
-	int currentPage=1;;
+	int currentPage=1;
+	public static Logger logger = LoggerFactory.getLogger(Page.class);
 
-	public static Logger logger = LoggerFactory.getLogger(CLI.class);
-
-	public Page(int userChoice) {
+	public Page(int userChoice, String tbName) {
 		this.currentPage = userChoice;
-		this.maxItems=573;
+		switch(tbName)
+		{
+		case "computer":
+			CompanyS CS= new CompanyS();
+			this.maxItems=CS.count(tbName);
+		case "company":
+			ComputerS C= new ComputerS();
+			this.maxItems=C.count(tbName);
+		default:
+			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
+		}
 	}
 
-	public Page() {
-		this.maxItems=573;
+	public Page(String tbName) {
+		switch(tbName)
+		{
+		case "computer":
+			CompanyS CS= new CompanyS();
+			this.maxItems=CS.count(tbName);
+		case "company":
+			ComputerS C= new ComputerS();
+			this.maxItems=C.count(tbName);
+		default:
+			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
+		}
 	}
 
 
@@ -62,13 +76,13 @@ public class Page {
 		this.currentPage = p;
 	}
 
-	public void calcPages(int items, int max) {
-		int result = max % items;
+	public void calcPages() {
+		int result = getMax() % getAmount();
 		if (result > 0) {
 			result = 1;
 		} else {
 			result = 0;
 		}
-		this.pageTotal = (max / items) + result;
+		this.pageTotal = (getMax() / getAmount()) + result;
 	}
 }

@@ -1,7 +1,6 @@
 package com.excilys.service;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,63 +20,118 @@ public class ComputerS {
 
 	/** The comp DAO. */
 	private static ComputerDAO compDAO = new ComputerDAO();
+	
+	/** The logger. */
 	public static Logger logger = LoggerFactory.getLogger(ComputerS.class);
 
-	public int count(String tbName) throws SQLException, ClassNotFoundException, IOException {
-		return compDAO.countDb(tbName);
+	/**
+	 * Count.
+	 *
+	 * @param tbName the tb name
+	 * @return the int
+	 * @throws IOException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public int count(String tbName) {
+				return compDAO.countDb(tbName);
 	}
 
 	/**
 	 * Gets the all computer.
 	 *
 	 * @return the all computer
-	 * @throws SQLException           the SQL exception
-	 * @throws IOException
-	 * @throws ClassNotFoundException
 	 */
-	public List<Computer> getAllComputer() throws SQLException, ClassNotFoundException, IOException {
-		return compDAO.viewComputer();
-
+	public List<Computer> getAllComputer()  {
+			return compDAO.viewComputer();
 	}
 
 	/**
 	 * View some computer.
 	 *
-	 * @param pageNumber the page number
+	 * @param computerID the computer ID
 	 * @return the list
 	 * @throws SQLException           the SQL exception
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
 	public Computer getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 		return compDAO.viewCompDetails(computerID);
 	}
 
-	public Computer viewSomeComputer(Connection con, int pageNumber)
+	/**
+	 * View some computer.
+	 *
+	 * @param con the con
+	 * @param pageNumber the page number
+	 * @return the computer
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public List <Computer> viewSomeComputers(Page p)
 			throws SQLException, ClassNotFoundException, IOException {
-		Page page = new Page(pageNumber);
-		logger.debug("Page object initialized", page);
-		page.setMax(count("computer"));
-		page.calcPages(page.getAmount(), page.getMax());
-		return compDAO.viewSomeComputer(page);
+		logger.debug("Page object initialized", p);
+		//page.setMax(count("computer"));
+		//page.calcPages();
+		return compDAO.viewSomeComputers(p);
 	}
 
+	/**
+	 * Update computer name.
+	 *
+	 * @param newName the new name
+	 * @param computerID the computer ID
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void updateComputerName(String newName, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
 		compDAO.updateComputerName(newName, computerID);
 	}
 
+	/**
+	 * Update computer disc.
+	 *
+	 * @param intr the intr
+	 * @param disc the disc
+	 * @param computerID the computer ID
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public int updateComputerDisc(Date intr, Date disc, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
 		return compDAO.updateComputerDisc(intr, disc, computerID);
 	}
 
+	/**
+	 * Insert computer.
+	 *
+	 * @param computerName the computer name
+	 * @param companyID the company ID
+	 * @param intro the intro
+	 * @param disco the disco
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void insertComputer(String computerName, int companyID, Date intro, Date disco)
 			throws SQLException, ClassNotFoundException, IOException {
 		compDAO.insertComputer(computerName, companyID, intro, disco);
 	}
 
+	/**
+	 * Delete computer.
+	 *
+	 * @param computerID the computer ID
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void deleteComputer(int computerID) throws SQLException, ClassNotFoundException, IOException {
 		compDAO.deleteComputer(computerID);
 	}

@@ -36,7 +36,6 @@ public class CLI {
   	public static void main(String[] args) throws IOException, SQLException ,ParseException, ClassNotFoundException {
 	  
 	    Scanner sc = new Scanner(System.in);
-		
 	    boolean running=true;
 		int option = 0;
 		int id = 0;
@@ -277,6 +276,8 @@ public class CLI {
 	    case 8:
 	    	boolean notdone=true;
 	    	System.out.println("List some or all of the computers in the db ->");
+	    	Page p=new Page("computer");
+	    	p.calcPages();
 	    	Scanner eight=new Scanner(System.in);
 	    	while(notdone)
 	    	{
@@ -285,7 +286,8 @@ public class CLI {
 			  		id=eight.nextInt();
 			  		//three.close();
 			  		System.out.println("Attempting to display page "+id);
-			  		ArrayList <Company> com=(ArrayList<Company>) anyS.viewSomeCompanies(id);
+			  		p.setPage(id);
+			  		ArrayList <Computer> com=(ArrayList<Computer>) compS.viewSomeComputers(p);
 				      for(int i=0; i<com.size();i++)
 			          {
 				    	  System.out.println(com.get(i).toString());

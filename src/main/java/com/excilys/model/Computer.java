@@ -111,7 +111,7 @@ public class Computer {
 	 *
 	 * @return the c id
 	 */
-	public int getCId()
+	public int getCompany()
 	{
 		return this.company_id;
 		//return this.company.getId();

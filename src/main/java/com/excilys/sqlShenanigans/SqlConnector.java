@@ -40,8 +40,10 @@ public class SqlConnector {  // Lazy Initialization Singleton
 	{
 		if(con==null||con.isClosed())
 		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			InputStream inputStream = new FileInputStream("local.properties");
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			//Class.forName("com.mysql.cj.jdbc.Driver");
+			InputStream inputStream = SqlConnector.class.getResourceAsStream("/local.properties");
+			//InputStream inputStream= new FileInputStream("local.properties");
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			con = DriverManager.getConnection(properties.getProperty("db.url"), 
@@ -59,8 +61,10 @@ public class SqlConnector {  // Lazy Initialization Singleton
 	 */
 	private SqlConnector() throws ClassNotFoundException, IOException{	
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			InputStream inputStream = new FileInputStream("local.properties");
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			//Class.forName("com.mysql.cj.jdbc.Driver");
+			InputStream inputStream = SqlConnector.class.getResourceAsStream("/local.properties");
+			//InputStream inputStream= new FileInputStream("local.properties");
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			con = DriverManager.getConnection(properties.getProperty("db.url"), 

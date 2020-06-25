@@ -28,7 +28,7 @@ public class CompanyDAO{
 	public static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	
-	public int countDb(String tbName) throws SQLException, ClassNotFoundException, IOException {
+	public int countDb(String tbName) {
 		Statement stmt = null;
 		int count = -1;
 		try {
@@ -37,15 +37,19 @@ public class CompanyDAO{
 			ResultSet rs = stmt.executeQuery(COUNT);
 			rs.next();
 			count = rs.getInt(1);
-		} catch (SQLException e) {
-			logger.error("Connection to the database could not be established", e);
-			Xeptions.printSQLException(e);
-		} finally {
-			if (stmt != null) {
-				stmt.close();
-				logger.debug("Connection to the database was terminated");
+			stmt.close();
+			logger.debug("Connection to the database was terminated");
+			} 
+			catch (SQLException e) {
+				logger.error("Connection to the database could not be established", e);
+				Xeptions.printSQLException(e);
 			}
-		}
+			catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		return count;
 	}
 	

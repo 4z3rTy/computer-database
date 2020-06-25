@@ -5,10 +5,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.dbunit.dataset.DataSetException;
@@ -23,7 +21,7 @@ import com.excilys.ui.Page;
 
 
 public class PageTest {
-	Page p = new Page(22);
+	Page p = new Page(22,"computer");
 	CompanyS c= new CompanyS();
 
 	// p.calcPages();

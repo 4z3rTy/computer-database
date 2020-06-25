@@ -26,7 +26,7 @@ private CompanyDAO anyDAO = new CompanyDAO();
 
 	
 	
-	public int count(String tbName) throws SQLException, ClassNotFoundException, IOException {
+	public int count(String tbName)  {
 		return anyDAO.countDb(tbName);
 	}
 	/**
@@ -56,10 +56,10 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	 */
 	public List<Company> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException
 	{
-		Page page = new Page(pageNumber);
+		Page page = new Page(pageNumber,"company");
 		logger.debug("Page object initialized",page);
 		page.setMax(count("company"));
-		page.calcPages(page.getAmount(),page.getMax());
+		page.calcPages();
 		return anyDAO.viewSomeCompanies(page);
 	}
 }
