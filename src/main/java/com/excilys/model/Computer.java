@@ -2,6 +2,8 @@ package com.excilys.model;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * The Class Computer.
@@ -24,6 +26,8 @@ public class Computer {
 		/** The discontinued. */
 		private LocalDate discontinued;
 		
+		
+	
 		
 	/**
 	 * Instantiates a new computer.

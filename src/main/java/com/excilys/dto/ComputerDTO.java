@@ -9,7 +9,7 @@ public class ComputerDTO {
 	private String id;
 	@Override
 	public String toString() {
-		return "ComputerDTO [id=" + id + ", name=" + name + ", intro=" + intro + ", disco=" + disco + ", company_name=" + company_name + "]";
+		return " [id=" + id + ", name=" + name + ", intro=" + intro + ", disco=" + disco + ", company_name=" + company_name + "]";
 	}
 
 
@@ -41,6 +41,15 @@ public class ComputerDTO {
 	
 	
 	
+	public ComputerDTO(String name2, String intro2, String disco2, String company_id2) {
+		this.name=name2;
+		this.intro=intro2;
+		this.disco=disco2;
+		this.company_id=company_id2;
+	}
+
+
+
 	public String getName() {
 		return name;
 	}

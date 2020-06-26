@@ -24,6 +24,7 @@ import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.ComputerS;
 import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.ui.Page;
+import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
  
 public class ComputerDAOTest 
@@ -73,7 +74,7 @@ public class ComputerDAOTest
     public void getAllComptTest() throws SQLException, ClassNotFoundException, IOException
     {
     	
-      List<Computer> all= mockComputerS.getAllComputer();
+      List<ComputerDTO> all= mockComputerS.getAllComputer();
         try {
         	verify(mockDAO).viewComputer();
         	assertEquals(580,all.size());

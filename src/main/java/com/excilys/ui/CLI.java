@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
-import com.excilys.model.Computer;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 
@@ -94,7 +93,7 @@ public class CLI {
 	    case 1:
 	      System.out.println("'List all computers' selected ->");
 	      System.out.println("");
-	      ArrayList <Computer> c=(ArrayList<Computer>) compS.getAllComputer();
+	      ArrayList <ComputerDTO> c=(ArrayList<ComputerDTO>) compS.getAllComputer();
 	      for(int i=0; i<c.size();i++)
           {
 	    	  System.out.println(c.get(i).toString());

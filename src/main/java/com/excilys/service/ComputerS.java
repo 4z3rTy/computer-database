@@ -44,8 +44,15 @@ public class ComputerS {
 	 *
 	 * @return the all computer
 	 */
-	public List<Computer> getAllComputer()  {
-			return compDAO.viewComputer();
+	public List<ComputerDTO> getAllComputer()  {
+		List <Computer> temp=compDAO.viewComputer();
+		List <ComputerDTO> res= new ArrayList <ComputerDTO>();
+		for(int i=0;i<temp.size();i++)
+		{
+			ComputerDTO t= new ComputerDTO(temp.get(i));
+			res.add(t);
+		}
+		return res;
 	}
 
 	/**
