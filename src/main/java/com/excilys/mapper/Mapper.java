@@ -46,7 +46,8 @@ public class Mapper {
 				Date sqlDate2=(rs.getDate("discontinued"));
 				disc=sqlDate2.toLocalDate();
 			}
-        	c.setC_Id(rs.getInt("company_id"));
+			Company temp= map2(rs);
+        	c.setCompany(temp);
 	    	c.setIntro(intro);
             c.setDisco(disc);
 		return c;
@@ -58,6 +59,16 @@ public class Mapper {
 			logger.debug("New Company Object initialized",c);
 	        	c.setId(rs.getInt("id"));
 	        	c.setName(rs.getString("name"));
+	        
+			return c;
+		}
+		
+		public static Company map2(ResultSet rs) throws SQLException
+		{
+			Company c=new Company();
+			logger.debug("New Company Object initialized",c);
+	        	c.setId(rs.getInt("company_id"));
+	        	c.setName(rs.getString("company.name"));
 	        
 			return c;
 		}

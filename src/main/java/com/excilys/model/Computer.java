@@ -12,8 +12,8 @@ public class Computer {
 		private int id;
 		
 		/** The company id. */
-		private int company_id;
-		//private Company company;
+		//private int company_id;
+		private Company company;
 		
 		/** The name. */
 		private String name;
@@ -46,14 +46,14 @@ public class Computer {
 	 * @param id the id
 	 * @param name the name
 	 */
-	public Computer(int id, String name, LocalDate intro, LocalDate disco, int c_id/* Company company */)
+	public Computer(int id, String name, LocalDate intro, LocalDate disco, Company company )
 	{
 		this.id=id;
 		this.name=name;
 		this.introduced=intro;
 		this.discontinued=disco;
-		this.company_id=c_id;
-		//this.company=company;
+		//this.company_id=c_id;
+		this.company=company;
 	}
 	
 	
@@ -111,10 +111,10 @@ public class Computer {
 	 *
 	 * @return the c id
 	 */
-	public int getCompany()
+	public String getCompany()
 	{
-		return this.company_id;
-		//return this.company.getId();
+		//return this.company_id;
+		return this.company.getName();
 	}
 	
 	
@@ -137,12 +137,11 @@ public class Computer {
 	 *
 	 * @param newId the new c id
 	 */
-	public void setC_Id(int newId/*Company company*/)
+	public void setCompany(Company company)
 	{
 		// Add Exception to prevent setting the id to NULL
-		this.company_id=newId;
-		//this.company=company;
-		
+		//this.company_id=newId;
+		this.company=company;
 	}
 	
 	/**
@@ -180,6 +179,6 @@ public class Computer {
 	{
 		return "id=" + id + ", name=" + name + ", introduced="
 				+ introduced + ", discontinued=" + discontinued + ", company="
-				+ company_id/*+company*/;
+				+(company.getName());
 	}
 }

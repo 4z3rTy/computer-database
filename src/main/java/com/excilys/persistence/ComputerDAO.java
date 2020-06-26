@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.mapper.Mapper;
-import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.sqlShenanigans.Xeptions;
@@ -22,10 +21,10 @@ public class ComputerDAO {
 
 	/** The table name. */
 	static String tbName = "computer";
-	private static final String SELECT_ALL = "select id, name, company_id, introduced, discontinued from "
-			+ ComputerDAO.tbName;
-	private static final String SELECT_SOME = "SELECT * FROM " + ComputerDAO.tbName + " ORDER BY id LIMIT ? OFFSET ?";
-	private static final String UPDATE = "UPDATE computer SET name=? WHERE id=?";
+	private static final String SELECT_ALL = "select computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ";
+	private static final String SELECT_SOME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ORDER BY id LIMIT ? OFFSET ?";
+	private static final String UPDATE_NAME = "UPDATE computer SET name=? WHERE id=?";
+	private static final String UPDATE_DATE = "UPDATE computer SET introduced=? , discontinued=? WHERE id=?";
 	private static final String DELETE = "DELETE FROM computer WHERE id =?";
 	private static final String SELECT_WHERE = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=? ";
 	private static final String COUNT = "SELECT COUNT(*) from " + tbName;
@@ -150,7 +149,7 @@ public class ComputerDAO {
 		try {
 
 			Connection con = SqlConnector.getInstance();
-			pstmt = con.prepareStatement("UPDATE computer SET name=? WHERE id=?");
+			pstmt = con.prepareStatement(UPDATE_NAME);
 
 			pstmt.setString(1, newName);
 			pstmt.setInt(2, computerID);
@@ -183,8 +182,7 @@ public class ComputerDAO {
 
 		try (Connection con = SqlConnector.getInstance()) {
 
-			pstmt = con.prepareStatement(UPDATE);
-
+			pstmt = con.prepareStatement(UPDATE_DATE);
 			if (disc.compareTo(intr) > 0) {
 				pstmt.setDate(1, intr);
 				pstmt.setDate(2, disc);
