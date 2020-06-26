@@ -3,16 +3,18 @@ package com.excilys.service;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
 
-// TODO: Auto-generated Javadoc
+// 
 /**
  * The Class ComputerS.
  */
@@ -70,12 +72,19 @@ public class ComputerS {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public List <Computer> viewSomeComputers(Page p)
+	public List <ComputerDTO> viewSomeComputers(Page p)
 			throws SQLException, ClassNotFoundException, IOException {
 		logger.debug("Page object initialized", p);
 		//page.setMax(count("computer"));
 		//page.calcPages();
-		return compDAO.viewSomeComputers(p);
+		List <Computer> temp=compDAO.viewSomeComputers(p);
+		List <ComputerDTO> res= new ArrayList <ComputerDTO>();
+		for(int i=0;i<temp.size();i++)
+		{
+			ComputerDTO t= new ComputerDTO(temp.get(i));
+			res.add(t);
+		}
+		return res;
 	}
 
 	/**
@@ -136,5 +145,4 @@ public class ComputerS {
 		compDAO.deleteComputer(computerID);
 	}
 
-	// TODO Add the rest of the methods from the DAO
 }

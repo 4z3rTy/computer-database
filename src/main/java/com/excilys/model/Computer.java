@@ -117,6 +117,12 @@ public class Computer {
 		return this.company.getName();
 	}
 	
+	public int getCompanyId()
+	{
+		//return this.company_id;
+		return this.company.getId();
+	}
+	
 	
 	
 	

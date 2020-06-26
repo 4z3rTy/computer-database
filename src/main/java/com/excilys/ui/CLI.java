@@ -17,6 +17,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyS;
@@ -287,7 +288,7 @@ public class CLI {
 			  		//three.close();
 			  		System.out.println("Attempting to display page "+id);
 			  		p.setPage(id);
-			  		ArrayList <Computer> com=(ArrayList<Computer>) compS.viewSomeComputers(p);
+			  		ArrayList <ComputerDTO> com=(ArrayList<ComputerDTO>) compS.viewSomeComputers(p);
 				      for(int i=0; i<com.size();i++)
 			          {
 				    	  System.out.println(com.get(i).toString());

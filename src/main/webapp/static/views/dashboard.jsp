@@ -79,7 +79,7 @@
 							<td>${compList.name}</td>
 							<td>${compList.intro}</td>
 							<td>${compList.disco}</td>
-							<td>${compList.company}</td>
+							<td>${compList.company_name}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

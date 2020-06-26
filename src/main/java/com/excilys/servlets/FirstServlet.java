@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
 import com.excilys.service.ComputerS;
 import com.excilys.ui.Page;
@@ -45,7 +46,7 @@ public class FirstServlet extends HttpServlet {
 		p.calcPages();
 
 		try {
-			List<Computer> compList = CS.viewSomeComputers(p);
+			List<ComputerDTO> compList = CS.viewSomeComputers(p);
 			request.setAttribute("nb", nb);
 			request.setAttribute("compList", compList);
 			request.setAttribute("pageTotal", p.getTotal());
