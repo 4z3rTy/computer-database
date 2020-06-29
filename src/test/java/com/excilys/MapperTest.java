@@ -49,7 +49,7 @@ public class MapperTest {
 		Mockito.when(mockRS.getString("name")).thenReturn(null);
 		Mockito.when(mockRS.getDate("intro")).thenReturn(null);
 		Mockito.when(mockRS.getDate("disco")).thenReturn(null);
-		Computer c=Mapper.map(mockRS);
+		Computer c=Mapper.computerMap(mockRS);
 		
 		assertEquals(c.getId(),c2.getId());
 		assertEquals(c.getName(),c2.getName());

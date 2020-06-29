@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.Mapper;
 import com.excilys.model.Company;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
@@ -153,13 +154,9 @@ public class CLI {
 		      System.out.println("date introduced=" +intr);
 		      System.out.println("date discontinued=" +disc);
 		      System.out.println("company ID=" +c_id);
-	    	  DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+	    	  ComputerDTO dto=new ComputerDTO(name,intr,disc,c_id);
 	    	  try {
-	    	  LocalDate date=LocalDate.parse(disc, formatter);
-	    	  Date sqlDate=Date.valueOf(date);
-	    	  LocalDate date2=LocalDate.parse(intr, formatter);
-	    	  Date sqlDate2=Date.valueOf(date2);
-	    	  compS.insertComputer(name, c_id, sqlDate2, sqlDate);
+	    		  compS.insertComputer(Mapper.toComputer(dto));
 	    	  }
 	    	  catch(DateTimeParseException e )
 	    	  {

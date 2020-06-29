@@ -15,14 +15,31 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ComputerS;
 import com.excilys.ui.Page;
 
-@WebServlet(name = "FirstServlet", urlPatterns = "/dashboard")
-public class FirstServlet extends HttpServlet {
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DashboardServlet.
+ */
+@WebServlet(name = "DashboardServlet", urlPatterns = "/dashboard")
+public class DashboardServlet extends HttpServlet {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The cs. */
 	private ComputerS CS = new ComputerS();
+	
+	/** The nb. */
 	private int nb = CS.count("computer");
 	// List <Computer> compList=CS.getAllComputer();
 
+	/**
+	 * Process request.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -30,6 +47,14 @@ public class FirstServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -58,6 +83,14 @@ public class FirstServlet extends HttpServlet {
 		processRequest(request, response);
 	}
 
+	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

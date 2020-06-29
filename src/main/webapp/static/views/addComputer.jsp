@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,18 +30,21 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" name="computerName" id="computerName"
-									placeholder="Computer name">
+									type="text" class="form-control" name="computerName"
+									id="computerName" placeholder="Computer name"> <span
+									class="error">${messages['computerName']}</span>
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control" name="introduced" id="introduced"
-									placeholder="Introduced date">
+									type="date" class="form-control" name="introduced"
+									id="introduced" placeholder="Introduced date"> <span
+									class="error">${messages['introduced']}</span>
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control" name="discontinued" id="discontinued"
-									placeholder="Discontinued date">
+									type="date" class="form-control" name="discontinued"
+									id="discontinued" placeholder="Discontinued date"> <span
+									class="error">${messages['discontinued']}</span>
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
@@ -55,7 +59,8 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
-							or <a href="dashboard?Pagenum=1" class="btn btn-default">Cancel</a>
+							<span class="success">${messages['success']}</span> or <a
+								href="dashboard?Pagenum=1" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 				</div>

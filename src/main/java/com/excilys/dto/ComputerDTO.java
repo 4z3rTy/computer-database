@@ -50,6 +50,15 @@ public class ComputerDTO {
 
 
 
+	public ComputerDTO(String name2, String intr, String disc, int c_id) {
+		this.name=name2;
+		this.intro=intr;
+		this.disco=disc;
+		this.company_id=String.valueOf(c_id);
+	}
+
+
+
 	public String getName() {
 		return name;
 	}

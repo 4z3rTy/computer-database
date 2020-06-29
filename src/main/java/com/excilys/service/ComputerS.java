@@ -135,9 +135,9 @@ public class ComputerS {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void insertComputer(String computerName, int companyID, Date intro, Date disco)
+	public void insertComputer(Computer myComp)
 			throws SQLException, ClassNotFoundException, IOException {
-		compDAO.insertComputer(computerName, companyID, intro, disco);
+		compDAO.insertComputer(myComp);
 	}
 
 	/**

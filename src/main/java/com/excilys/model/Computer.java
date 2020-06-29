@@ -50,7 +50,7 @@ public class Computer {
 	 */
 	public Computer(int id, String name, LocalDate intro, LocalDate disco, Company company )
 	{
-		this.id=id;
+		this.company.setId(id);
 		this.name=name;
 		this.introduced=intro;
 		this.discontinued=disco;
@@ -62,11 +62,12 @@ public class Computer {
 	
 	
 	public Computer(int i, String string, LocalDate intro2, LocalDate disco2) {
-		this.id=i;
+		this.company= new Company(i);
 		this.name=string;
 		this.introduced=intro2;
 		this.discontinued=disco2;
 	}
+
 
 	/**
 	 * Gets the id.

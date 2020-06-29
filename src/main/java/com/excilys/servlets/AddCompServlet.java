@@ -1,12 +1,10 @@
 package com.excilys.servlets;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,26 +13,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
+
+import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.Mapper;
 import com.excilys.model.Company;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
+import com.excilys.validator.ComputerValidator;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class secondServlet
+ * Servlet implementation class secondServlet.
  */
 
-@WebServlet(name = "SecondServlet", urlPatterns = "/addComputer")
-public class secondServlet extends HttpServlet {
+@WebServlet(name = "AddCompServlet", urlPatterns = "/addComputer")
+public class AddCompServlet extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new adds the comp servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
-    public secondServlet() {
+    public AddCompServlet() {
         super();
    
     }
+    
+    /** The cs. */
     private CompanyS CS = new CompanyS();
+	
+	public static Logger logger = LoggerFactory.getLogger(AddCompServlet.class);
+    
+    
+	/**
+	 * Process request.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -43,6 +67,12 @@ public class secondServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -58,25 +88,47 @@ public class secondServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+		Map<String, String> messages = new HashMap<String, String>();
+		request.setAttribute("messages", messages);
 		String name=request.getParameter("computerName");
+		if ((ComputerValidator.emptyName(name)))
+		{
+			messages.put("computerName", "Computer name cannot be left empty");
+		}
+			
 		String intro=request.getParameter("introduced");
 		String disco=request.getParameter("discontinued");
 		String company_id=request.getParameter("companyId");
 		
-		int c=Integer.parseInt(company_id); //TODO NumberFormatException null ??????????????????
+		if(messages.isEmpty())
+		{
+			messages.put("success","Insertion completed successfully");
+		}
+		ComputerDTO dto=new ComputerDTO(name,intro,disco,company_id);
 		
-		DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i=LocalDate.parse(intro,formatter);
-		LocalDate d=LocalDate.parse(disco,formatter);
-		Date in=Date.valueOf(i);
-		Date di=Date.valueOf(d);
 		try {
-			ComputerS C= new ComputerS();
-			C.insertComputer(name, c , in, di);
+			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro, disco) && !ComputerValidator.wrongDate(intro, disco))
+			{
+				ComputerS C= new ComputerS();
+				C.insertComputer(Mapper.toComputer(dto));
+			}
+			else
+			{
+				logger.error("Computer name cannot be left empty, Insertion did not go through.");
+				throw new ServletException("Wrong Input(s)");
+				
+			}
+		
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
