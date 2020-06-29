@@ -26,8 +26,9 @@ public class ComputerDAO {
 	private static final String UPDATE_NAME = "UPDATE computer SET name=? WHERE id=?";
 	private static final String UPDATE_DATE = "UPDATE computer SET introduced=? , discontinued=? WHERE id=?";
 	private static final String DELETE = "DELETE FROM computer WHERE id =?";
-	private static final String SELECT_WHERE = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=? ";
+	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id=? ";
 	private static final String COUNT = "SELECT COUNT(*) from " + tbName;
+	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 	public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	public int countDb(String tbName) {
@@ -71,7 +72,7 @@ public class ComputerDAO {
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
 			while (rs.next()) {
-				computer = Mapper.map(rs);
+				computer = Mapper.prettyMap(rs);
 				computers.add(computer);
 
 			}
@@ -116,7 +117,7 @@ public class ComputerDAO {
 			ResultSet rs = pstmt.executeQuery();
 			computer = new Computer();
 			while (rs.next()) {
-				computer = Mapper.map(rs);
+				computer = Mapper.prettyMap(rs);
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -218,24 +219,19 @@ public class ComputerDAO {
 	public Computer insertComputer(String computerName, int companyID, Date intro, Date disco)
 			throws SQLException, ClassNotFoundException, IOException {
 		Computer comp = new Computer();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		try (Connection con = SqlConnector.getInstance()) {
 
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
-			ResultSet uprs = stmt.executeQuery(SELECT_ALL);
+			pstmt = con.prepareStatement(INSERT);
 
 			if (disco.compareTo(intro) > 0) {
-				uprs.moveToInsertRow();
-				uprs.updateString("NAME", computerName);
-				uprs.updateInt("COMPANY_ID", companyID);
-				uprs.updateDate("INTRODUCED", intro);
-				uprs.updateDate("DISCONTINUED", disco);
-				comp = Mapper.map(uprs);
-				// uprs.updateInt("ID", computerID);
+				pstmt.setString(1, computerName);
+				pstmt.setDate(2, intro);
+				pstmt.setDate(3, disco);
+				pstmt.setInt(4, companyID);
+				pstmt.executeUpdate();
 
-				uprs.insertRow();
-				uprs.beforeFirst();
 			} else {
 				logger.info("Sorry there seems to be an incoherence with your date format input. Creation was aborted");
 
@@ -243,8 +239,8 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			Xeptions.printSQLException(e);
 		} finally {
-			if (stmt != null) {
-				stmt.close();
+			if (pstmt != null) {
+				pstmt.close();
 				logger.debug("Connection to the database was terminated");
 			}
 		}
@@ -303,7 +299,7 @@ public class ComputerDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				computer = Mapper.map(rs);
+				computer = Mapper.prettyMap(rs);
 				// System.out.println(computer.toString());
 				logger.info(computer.toString());
 			}

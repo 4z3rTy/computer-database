@@ -2,8 +2,6 @@ package com.excilys.model;
 
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 /**
  * The Class Computer.
@@ -189,6 +187,6 @@ public class Computer {
 	{
 		return "id=" + id + ", name=" + name + ", introduced="
 				+ introduced + ", discontinued=" + discontinued + ", company="
-				+(company.getName());
+				+(this.company.getName());
 	}
 }

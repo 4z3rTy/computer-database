@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
@@ -68,7 +67,7 @@ public class secondServlet extends HttpServlet {
 		String disco=request.getParameter("discontinued");
 		String company_id=request.getParameter("companyId");
 		
-		int c=Integer.valueOf(company_id); //TODO NumberFormatException null ??????????????????
+		int c=Integer.parseInt(company_id); //TODO NumberFormatException null ??????????????????
 		
 		DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate i=LocalDate.parse(intro,formatter);
@@ -81,7 +80,7 @@ public class secondServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
-		processRequest(request, response);
+		//processRequest(request, response);
 	}
 
 }

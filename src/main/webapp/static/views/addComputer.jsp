@@ -29,25 +29,25 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
+									type="text" class="form-control" name="computerName" id="computerName"
 									placeholder="Computer name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control" id="introduced"
+									type="date" class="form-control" name="introduced" id="introduced"
 									placeholder="Introduced date">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control" id="discontinued"
+									type="date" class="form-control" name="discontinued" id="discontinued"
 									placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId">
+									class="form-control" name="companyId" id="companyId">
 									<c:forEach var="i" items="${compList}">
 										<option value="${i.id}">
-											<c:out value="${i.id}"></c:out>
+											<c:out value="${i.name}"></c:out>
 										</option>
 									</c:forEach>
 								</select>
