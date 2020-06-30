@@ -97,9 +97,9 @@ public class AddCompServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		
 		Map<String, String> messages = new HashMap<String, String>();
-		request.setAttribute("messages", messages);
+		
 		String name=request.getParameter("computerName");
 		if ((ComputerValidator.emptyName(name)))
 		{
@@ -125,14 +125,14 @@ public class AddCompServlet extends HttpServlet {
 			else
 			{
 				logger.error("Computer name cannot be left empty, Insertion did not go through.");
-				throw new ServletException("Wrong Input(s)");
+				//throw new ServletException("Wrong Input(s)");
 				
 			}
 		
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
-		//processRequest(request, response);
+		processRequest(request, response);
 	}
 
 }
