@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -155,6 +156,14 @@ public class Mapper {
 			Date sqld=Date.valueOf(d);
 			return sqld;
 		}
+		public static LocalDate stringToLocal(String d)
+		{
+			DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+			LocalDate i=LocalDate.parse(d,formatter);
+			return i;
+		}
+		
+		
 		public static Computer toComputer(ComputerDTO dto)
 		{
 			int c_id=Integer.parseInt(dto.getCompany_id());		
@@ -167,10 +176,13 @@ public class Mapper {
 			return c;
 		}
 		
-		public static LocalDate stringToLocal(String d)
+		public static Company toCompany(CompanyDTO dto)
 		{
-			DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-			LocalDate i=LocalDate.parse(d,formatter);
-			return i;
+			int c_id=Integer.parseInt(dto.getId());				
+			String name=dto.getName();
+			Company c=new Company(c_id,name);
+			return c;
 		}
+		
+	
 }

@@ -2,17 +2,18 @@ package com.excilys.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
-import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.ui.Page;
 
-// TODO: Auto-generated Javadoc
+// 
 /**
  * The Class CompanyS.
  */
@@ -37,10 +38,16 @@ private CompanyDAO anyDAO = new CompanyDAO();
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	public List<Company> getAllCompanies() throws SQLException, ClassNotFoundException, IOException
+	public List<CompanyDTO> getAllCompanies() throws SQLException, ClassNotFoundException, IOException
 	{
-		SqlConnector.getInstance();
-		return anyDAO.viewCompany();
+		List <Company> temp=anyDAO.viewCompany();
+		List <CompanyDTO> res= new ArrayList <CompanyDTO>();
+		for(int i=0;i<temp.size();i++)
+		{
+			CompanyDTO t= new CompanyDTO(temp.get(i));
+			res.add(t);
+		}
+		return res;
 	
 	}
 	

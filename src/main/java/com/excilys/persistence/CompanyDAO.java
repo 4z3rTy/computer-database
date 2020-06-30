@@ -44,8 +44,8 @@ public class CompanyDAO{
 	public int countDb(String tbName) {
 		Statement stmt = null;
 		int count = -1;
-		try {
-			Connection con = SqlConnector.getInstance();
+		try (Connection con = SqlConnector.getInstance())
+		{
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
 			rs.next();
@@ -84,7 +84,7 @@ public List<Company> viewCompany() throws SQLException, ClassNotFoundException, 
 		    Company company=null;
 		    List<Company> companies = new ArrayList<Company>();
 	
-		    try(Connection con=SqlConnector.getInstance();) {
+		    try(Connection con=SqlConnector.getInstance()) {
 		       stmt = con.createStatement();
 		        ResultSet rs = stmt.executeQuery(SELECT_ALL);
 		        while (rs.next()) {

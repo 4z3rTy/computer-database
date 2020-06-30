@@ -1,4 +1,5 @@
 package com.excilys.persistence;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,31 +22,31 @@ public class ComputerDAO {
 
 	/** The table name. */
 	static String tbName = "computer";
-	
+
 	/** The Constant SELECT_ALL. */
 	private static final String SELECT_ALL = "select computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ";
-	
+
 	/** The Constant SELECT_SOME. */
 	private static final String SELECT_SOME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ORDER BY id LIMIT ? OFFSET ?";
-	
+
 	/** The Constant UPDATE_NAME. */
 	private static final String UPDATE_NAME = "UPDATE computer SET name=? WHERE id=?";
-	
+
 	/** The Constant UPDATE_DATE. */
 	private static final String UPDATE_DATE = "UPDATE computer SET introduced=? , discontinued=? WHERE id=?";
-	
+
 	/** The Constant DELETE. */
 	private static final String DELETE = "DELETE FROM computer WHERE id =?";
-	
+
 	/** The Constant SELECT_WHERE. */
 	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id=? ";
-	
+
 	/** The Constant COUNT. */
 	private static final String COUNT = "SELECT COUNT(*) from " + tbName;
-	
+
 	/** The Constant INSERT. */
 	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
-	
+
 	/** The logger. */
 	public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
@@ -57,8 +58,8 @@ public class ComputerDAO {
 	 */
 	public int countDb(String tbName) {
 		int count = -2;
-		try {
-			Connection con = SqlConnector.getInstance();
+		try (Connection con = SqlConnector.getInstance())
+		{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
 			rs.next();
@@ -116,7 +117,7 @@ public class ComputerDAO {
 	 * @return the list
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public List<Computer> viewSomeComputers(Page page) throws SQLException, ClassNotFoundException, IOException {
 
@@ -158,16 +159,15 @@ public class ComputerDAO {
 	 * @param computerID the computer ID
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void updateComputerName(String newName, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
 
-		try {
-
-			Connection con = SqlConnector.getInstance();
+		try (Connection con = SqlConnector.getInstance())
+		{
 			pstmt = con.prepareStatement(UPDATE_NAME);
 
 			pstmt.setString(1, newName);
@@ -191,7 +191,7 @@ public class ComputerDAO {
 	 * @return the int
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public int updateComputerDisc(Date intr, Date disc, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
@@ -231,13 +231,11 @@ public class ComputerDAO {
 	 * @return the computer
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public Computer insertComputer(Computer myComp)
-			throws SQLException, ClassNotFoundException, IOException {
+	public Computer insertComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
 		PreparedStatement pstmt = null;
 		try (Connection con = SqlConnector.getInstance()) {
-
 
 			pstmt = con.prepareStatement(INSERT);
 
@@ -262,14 +260,14 @@ public class ComputerDAO {
 		}
 		return myComp;
 	}
- 
+
 	/**
 	 * Delete computer.
 	 *
 	 * @param computerID the computer ID
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void deleteComputer(int computerID) throws SQLException, ClassNotFoundException, IOException {
 
@@ -297,7 +295,7 @@ public class ComputerDAO {
 	 * @return the computer
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public Computer viewCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 

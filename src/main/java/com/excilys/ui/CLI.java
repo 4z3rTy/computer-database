@@ -17,9 +17,9 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.Mapper;
-import com.excilys.model.Company;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 
@@ -107,7 +107,7 @@ public class CLI {
 	    case 2:
 	    	System.out.println("'List all companies' selected ->");
 	    	System.out.println("");
-	    	 ArrayList <Company> co=(ArrayList<Company>) anyS.getAllCompanies();
+	    	 ArrayList <CompanyDTO> co=(ArrayList<CompanyDTO>) anyS.getAllCompanies();
 		      for(int i=0; i<co.size();i++)
 	          {
 		    	  System.out.println(co.get(i).toString());

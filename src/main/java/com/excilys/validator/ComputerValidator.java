@@ -29,13 +29,12 @@ public class ComputerValidator {
 		return result;
 	}
 	
-	public static boolean wrongFormat(String intro, String disco)
+	public static boolean wrongFormat(String intro)
 	{
 		boolean result=false;
 		
 		try {
 			Mapper.stringToLocal(intro);
-			Mapper.stringToLocal(disco);
 		}
 		catch(DateTimeParseException e )
   	  {

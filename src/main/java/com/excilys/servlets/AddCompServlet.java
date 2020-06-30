@@ -17,14 +17,14 @@ import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.Mapper;
-import com.excilys.model.Company;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 import com.excilys.validator.ComputerValidator;
 
-// TODO: Auto-generated Javadoc
+// T
 /**
  * Servlet implementation class secondServlet.
  */
@@ -78,7 +78,8 @@ public class AddCompServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			List<Company> compList = CS.getAllCompanies();
+			List<CompanyDTO> compList = CS.getAllCompanies();
+			System.out.println(compList.size());
 			request.setAttribute("compList", compList);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
@@ -97,42 +98,66 @@ public class AddCompServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		Map<String, String> messages = new HashMap<String, String>();
 		
 		String name=request.getParameter("computerName");
 		if ((ComputerValidator.emptyName(name)))
 		{
-			messages.put("computerName", "Computer name cannot be left empty");
+			messages.put("computerName", "Computer name cannot be left empty... :( ");
 		}
 			
 		String intro=request.getParameter("introduced");
 		String disco=request.getParameter("discontinued");
+		
+		if ((ComputerValidator.wrongFormat(intro)))
+			{
+				messages.put("introduced", "Your input for introduced has the wrong format :(");
+			}
+		else 
+			{
+				if ((ComputerValidator.wrongFormat(disco)))
+				
+					{
+					
+					
+						messages.put("discontinued", "Your input for discontinued has the wrong format :(");
+						
+					}
+				else if ((ComputerValidator.wrongDate(intro,disco)))
+					{
+						messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
+					}
+			}
+			
+		
+		
+				
+		
 		String company_id=request.getParameter("companyId");
 		
 		if(messages.isEmpty())
 		{
-			messages.put("success","Insertion completed successfully");
+			messages.put("success","Insertion completed successfully!!!!");
 		}
 		ComputerDTO dto=new ComputerDTO(name,intro,disco,company_id);
 		
 		try {
-			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro, disco) && !ComputerValidator.wrongDate(intro, disco))
+			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro) && !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco))
 			{
 				ComputerS C= new ComputerS();
 				C.insertComputer(Mapper.toComputer(dto));
 			}
 			else
 			{
-				logger.error("Computer name cannot be left empty, Insertion did not go through.");
-				//throw new ServletException("Wrong Input(s)");
-				
+				logger.error("Insertion did not go through.");			
 			}
 		
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
+		request.setAttribute("messages", messages);
 		processRequest(request, response);
+		doGet(request,response);
 	}
 
 }
