@@ -23,7 +23,7 @@ public class CompanyS {
 	
 /** The any DAO. */
 private CompanyDAO anyDAO = new CompanyDAO();
-	Logger logger = LoggerFactory.getLogger(CompanyS.class);
+private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
 
 	
 	

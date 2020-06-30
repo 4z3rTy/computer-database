@@ -8,13 +8,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
+import com.excilys.sqlShenanigans.DataSource;
 import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.sqlShenanigans.Xeptions;
 import com.excilys.ui.Page;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class ComputerDAO.
  */
@@ -48,7 +49,7 @@ public class ComputerDAO {
 	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
 	/** The logger. */
-	public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	/**
 	 * Count db.
@@ -88,12 +89,12 @@ public class ComputerDAO {
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) { //SqlConnector.getInstance()) {
 
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
 			while (rs.next()) {
-				computer = Mapper.prettyMap(rs);
+				computer = ComputerMapper.prettyMap(rs);
 				computers.add(computer);
 
 			}
@@ -102,11 +103,11 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		} catch (ClassNotFoundException e1) {
+		}/* catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		} */
 		return computers;
 	}
 
@@ -126,7 +127,7 @@ public class ComputerDAO {
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(SELECT_SOME);
 
 			int limit = page.getAmount();
@@ -135,9 +136,9 @@ public class ComputerDAO {
 			pstmt.setInt(2, offset);
 
 			ResultSet rs = pstmt.executeQuery();
-			computer = new Computer();
+			computer = new Computer.ComputerBuilder().build();
 			while (rs.next()) {
-				computer = Mapper.prettyMap(rs);
+				computer = ComputerMapper.prettyMap(rs);
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -166,7 +167,7 @@ public class ComputerDAO {
 
 		PreparedStatement pstmt = null;
 
-		try (Connection con = SqlConnector.getInstance())
+		try (Connection con = DataSource.getConnection())
 		{
 			pstmt = con.prepareStatement(UPDATE_NAME);
 
@@ -198,10 +199,10 @@ public class ComputerDAO {
 		int bool = 0;
 		PreparedStatement pstmt = null;
 
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 
 			pstmt = con.prepareStatement(UPDATE_DATE);
-			if (disc.compareTo(intr) > 0) {
+			if (disc.after(intr)) {
 				pstmt.setDate(1, intr);
 				pstmt.setDate(2, disc);
 				pstmt.setInt(3, computerID);
@@ -235,14 +236,14 @@ public class ComputerDAO {
 	 */
 	public Computer insertComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
 		PreparedStatement pstmt = null;
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 
 			pstmt = con.prepareStatement(INSERT);
 
-			if (myComp.getDisco().compareTo(myComp.getIntro()) > 0) {
+			if (myComp.getDisco().isAfter(myComp.getIntro())) {
 				pstmt.setString(1, myComp.getName());
-				pstmt.setDate(2, Mapper.localToSql(myComp.getIntro()));
-				pstmt.setDate(3, Mapper.localToSql(myComp.getDisco()));
+				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntro()));
+				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDisco()));
 				pstmt.setInt(4, myComp.getCompanyId());
 				pstmt.executeUpdate();
 
@@ -273,7 +274,7 @@ public class ComputerDAO {
 
 		PreparedStatement pstmt = null;
 
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 
 			pstmt = con.prepareStatement(DELETE);
 			// "DELETE FROM "+tbName+ "WHERE id =?");
@@ -300,8 +301,8 @@ public class ComputerDAO {
 	public Computer viewCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
-		Computer computer = new Computer();
-		try (Connection con = SqlConnector.getInstance()) {
+		Computer computer = new Computer.ComputerBuilder().build();
+		try (Connection con = DataSource.getConnection()) {
 
 			pstmt = con.prepareStatement(SELECT_WHERE);
 			// "SELECT id, name, introduced, discontinued, company_id FROM "+tbName +"WHERE
@@ -311,8 +312,7 @@ public class ComputerDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				computer = Mapper.prettyMap(rs);
-				// System.out.println(computer.toString());
+				computer = ComputerMapper.prettyMap(rs);
 				logger.info(computer.toString());
 			}
 		} finally {

@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.excilys.model.Computer;
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.ComputerMapper;
 
 public class MapperTest {
 
@@ -28,7 +28,7 @@ public class MapperTest {
 	
 
 	@Mock
-	Mapper mockMapper;
+	ComputerMapper mockMapper;
 	@Test
 	public void computerMapTest() throws SQLException
 	{
@@ -39,7 +39,7 @@ public class MapperTest {
 		LocalDate intro2=intro.toLocalDate();
 		java.sql.Date disco = Date.valueOf(d);
 		LocalDate disco2=disco.toLocalDate();
-		Computer c2= new Computer(580,"RRR",intro2,disco2);
+		Computer c2= new Computer.ComputerBuilder().setName("RRR").setId(580).setIntro(intro2).setDisco(disco2).build();
 		ResultSet mockRS= Mockito.mock(ResultSet.class);
 		//Mockito.when(mockRS.getInt("id")).thenReturn(580);
 		//Mockito.when(mockRS.getString("name")).thenReturn("RRR");
@@ -49,7 +49,7 @@ public class MapperTest {
 		Mockito.when(mockRS.getString("name")).thenReturn(null);
 		Mockito.when(mockRS.getDate("intro")).thenReturn(null);
 		Mockito.when(mockRS.getDate("disco")).thenReturn(null);
-		Computer c=Mapper.computerMap(mockRS);
+		Computer c=ComputerMapper.computerMap(mockRS);
 		
 		assertEquals(c.getId(),c2.getId());
 		assertEquals(c.getName(),c2.getName());

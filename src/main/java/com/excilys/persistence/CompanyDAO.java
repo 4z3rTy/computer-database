@@ -7,13 +7,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.sqlShenanigans.SqlConnector;
+import com.excilys.sqlShenanigans.DataSource;
 import com.excilys.sqlShenanigans.Xeptions;
 import com.excilys.ui.Page;
 
-// TODO: Auto-generated Javadoc
+// 
 /**
  * The Class CompanyDAO.
  */
@@ -32,7 +32,7 @@ public class CompanyDAO{
 	private static final String COUNT="SELECT COUNT(*) from " + tbName;
 
 	/** The logger. */
-	public static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	
 	/**
@@ -44,7 +44,7 @@ public class CompanyDAO{
 	public int countDb(String tbName) {
 		Statement stmt = null;
 		int count = -1;
-		try (Connection con = SqlConnector.getInstance())
+		try (Connection con = DataSource.getConnection())
 		{
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
@@ -56,11 +56,6 @@ public class CompanyDAO{
 			catch (SQLException e) {
 				logger.error("Connection to the database could not be established", e);
 				Xeptions.printSQLException(e);
-			}
-			catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 			
 		return count;
@@ -84,11 +79,11 @@ public List<Company> viewCompany() throws SQLException, ClassNotFoundException, 
 		    Company company=null;
 		    List<Company> companies = new ArrayList<Company>();
 	
-		    try(Connection con=SqlConnector.getInstance()) {
+		    try(Connection con = DataSource.getConnection()) {
 		       stmt = con.createStatement();
 		        ResultSet rs = stmt.executeQuery(SELECT_ALL);
 		        while (rs.next()) {
-		        	company=Mapper.companyMap(rs);
+		        	company=CompanyMapper.companyMap(rs);
 		        	companies.add(company);
 		        }
 		    } catch (SQLException e ) {
@@ -117,7 +112,7 @@ public List<Company> viewSomeCompanies(Page page) throws SQLException, ClassNotF
    Company company=null;
    List<Company> companies = new ArrayList<Company>();
 
-   try(Connection con=SqlConnector.getInstance()){
+   try(Connection con = DataSource.getConnection()){
 	
        pstmt = con.prepareStatement(SELECT_SOME);
        
@@ -128,9 +123,9 @@ public List<Company> viewSomeCompanies(Page page) throws SQLException, ClassNotF
        
        
        ResultSet rs = pstmt.executeQuery();
-       company=new Company();
+       company=new Company.CompanyBuilder().build();
        while (rs.next()) {
-    	    company=Mapper.companyMap(rs);
+    	    company=CompanyMapper.companyMap(rs);
        		companies.add(company);
        				}
    } catch (SQLException e ) {

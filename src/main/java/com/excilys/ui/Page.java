@@ -12,7 +12,7 @@ public class Page {
 	int maxItems;
 	int pageTotal;
 	int currentPage=1;
-	public static Logger logger = LoggerFactory.getLogger(Page.class);
+	private static final Logger logger = LoggerFactory.getLogger(Page.class);
 
 	public Page(int userChoice, String tbName) {
 		this.currentPage = userChoice;

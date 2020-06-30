@@ -5,11 +5,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
@@ -24,7 +26,7 @@ public class ComputerS {
 	private static ComputerDAO compDAO = new ComputerDAO();
 	
 	/** The logger. */
-	public static Logger logger = LoggerFactory.getLogger(ComputerS.class);
+	private static final Logger logger = LoggerFactory.getLogger(ComputerS.class);
 
 	/**
 	 * Count.
@@ -46,7 +48,7 @@ public class ComputerS {
 	 */
 	public List<ComputerDTO> getAllComputer()  {
 		List <Computer> temp=compDAO.viewComputer();
-		List <ComputerDTO> res= new ArrayList <ComputerDTO>();
+		List <ComputerDTO> res=	new ArrayList <ComputerDTO>(); //temp.stream().collect(Collectors.toList());
 		for(int i=0;i<temp.size();i++)
 		{
 			ComputerDTO t= new ComputerDTO(temp.get(i));

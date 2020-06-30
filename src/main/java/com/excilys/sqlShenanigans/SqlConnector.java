@@ -24,7 +24,7 @@ public class SqlConnector {  // Lazy Initialization Singleton
   //private static String username="admincdb";
   //private static String password = "qwerty1234";
   
-  public static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+  private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	
 	/**

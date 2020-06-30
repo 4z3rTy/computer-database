@@ -19,12 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 
 public class CLI {
 
+	private static final Logger logger = LoggerFactory.getLogger(CLI.class);
 	  /**
   	 * The main method.
   	 *
@@ -47,7 +48,6 @@ public class CLI {
 		
 		CompanyS anyS=new CompanyS();
 		ComputerS compS=new ComputerS();
-		Logger logger = LoggerFactory.getLogger(CLI.class);
 		logger.info("Log4j Enabled");
 		
 		
@@ -156,7 +156,7 @@ public class CLI {
 		      System.out.println("company ID=" +c_id);
 	    	  ComputerDTO dto=new ComputerDTO(name,intr,disc,c_id);
 	    	  try {
-	    		  compS.insertComputer(Mapper.toComputer(dto));
+	    		  compS.insertComputer(ComputerMapper.toComputer(dto));
 	    	  }
 	    	  catch(DateTimeParseException e )
 	    	  {

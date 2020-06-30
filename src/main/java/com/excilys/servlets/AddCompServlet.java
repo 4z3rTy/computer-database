@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 import com.excilys.validator.ComputerValidator;
@@ -62,7 +62,7 @@ public class AddCompServlet extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/static/views/addComputer.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("static/views/addComputer.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -145,7 +145,7 @@ public class AddCompServlet extends HttpServlet {
 			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro) && !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco))
 			{
 				ComputerS C= new ComputerS();
-				C.insertComputer(Mapper.toComputer(dto));
+				C.insertComputer(ComputerMapper.toComputer(dto));
 			}
 			else
 			{
@@ -156,7 +156,7 @@ public class AddCompServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("messages", messages);
-		processRequest(request, response);
+		//processRequest(request, response);
 		doGet(request,response);
 	}
 

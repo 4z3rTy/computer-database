@@ -22,13 +22,17 @@
 
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-validation -->
 		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>jquery-validation</artifactId>
-		    <version>1.19.0</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.20</version>
 		</dependency>
-		
+	
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.4.5</version>
+		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
@@ -37,6 +41,14 @@
 			<version>1.2</version>
 		</dependency>
 
+
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-validation -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-validation</artifactId>
+			<version>1.19.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -59,12 +71,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.20</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.30</version>
@@ -81,6 +87,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 

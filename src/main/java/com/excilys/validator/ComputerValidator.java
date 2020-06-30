@@ -3,11 +3,11 @@ package com.excilys.validator;
 import java.time.format.DateTimeParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.excilys.mapper.Mapper;
+import com.excilys.mapper.ComputerMapper;
 
 public class ComputerValidator {
 
-	public static Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
+	private static final Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 	
 	public static boolean emptyName(String name)
 	{
@@ -22,7 +22,7 @@ public class ComputerValidator {
 	public static boolean wrongDate(String intro, String disco)
 	{
 		boolean result=false;
-		if(Mapper.stringToLocal(intro).compareTo(Mapper.stringToLocal(disco))>0)
+		if(ComputerMapper.stringToLocal(intro).compareTo(ComputerMapper.stringToLocal(disco))>0)
 		{
 			result=true;
 		}
@@ -34,7 +34,7 @@ public class ComputerValidator {
 		boolean result=false;
 		
 		try {
-			Mapper.stringToLocal(intro);
+			ComputerMapper.stringToLocal(intro);
 		}
 		catch(DateTimeParseException e )
   	  {
