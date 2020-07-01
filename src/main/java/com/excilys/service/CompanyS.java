@@ -2,13 +2,14 @@ package com.excilys.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.CompanyDTO;
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.ui.Page;
@@ -41,12 +42,8 @@ private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
 	public List<CompanyDTO> getAllCompanies() throws SQLException, ClassNotFoundException, IOException
 	{
 		List <Company> temp=anyDAO.viewCompany();
-		List <CompanyDTO> res= new ArrayList <CompanyDTO>();
-		for(int i=0;i<temp.size();i++)
-		{
-			CompanyDTO t= new CompanyDTO(temp.get(i));
-			res.add(t);
-		}
+		List <CompanyDTO> res=temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
+	
 		return res;
 	
 	}
@@ -61,12 +58,14 @@ private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	public List<Company> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException
+	public List<CompanyDTO> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException
 	{
 		Page page = new Page(pageNumber,"company");
 		logger.debug("Page object initialized",page);
 		page.setMax(count("company"));
 		page.calcPages();
-		return anyDAO.viewSomeCompanies(page);
+		List <Company> temp=anyDAO.viewSomeCompanies(page);
+		List <CompanyDTO> res=temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
+		return res;
 	}
 }

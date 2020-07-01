@@ -61,8 +61,10 @@ public class ComputerS {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
-	public Computer getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
-		return compDAO.viewCompDetails(computerID);
+	public ComputerDTO getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
+		Computer temp=compDAO.viewCompDetails(computerID);
+		ComputerDTO res=ComputerMapper.toDto(temp);
+		return res;
 	}
 
 	/**
@@ -114,6 +116,11 @@ public class ComputerS {
 	public int updateComputerDisc(Date intr, Date disc, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
 		return compDAO.updateComputerDisc(intr, disc, computerID);
+	}
+	
+	public void updateComputer(Computer myComp)
+			throws SQLException, ClassNotFoundException, IOException {
+		compDAO.updateComputer(myComp);
 	}
 
 	/**

@@ -23,10 +23,8 @@ public class CompanyMapper {
 	 */
 	public static Company companyMap(ResultSet rs) throws SQLException
 	{
-		Company c=new Company.CompanyBuilder().build();
+		Company c=new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
 		logger.debug("New Company Object initialized",c);
-        	c.setId(rs.getInt("id"));
-        	c.setName(rs.getString("name"));
         
 		return c;
 	}
@@ -40,10 +38,8 @@ public class CompanyMapper {
 	 */
 	public static Company prettyCompanyMap(ResultSet rs) throws SQLException
 	{
-		Company c=new Company.CompanyBuilder().build();
+		Company c=new Company.CompanyBuilder().setId(rs.getInt("computer.company_id")).setName(rs.getString("company.name")).build();
 		logger.debug("New Company Object initialized",c);
-        	c.setId(rs.getInt("computer.company_id"));
-        	c.setName(rs.getString("company.name"));
         
 		return c;
 	}
@@ -54,5 +50,11 @@ public class CompanyMapper {
 		String name=dto.getName();
 		Company c=new Company.CompanyBuilder().setId(c_id).setName(name).build();
 		return c;
+	}
+	
+	public static CompanyDTO toDto(Company company)
+	{
+		CompanyDTO d=new CompanyDTO(company);
+		return d;
 	}
 }

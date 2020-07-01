@@ -35,6 +35,9 @@ public class ComputerDAO {
 
 	/** The Constant UPDATE_DATE. */
 	private static final String UPDATE_DATE = "UPDATE computer SET introduced=? , discontinued=? WHERE id=?";
+	
+	/** The Constant UPDATE_ALL. */
+	private static final String UPDATE_ALL= "UPDATE computer SET name=? , introduced=? , discontinued=? ,company_id=? WHERE id=?";
 
 	/** The Constant DELETE. */
 	private static final String DELETE = "DELETE FROM computer WHERE id =?";
@@ -206,6 +209,36 @@ public class ComputerDAO {
 				pstmt.setDate(1, intr);
 				pstmt.setDate(2, disc);
 				pstmt.setInt(3, computerID);
+				pstmt.executeUpdate();
+				bool = 1;
+
+			} else {
+				logger.info(
+						"Sorry there seems to be an incoherence with your date format input. Update failed to resolve");
+			}
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return bool;
+	}
+	
+	public int updateComputer(Computer myComp)
+			throws SQLException, ClassNotFoundException, IOException {
+		int bool = 0;
+		PreparedStatement pstmt = null;
+
+		try (Connection con = DataSource.getConnection()) {
+
+			pstmt = con.prepareStatement(UPDATE_ALL);
+			if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {
+				pstmt.setString(1, myComp.getName());
+				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
+				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
+				pstmt.setInt(4, myComp.getCompanyId());
+				pstmt.setInt(5, myComp.getId());
 				pstmt.executeUpdate();
 				bool = 1;
 

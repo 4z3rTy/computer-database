@@ -25,7 +25,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${nb}Computersfound</h1>
+			<h1 id="homeTitle">${nb} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -38,8 +38,10 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> 
+						<a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
+						
 				</div>
 			</div>
 		</div>
@@ -75,8 +77,11 @@
 				<tbody id="results">
 					<c:forEach items="${compList}" var="compList">
 						<tr>
-							<td>${compList.id}</td>
-							<td>${compList.name}</td>
+							<td class="editMode"><input type="checkbox" name="cb"
+							class="cb" value="${compList.id}"></td>
+							<td><a href="editComputer?computerId=${compList.id }"> <c:out
+										 value="${compList.name}" />
+							</a></td>
 							<td>${compList.intro}</td>
 							<td>${compList.disco}</td>
 							<td>${compList.company_name}</td>
@@ -122,9 +127,9 @@
 			</div>
 		</div>
 	</footer>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/dashboard.js"></script>
 
 </body>
 </html>

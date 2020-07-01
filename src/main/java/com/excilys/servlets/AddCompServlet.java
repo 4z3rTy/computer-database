@@ -79,7 +79,7 @@ public class AddCompServlet extends HttpServlet {
 		
 		try {
 			List<CompanyDTO> compList = CS.getAllCompanies();
-			System.out.println(compList.size());
+			//System.out.println(compList.size());
 			request.setAttribute("compList", compList);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();

@@ -12,15 +12,4 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	<servlet>
-		<description></description>
-		<display-name>AddCompServlet</display-name>
-		<servlet-name>AddCompServlet</servlet-name>
-		<servlet-class>com.excilys.servlets.AddCompServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AddCompServlet</servlet-name>
-		<url-pattern>/addComputer</url-pattern>
-	</servlet-mapping>
-
 </web-app>
