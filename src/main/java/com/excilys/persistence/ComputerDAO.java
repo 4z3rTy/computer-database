@@ -240,10 +240,10 @@ public class ComputerDAO {
 
 			pstmt = con.prepareStatement(INSERT);
 
-			if (myComp.getDisco().isAfter(myComp.getIntro())) {
+			if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {
 				pstmt.setString(1, myComp.getName());
-				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntro()));
-				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDisco()));
+				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
+				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
 				pstmt.setInt(4, myComp.getCompanyId());
 				pstmt.executeUpdate();
 

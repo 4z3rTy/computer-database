@@ -139,7 +139,7 @@ public class AddCompServlet extends HttpServlet {
 		{
 			messages.put("success","Insertion completed successfully!!!!");
 		}
-		ComputerDTO dto=new ComputerDTO(name,intro,disco,company_id);
+		ComputerDTO dto=new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco).setAnyId(Integer.parseInt(company_id)).build();
 		
 		try {
 			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro) && !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco))

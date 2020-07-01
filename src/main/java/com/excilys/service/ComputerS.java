@@ -3,7 +3,6 @@ package com.excilys.service;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,12 +47,7 @@ public class ComputerS {
 	 */
 	public List<ComputerDTO> getAllComputer()  {
 		List <Computer> temp=compDAO.viewComputer();
-		List <ComputerDTO> res=	new ArrayList <ComputerDTO>(); //temp.stream().collect(Collectors.toList());
-		for(int i=0;i<temp.size();i++)
-		{
-			ComputerDTO t= new ComputerDTO(temp.get(i));
-			res.add(t);
-		}
+		List <ComputerDTO> res=temp.stream().map(computer -> ComputerMapper.toDto(computer)).collect(Collectors.toList());
 		return res;
 	}
 
@@ -87,12 +81,8 @@ public class ComputerS {
 		//page.setMax(count("computer"));
 		//page.calcPages();
 		List <Computer> temp=compDAO.viewSomeComputers(p);
-		List <ComputerDTO> res= new ArrayList <ComputerDTO>();
-		for(int i=0;i<temp.size();i++)
-		{
-			ComputerDTO t= new ComputerDTO(temp.get(i));
-			res.add(t);
-		}
+		List <ComputerDTO> res= temp.stream().map(computer -> ComputerMapper.toDto(computer)).collect(Collectors.toList());
+
 		return res;
 	}
 

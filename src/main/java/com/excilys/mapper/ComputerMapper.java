@@ -114,7 +114,16 @@ public class ComputerMapper {
 }
 		
 
-		
+		public static String localToString(LocalDate d)
+		{
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+			String s=null;
+			if(d!=null)
+			{
+			s = d.format(formatter);
+			}
+			return s;
+		}
 		
 		
 		public static Date localToSql(LocalDate d)
@@ -141,5 +150,12 @@ public class ComputerMapper {
 			Computer c=new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setAny(company).build();
 			return c;
 		}
-			
+		
+		public static ComputerDTO toDto(Computer computer)
+		{
+	
+			ComputerDTO d=new ComputerDTO.ComputerDTOBuilder().setName(computer.getName()).setDisco(localToString(computer.getDiscontinued())).setIntro(localToString(computer.getIntroduced())).setId(String.valueOf(computer.getId())).setAnyId(computer.getCompanyId()).setAnyName(computer.getCompanyName()).build();
+			return d;
+		}
 }
+			

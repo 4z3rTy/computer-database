@@ -7,6 +7,26 @@ import java.time.LocalDate;
  */
 public class Computer {
 
+	public int getId() {
+		return id;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public String getCompanyName() {
+		return company.getName();
+	}
+	
+	public int getCompanyId() {
+		return company.getId();
+	}
+	
+	public String getName() {
+		return name;
+	}
+
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
@@ -107,57 +127,6 @@ public class Computer {
 		public Computer build() {
 			return new Computer(this);
 		}
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Gets the intro.
-	 *
-	 * @return the intro
-	 */
-	public LocalDate getIntro() {
-		return this.introduced;
-	}
-
-	/**
-	 * Gets the disco.
-	 *
-	 * @return the disco
-	 */
-	public LocalDate getDisco() {
-		return this.discontinued;
-	}
-
-	/**
-	 * Gets the c id.
-	 *
-	 * @return the c id
-	 */
-	public String getCompany() {
-		// return this.company_id;
-		return this.company.getName();
-	}
-
-	public int getCompanyId() {
-		// return this.company_id;
-		return this.company.getId();
 	}
 
 	public String toString() {

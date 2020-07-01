@@ -53,8 +53,8 @@ public class MapperTest {
 		
 		assertEquals(c.getId(),c2.getId());
 		assertEquals(c.getName(),c2.getName());
-		assertEquals(c.getIntro(),c2.getIntro());
-		assertEquals(c.getIntro(),c2.getIntro());
+		assertEquals(c.getIntroduced(),c2.getIntroduced());
+		assertEquals(c.getIntroduced(),c2.getIntroduced());
 		
 		
 		

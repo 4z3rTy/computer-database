@@ -154,7 +154,7 @@ public class CLI {
 		      System.out.println("date introduced=" +intr);
 		      System.out.println("date discontinued=" +disc);
 		      System.out.println("company ID=" +c_id);
-	    	  ComputerDTO dto=new ComputerDTO(name,intr,disc,c_id);
+	    	  ComputerDTO dto=new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intr).setDisco(disc).setAnyId(c_id).build();
 	    	  try {
 	    		  compS.insertComputer(ComputerMapper.toComputer(dto));
 	    	  }
