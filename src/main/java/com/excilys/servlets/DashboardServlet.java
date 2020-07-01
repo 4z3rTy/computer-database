@@ -24,10 +24,10 @@ public class DashboardServlet extends HttpServlet {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The cs. */
 	private ComputerS CS = new ComputerS();
-	
+
 	/** The nb. */
 	private int nb = CS.count("computer");
 	// List <Computer> compList=CS.getAllComputer();
@@ -35,10 +35,10 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * Process request.
 	 *
-	 * @param request the request
+	 * @param request  the request
 	 * @param response the response
 	 * @throws ServletException the servlet exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException      Signals that an I/O exception has occurred.
 	 */
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -50,10 +50,10 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * Do get.
 	 *
-	 * @param request the request
+	 * @param request  the request
 	 * @param response the response
 	 * @throws ServletException the servlet exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException      Signals that an I/O exception has occurred.
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -86,15 +86,30 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * Do post.
 	 *
-	 * @param request the request
+	 * @param request  the request
 	 * @param response the response
 	 * @throws ServletException the servlet exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException      Signals that an I/O exception has occurred.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request,response);
-		//processRequest(request, response);
+		ComputerS deleteService = new ComputerS();
+		
+		String selection = request.getParameter("selection");
+		String search = request.getParameter("search");
+		String [] strings=selection.split(",");
+		
+		for(String i : strings)
+		{
+			try {
+				deleteService.deleteComputer(Integer.parseInt(i));
+			} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		doGet(request, response);
+		// processRequest(request, response);
 	}
 }

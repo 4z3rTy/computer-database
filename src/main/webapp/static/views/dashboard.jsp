@@ -95,7 +95,6 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
-
 				<c:if test="${currentPage > 0}">
 					<li><a href="dashboard?pageNum=${currentPage-1}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>

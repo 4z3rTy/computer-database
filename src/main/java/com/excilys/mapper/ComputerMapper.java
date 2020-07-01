@@ -147,7 +147,7 @@ public class ComputerMapper {
 			LocalDate d=LocalDate.parse(dto.getDisco(),formatter);
 
 			Company company= new Company.CompanyBuilder().setId(c_id).build();
-			Computer c=new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setId(Integer.parseInt(dto.getId())).setAny(company).build();
+			Computer c=new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName())/*.setId(Integer.parseInt(dto.getId()))*/.setAny(company).build();
 			return c;
 		}
 		
