@@ -124,12 +124,12 @@ public class EditCompServlet extends HttpServlet {
 			}
 		}
 
-		String company_id = request.getParameter("companyId");
+		String companyId = request.getParameter("companyId");
 		if (messages.isEmpty()) {
 			messages.put("success", "Update completed successfully!!!!");
 		}
 		ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setId(compId).setName(name).setIntro(intro)
-				.setDisco(disco).setAnyId(Integer.parseInt(company_id)).build();
+				.setDisco(disco).setAnyId(Integer.parseInt(companyId)).build();
 
 		try {
 			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)

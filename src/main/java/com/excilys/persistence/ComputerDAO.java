@@ -22,10 +22,10 @@ import com.excilys.ui.Page;
 public class ComputerDAO {
 
 	/** The table name. */
-	static String tbName = "computer";
+	private static final String tbName = "computer";
 
 	/** The Constant SELECT_ALL. */
-	private static final String SELECT_ALL = "select computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ";
+	private static final String SELECT_ALL = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ";
 
 	/** The Constant SELECT_SOME. */
 	private static final String SELECT_SOME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ORDER BY id LIMIT ? OFFSET ?";
@@ -73,7 +73,7 @@ public class ComputerDAO {
 	 * @return the int
 	 */
 	public int countDb(String tbName) {
-		int count = -2;
+		int count = -1;
 		try (Connection con = SqlConnector.getInstance()) {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
@@ -170,12 +170,12 @@ public class ComputerDAO {
 	 * Update computer name.
 	 *
 	 * @param newName    the new name
-	 * @param computerID the computer ID
+	 * @param computerId the computer ID
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void updateComputerName(String newName, int computerID)
+	public void updateComputerName(String newName, int computerId)
 			throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
@@ -184,7 +184,7 @@ public class ComputerDAO {
 			pstmt = con.prepareStatement(UPDATE_NAME);
 
 			pstmt.setString(1, newName);
-			pstmt.setInt(2, computerID);
+			pstmt.setInt(2, computerId);
 			pstmt.executeUpdate();
 
 		} finally {
@@ -200,15 +200,15 @@ public class ComputerDAO {
 	 *
 	 * @param intr       the intr
 	 * @param disc       the disc
-	 * @param computerID the computer ID
+	 * @param computerId the computer ID
 	 * @return the int
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public int updateComputerDisc(Date intr, Date disc, int computerID)
+	public boolean updateComputerDisc(Date intr, Date disc, int computerId)
 			throws SQLException, ClassNotFoundException, IOException {
-		int bool = 0;
+		boolean res =false;
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
@@ -217,9 +217,9 @@ public class ComputerDAO {
 			if (disc.after(intr)) {
 				pstmt.setDate(1, intr);
 				pstmt.setDate(2, disc);
-				pstmt.setInt(3, computerID);
+				pstmt.setInt(3, computerId);
 				pstmt.executeUpdate();
-				bool = 1;
+				res = true;
 
 			} else {
 				logger.info(
@@ -231,11 +231,11 @@ public class ComputerDAO {
 				logger.debug("Connection to the database was terminated");
 			}
 		}
-		return bool;
+		return res;
 	}
 
-	public int updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		int bool = 0;
+	public boolean updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+		boolean res =false;
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
@@ -248,7 +248,7 @@ public class ComputerDAO {
 				pstmt.setInt(4, myComp.getCompanyId());
 				pstmt.setInt(5, myComp.getId());
 				pstmt.executeUpdate();
-				bool = 1;
+				res = true;
 
 			} else {
 				logger.info(
@@ -260,7 +260,7 @@ public class ComputerDAO {
 				logger.debug("Connection to the database was terminated");
 			}
 		}
-		return bool;
+		return res;
 	}
 
 	/**
@@ -332,13 +332,13 @@ public class ComputerDAO {
 	/**
 	 * View comp details.
 	 *
-	 * @param computerID the computer ID
+	 * @param computerId the computer ID
 	 * @return the computer
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public Computer viewCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
+	public Computer viewCompDetails(int computerId) throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
 		Computer computer = new Computer.ComputerBuilder().build();
@@ -348,7 +348,7 @@ public class ComputerDAO {
 			// "SELECT id, name, introduced, discontinued, company_id FROM "+tbName +"WHERE
 			// id=? ");
 
-			pstmt.setInt(1, computerID);
+			pstmt.setInt(1, computerId);
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {

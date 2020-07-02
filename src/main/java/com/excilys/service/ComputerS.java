@@ -15,8 +15,6 @@ import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
 
-// 
-// 
 /**
  * The Class ComputerS.
  */
@@ -111,7 +109,7 @@ public class ComputerS {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public int updateComputerDisc(Date intr, Date disc, int computerID)
+	public boolean updateComputerDisc(Date intr, Date disc, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
 		return compDAO.updateComputerDisc(intr, disc, computerID);
 	}

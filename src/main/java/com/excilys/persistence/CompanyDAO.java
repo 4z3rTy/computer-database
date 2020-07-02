@@ -20,18 +20,18 @@ import com.excilys.ui.Page;
 public class CompanyDAO{
 	
 	/** The table name. */
-	static String tbName="company";
+	private static final String tbName="company";
 	
 	/** The Constant SELECT_ALL. */
-	private static final String SELECT_ALL="select id, name from "+ CompanyDAO.tbName;
+	private static final String SELECT_ALL="SELECT id, name FROM "+ tbName;
 	
 	/** The Constant SELECT_SOME. */
-	private static final String SELECT_SOME="SELECT * FROM "+CompanyDAO.tbName+ " ORDER BY id LIMIT ? OFFSET ?";
+	private static final String SELECT_SOME="SELECT * FROM "+ tbName+ " ORDER BY id LIMIT ? OFFSET ?";
 	
 	/** The Constant COUNT. */
 	private static final String COUNT="SELECT COUNT(*) from " + tbName;
 	
-	private static final String DELETE_COMPANY= "DELETE FROM company WHERE id =?";
+	private static final String DELETE_COMPANY= "DELETE FROM" + tbName+ " WHERE id =?";
 	private static final String DELETE_COMPUTERS="DELETE FROM computer WHERE company_id=? ";
 
 	/** The logger. */

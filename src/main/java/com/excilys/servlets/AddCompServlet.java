@@ -125,13 +125,13 @@ public class AddCompServlet extends HttpServlet {
 			}
 		}
 
-		String company_id = request.getParameter("companyId");
+		String companyId = request.getParameter("companyId");
 
 		if (messages.isEmpty()) {
 			messages.put("success", "Insertion completed successfully!!!!");
 		}
 		ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco)
-				.setAnyId(Integer.parseInt(company_id)).build();
+				.setAnyId(Integer.parseInt(companyId)).build();
 
 		try {
 			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)

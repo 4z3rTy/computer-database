@@ -14,8 +14,6 @@ import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.ui.Page;
 
-//
-// 
 /**
  * The Class CompanyS.
  */

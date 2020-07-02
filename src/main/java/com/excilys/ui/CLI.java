@@ -201,7 +201,7 @@ public class CLI {
 						Date sqlDate2 = Date.valueOf(date2);
 
 						// five2.close();
-						if (compS.updateComputerDisc(sqlDate2, sqlDate1, id) == 1) {
+						if (compS.updateComputerDisc(sqlDate2, sqlDate1, id)) {
 							System.out.println(
 									"Your modification has been carried out (hopefully, maybe, probably, definitely)");
 							System.out.println("");

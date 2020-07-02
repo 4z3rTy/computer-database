@@ -27,7 +27,7 @@ public class DashboardServlet extends HttpServlet {
 	private ComputerS service = new ComputerS();
 
 	/** The nb. */
-	private int nb = service.count("computer");
+	private int sum = service.count("computer");
 	// List <Computer> compList=CS.getAllComputer();
 
 	/**
@@ -73,8 +73,8 @@ public class DashboardServlet extends HttpServlet {
 			String search = request.getParameter("search");
 			String searchType = null;
 			if (search != null && search.isEmpty() == false) {
-				nb = service.searchCount(search);
-				p.setMax(nb);
+				sum = service.searchCount(search);
+				p.setMax(sum);
 				p.calcPages();
 				try {
 					if (request.getParameter("searchName") != null) {
@@ -90,10 +90,10 @@ public class DashboardServlet extends HttpServlet {
 			}
 
 			else {
-				nb = service.count("computer");
+				sum = service.count("computer");
 				compList = service.viewSomeComputers(p);
 			}
-			request.setAttribute("nb", nb);
+			request.setAttribute("nb", sum);
 			request.setAttribute("compList", compList);
 			request.setAttribute("pageTotal", p.getTotal());
 			request.setAttribute("currentPage", p.getPage());
