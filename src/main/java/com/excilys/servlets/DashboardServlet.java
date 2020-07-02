@@ -15,7 +15,7 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ComputerS;
 import com.excilys.ui.Page;
 
-// TODO: Auto-generated Javadoc
+//
 /**
  * The Class DashboardServlet.
  */
@@ -26,10 +26,10 @@ public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/** The cs. */
-	private ComputerS CS = new ComputerS();
+	private ComputerS service = new ComputerS();
 
 	/** The nb. */
-	private int nb = CS.count("computer");
+	private int nb = service.count("computer");
 	// List <Computer> compList=CS.getAllComputer();
 
 	/**
@@ -58,6 +58,8 @@ public class DashboardServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		List<ComputerDTO> compList = null;
 		Page p = new Page("computer");
 
 		if (request.getParameter("pageNum") != null) {
@@ -70,17 +72,33 @@ public class DashboardServlet extends HttpServlet {
 		p.calcPages();
 
 		try {
-			List<ComputerDTO> compList = CS.viewSomeComputers(p);
+			String search = request.getParameter("search");
+			if (search != null && search.isEmpty() == false) {
+				nb = service.searchCount(search);
+				p.setMax(nb);
+				p.calcPages();
+				try {
+
+					compList = service.getSearch(search, p);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				nb = service.count("computer");
+				compList = service.viewSomeComputers(p);
+			}
 			request.setAttribute("nb", nb);
 			request.setAttribute("compList", compList);
 			request.setAttribute("pageTotal", p.getTotal());
 			request.setAttribute("currentPage", p.getPage());
 			request.setAttribute("items", p.getAmount());
+			request.setAttribute("searchRes", search);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
 
 		processRequest(request, response);
+
 	}
 
 	/**
@@ -94,21 +112,18 @@ public class DashboardServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ComputerS deleteService = new ComputerS();
-		
+
 		String selection = request.getParameter("selection");
-		String search = request.getParameter("search");
-		String [] strings=selection.split(",");
-		
-		for(String i : strings)
-		{
+		String[] strings = selection.split(",");
+
+		for (String i : strings) {
 			try {
-				deleteService.deleteComputer(Integer.parseInt(i));
+				service.deleteComputer(Integer.parseInt(i));
 			} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		doGet(request, response);
 		// processRequest(request, response);
 	}

@@ -35,21 +35,27 @@ public class ComputerDAO {
 
 	/** The Constant UPDATE_DATE. */
 	private static final String UPDATE_DATE = "UPDATE computer SET introduced=? , discontinued=? WHERE id=?";
-	
+
 	/** The Constant UPDATE_ALL. */
-	private static final String UPDATE_ALL= "UPDATE computer SET name=? , introduced=? , discontinued=? ,company_id=? WHERE id=?";
+	private static final String UPDATE_ALL = "UPDATE computer SET name=? , introduced=? , discontinued=? ,company_id=? WHERE id=?";
 
 	/** The Constant DELETE. */
 	private static final String DELETE = "DELETE FROM computer WHERE id =?";
 
 	/** The Constant SELECT_WHERE. */
-	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id=? ";
+	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+			+ "WHERE computer.id=? ";
 
 	/** The Constant COUNT. */
 	private static final String COUNT = "SELECT COUNT(*) from " + tbName;
 
 	/** The Constant INSERT. */
 	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
+
+	private static final String SEARCH = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY id LIMIT ? OFFSET ? ";
+
+	private static final String SEARCH_COUNT = "SELECT COUNT(*) from (SELECT computer.id from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ) AS S ";
 
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
@@ -62,8 +68,7 @@ public class ComputerDAO {
 	 */
 	public int countDb(String tbName) {
 		int count = -2;
-		try (Connection con = SqlConnector.getInstance())
-		{
+		try (Connection con = SqlConnector.getInstance()) {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
 			rs.next();
@@ -92,7 +97,7 @@ public class ComputerDAO {
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
-		try (Connection con = DataSource.getConnection()) { //SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) { // SqlConnector.getInstance()) {
 
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
@@ -106,11 +111,10 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		}/* catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} */
+		} /*
+			 * catch (ClassNotFoundException e1) { e1.printStackTrace(); } catch
+			 * (IOException e1) { e1.printStackTrace(); }
+			 */
 		return computers;
 	}
 
@@ -170,8 +174,7 @@ public class ComputerDAO {
 
 		PreparedStatement pstmt = null;
 
-		try (Connection con = DataSource.getConnection())
-		{
+		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(UPDATE_NAME);
 
 			pstmt.setString(1, newName);
@@ -224,9 +227,8 @@ public class ComputerDAO {
 		}
 		return bool;
 	}
-	
-	public int updateComputer(Computer myComp)
-			throws SQLException, ClassNotFoundException, IOException {
+
+	public int updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
 		int bool = 0;
 		PreparedStatement pstmt = null;
 
@@ -355,6 +357,67 @@ public class ComputerDAO {
 			}
 		}
 		return computer;
+	}
+
+	public List<Computer> getSearch(String search, Page page) throws SQLException {
+
+		PreparedStatement pstmt = null;
+
+		Computer computer = null;
+		List<Computer> computers = new ArrayList<Computer>();
+
+		try (Connection con = DataSource.getConnection()) {
+			pstmt = con.prepareStatement(SEARCH);
+
+			int limit = page.getAmount();
+			int offset = (page.getPage() - 1) * page.getAmount();
+
+			pstmt.setString(1, '%' + search + '%');
+			pstmt.setString(2, '%' + search + '%');
+			pstmt.setInt(3, limit);
+			pstmt.setInt(4, offset);
+
+			ResultSet rs = pstmt.executeQuery();
+			computer = new Computer.ComputerBuilder().build();
+			while (rs.next()) {
+				computer = ComputerMapper.prettyMap(rs);
+				computers.add(computer);
+			}
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return computers;
+	}
+
+	public int searchCount(String search) {
+		int count = -2;
+		PreparedStatement pstmt = null;
+		try (Connection con = SqlConnector.getInstance()) {
+			pstmt = con.prepareStatement(SEARCH_COUNT);
+
+			pstmt.setString(1, '%' + search + '%');
+			pstmt.setString(2, '%' + search + '%');
+
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+			pstmt.close();
+			logger.debug("Connection to the database was terminated");
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

@@ -3,8 +3,6 @@ package com.excilys.sqlShenanigans;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,7 +13,6 @@ public class DataSource {
 		    "/hikari.properties" );
 	private static HikariDataSource ds = new HikariDataSource( config );
 	private static Connection con;
-	private static final Logger logger = LoggerFactory.getLogger(DataSource.class);
  
  
   
