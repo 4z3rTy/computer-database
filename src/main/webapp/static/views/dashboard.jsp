@@ -32,7 +32,10 @@
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+							type="submit" id="searchsubmit" name="searchName" value="Filter by name"
+							class="btn btn-primary" />
+							<input
+							type="submit" id="searchsubmit2" name="searchIntro" value="Filter by introduced"
 							class="btn btn-primary" />
 					</form>
 				</div>
@@ -96,20 +99,20 @@
 		<div class="container text-center">
 			<ul class="pagination">
 				<c:if test="${currentPage > 0}">
-					<li><a href="dashboard?search=${searchRes}&pageNum=${currentPage-1}"
+					<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage-1}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
 
 				</c:if>
 				<c:forEach var="i" begin="1" end="${items}">
 					<c:if test="${currentPage+i <= pageTotal}">
-						<li><a href="dashboard?search=${searchRes}&pageNum=${currentPage+i}"> <c:out
+						<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage+i}"> <c:out
 									value="${currentPage+i}"></c:out>
 						</a></li>
 					</c:if>
 
 				</c:forEach>
 				<c:if test="${currentPage < pageTotal}">
-					<li><a href="dashboard?search=${searchRes}&pageNum=${currentPage+1}"
+					<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage+1}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a></li>
 				</c:if>

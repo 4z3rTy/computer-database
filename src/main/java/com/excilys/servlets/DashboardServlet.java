@@ -73,17 +73,25 @@ public class DashboardServlet extends HttpServlet {
 
 		try {
 			String search = request.getParameter("search");
+			String searchType = null;
 			if (search != null && search.isEmpty() == false) {
 				nb = service.searchCount(search);
 				p.setMax(nb);
 				p.calcPages();
 				try {
-
-					compList = service.getSearch(search, p);
+					if (request.getParameter("searchName")!=null) {
+						compList = service.getSearchName(search, p);
+						searchType="searchId";
+					} else if (request.getParameter("searchIntro")!=null) {
+						compList = service.getSearchIntro(search, p);
+						searchType="searchIntro";
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-			} else {
+			}
+
+			else {
 				nb = service.count("computer");
 				compList = service.viewSomeComputers(p);
 			}
@@ -93,6 +101,7 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("currentPage", p.getPage());
 			request.setAttribute("items", p.getAmount());
 			request.setAttribute("searchRes", search);
+			request.setAttribute("searchType", searchType);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}

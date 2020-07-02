@@ -52,8 +52,14 @@ public class ComputerDAO {
 	/** The Constant INSERT. */
 	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
-	private static final String SEARCH = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+	private static final String SEARCH_ID = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY id LIMIT ? OFFSET ? ";
+	
+	private static final String SEARCH_INTRO = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY introduced LIMIT ? OFFSET ? ";
+	
+	private static final String SEARCH_NAME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.name LIMIT ? OFFSET ? ";
 
 	private static final String SEARCH_COUNT = "SELECT COUNT(*) from (SELECT computer.id from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ) AS S ";
 
@@ -359,7 +365,7 @@ public class ComputerDAO {
 		return computer;
 	}
 
-	public List<Computer> getSearch(String search, Page page) throws SQLException {
+	public List<Computer> getSearchId(String search, Page page) throws SQLException {
 
 		PreparedStatement pstmt = null;
 
@@ -367,7 +373,80 @@ public class ComputerDAO {
 		List<Computer> computers = new ArrayList<Computer>();
 
 		try (Connection con = DataSource.getConnection()) {
-			pstmt = con.prepareStatement(SEARCH);
+			pstmt = con.prepareStatement(SEARCH_ID);
+
+			int limit = page.getAmount();
+			int offset = (page.getPage() - 1) * page.getAmount();
+
+			pstmt.setString(1, '%' + search + '%');
+			pstmt.setString(2, '%' + search + '%');
+			pstmt.setInt(3, limit);
+			pstmt.setInt(4, offset);
+
+			ResultSet rs = pstmt.executeQuery();
+			computer = new Computer.ComputerBuilder().build();
+			while (rs.next()) {
+				computer = ComputerMapper.prettyMap(rs);
+				computers.add(computer);
+			}
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return computers;
+	}
+	
+	
+	public List<Computer> getSearchIntro(String search, Page page) throws SQLException {
+
+		PreparedStatement pstmt = null;
+
+		Computer computer = null;
+		List<Computer> computers = new ArrayList<Computer>();
+
+		try (Connection con = DataSource.getConnection()) {
+			pstmt = con.prepareStatement(SEARCH_INTRO);
+
+			int limit = page.getAmount();
+			int offset = (page.getPage() - 1) * page.getAmount();
+
+			pstmt.setString(1, '%' + search + '%');
+			pstmt.setString(2, '%' + search + '%');
+			pstmt.setInt(3, limit);
+			pstmt.setInt(4, offset);
+
+			ResultSet rs = pstmt.executeQuery();
+			computer = new Computer.ComputerBuilder().build();
+			while (rs.next()) {
+				computer = ComputerMapper.prettyMap(rs);
+				computers.add(computer);
+			}
+		} catch (SQLException e) {
+			logger.error("Connection to the database could not be established", e);
+			Xeptions.printSQLException(e);
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+		return computers;
+	}
+	
+	public List<Computer> getSearchName(String search, Page page) throws SQLException {
+
+		PreparedStatement pstmt = null;
+
+		Computer computer = null;
+		List<Computer> computers = new ArrayList<Computer>();
+
+		try (Connection con = DataSource.getConnection()) {
+			pstmt = con.prepareStatement(SEARCH_NAME);
 
 			int limit = page.getAmount();
 			int offset = (page.getPage() - 1) * page.getAmount();

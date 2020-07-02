@@ -150,8 +150,23 @@ public class ComputerS {
 		compDAO.deleteComputer(computerID);
 	}
 
-	public List<ComputerDTO> getSearch(String search, Page page) throws SQLException {
-		List<Computer> temp = compDAO.getSearch(search, page);
+	public List<ComputerDTO> getSearchId(String search, Page page) throws SQLException {
+		List<Computer> temp = compDAO.getSearchId(search, page);
+		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+				.collect(Collectors.toList());
+		return res;
+	}
+	
+	public List<ComputerDTO> getSearchIntro(String search, Page page) throws SQLException {
+		List<Computer> temp = compDAO.getSearchIntro(search, page);
+		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+				.collect(Collectors.toList());
+		return res;
+	}
+	
+	
+	public List<ComputerDTO> getSearchName(String search, Page page) throws SQLException {
+		List<Computer> temp = compDAO.getSearchName(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
