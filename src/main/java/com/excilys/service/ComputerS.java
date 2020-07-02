@@ -16,6 +16,7 @@ import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
 
 // 
+// 
 /**
  * The Class ComputerS.
  */
@@ -32,9 +33,6 @@ public class ComputerS {
 	 *
 	 * @param tbName the tb name
 	 * @return the int
-	 * @throws IOException
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
 	 */
 	public int count(String tbName) {
 		return compDAO.countDb(tbName);
@@ -71,8 +69,7 @@ public class ComputerS {
 	/**
 	 * View some computer.
 	 *
-	 * @param con        the con
-	 * @param pageNumber the page number
+	 * @param p the p
 	 * @return the computer
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
@@ -119,6 +116,14 @@ public class ComputerS {
 		return compDAO.updateComputerDisc(intr, disc, computerID);
 	}
 
+	/**
+	 * Update computer.
+	 *
+	 * @param myComp the my comp
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
 		compDAO.updateComputer(myComp);
 	}
@@ -126,10 +131,7 @@ public class ComputerS {
 	/**
 	 * Insert computer.
 	 *
-	 * @param computerName the computer name
-	 * @param companyID    the company ID
-	 * @param intro        the intro
-	 * @param disco        the disco
+	 * @param myComp the my comp
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
@@ -150,21 +152,44 @@ public class ComputerS {
 		compDAO.deleteComputer(computerID);
 	}
 
+	/**
+	 * Gets the search id.
+	 *
+	 * @param search the search
+	 * @param page the page
+	 * @return the search id
+	 * @throws SQLException the SQL exception
+	 */
 	public List<ComputerDTO> getSearchId(String search, Page page) throws SQLException {
 		List<Computer> temp = compDAO.getSearchId(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
 	}
-	
+
+	/**
+	 * Gets the search intro.
+	 *
+	 * @param search the search
+	 * @param page the page
+	 * @return the search intro
+	 * @throws SQLException the SQL exception
+	 */
 	public List<ComputerDTO> getSearchIntro(String search, Page page) throws SQLException {
 		List<Computer> temp = compDAO.getSearchIntro(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
 	}
-	
-	
+
+	/**
+	 * Gets the search name.
+	 *
+	 * @param search the search
+	 * @param page the page
+	 * @return the search name
+	 * @throws SQLException the SQL exception
+	 */
 	public List<ComputerDTO> getSearchName(String search, Page page) throws SQLException {
 		List<Computer> temp = compDAO.getSearchName(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
@@ -172,6 +197,12 @@ public class ComputerS {
 		return res;
 	}
 
+	/**
+	 * Search count.
+	 *
+	 * @param search the search
+	 * @return the int
+	 */
 	public int searchCount(String search) {
 		return compDAO.searchCount(search);
 	}

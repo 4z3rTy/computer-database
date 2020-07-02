@@ -6,43 +6,39 @@ import org.slf4j.LoggerFactory;
 import com.excilys.service.ComputerS;
 import com.excilys.service.CompanyS;
 
-
 public class Page {
 	int itemsNb = 10;
 	int maxItems;
 	int pageTotal;
-	int currentPage=1;
+	int currentPage = 1;
 	private static final Logger logger = LoggerFactory.getLogger(Page.class);
 
 	public Page(int userChoice, String tbName) {
 		this.currentPage = userChoice;
-		switch(tbName)
-		{
+		switch (tbName) {
 		case "computer":
-			CompanyS CS= new CompanyS();
-			this.maxItems=CS.count(tbName);
+			CompanyS CS = new CompanyS();
+			this.maxItems = CS.count(tbName);
 		case "company":
-			ComputerS C= new ComputerS();
-			this.maxItems=C.count(tbName);
+			ComputerS C = new ComputerS();
+			this.maxItems = C.count(tbName);
 		default:
 			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
 		}
 	}
 
 	public Page(String tbName) {
-		switch(tbName)
-		{
+		switch (tbName) {
 		case "computer":
-			CompanyS CS= new CompanyS();
-			this.maxItems=CS.count(tbName);
+			CompanyS CS = new CompanyS();
+			this.maxItems = CS.count(tbName);
 		case "company":
-			ComputerS C= new ComputerS();
-			this.maxItems=C.count(tbName);
+			ComputerS C = new ComputerS();
+			this.maxItems = C.count(tbName);
 		default:
 			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
 		}
 	}
-
 
 	public int getAmount() {
 		return itemsNb;

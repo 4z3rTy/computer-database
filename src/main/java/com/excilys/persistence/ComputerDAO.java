@@ -40,7 +40,7 @@ public class ComputerDAO {
 	private static final String UPDATE_ALL = "UPDATE computer SET name=? , introduced=? , discontinued=? ,company_id=? WHERE id=?";
 
 	/** The Constant DELETE. */
-	private static final String DELETE = "DELETE FROM computer WHERE id =?";
+	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id =?";
 
 	/** The Constant SELECT_WHERE. */
 	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
@@ -306,21 +306,20 @@ public class ComputerDAO {
 	/**
 	 * Delete computer.
 	 *
-	 * @param computerID the computer ID
+	 * @param computerId the computer ID
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void deleteComputer(int computerID) throws SQLException, ClassNotFoundException, IOException {
+	public void deleteComputer(int computerId) throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
 
-			pstmt = con.prepareStatement(DELETE);
-			// "DELETE FROM "+tbName+ "WHERE id =?");
+			pstmt = con.prepareStatement(DELETE_COMPUTER);
 
-			pstmt.setInt(1, computerID);
+			pstmt.setInt(1, computerId);
 			pstmt.executeUpdate();
 		} finally {
 			if (pstmt != null) {

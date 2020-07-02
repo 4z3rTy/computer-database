@@ -30,10 +30,51 @@ public class CompanyDAO{
 	
 	/** The Constant COUNT. */
 	private static final String COUNT="SELECT COUNT(*) from " + tbName;
+	
+	private static final String DELETE_COMPANY= "DELETE FROM company WHERE id =?";
+	private static final String DELETE_COMPUTERS="DELETE FROM computer WHERE company_id=? ";
 
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
+	public void deleteComputers(int companyId) throws SQLException
+	{
+		PreparedStatement pstmt = null;
+
+		try (Connection con = DataSource.getConnection()) {
+
+			pstmt = con.prepareStatement(DELETE_COMPUTERS);
+
+			pstmt.setInt(1, companyId);
+			pstmt.executeUpdate();
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+	}
+	
+	public void deleteCompany(int companyId) throws SQLException
+	{
+		deleteComputers(companyId);
+		PreparedStatement pstmt = null;
+
+		try (Connection con = DataSource.getConnection()) {
+
+			pstmt = con.prepareStatement(DELETE_COMPANY);
+
+			pstmt.setInt(1, companyId);
+			pstmt.executeUpdate();
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+				logger.debug("Connection to the database was terminated");
+			}
+		}
+	}
+	
+	
 	
 	/**
 	 * Count db.

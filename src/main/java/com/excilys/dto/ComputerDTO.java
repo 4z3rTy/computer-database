@@ -1,6 +1,5 @@
 package com.excilys.dto;
 
-
 public class ComputerDTO {
 
 	private String id;
@@ -47,18 +46,6 @@ public class ComputerDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	/*
-	 * public ComputerDTO(Computer computer) {
-	 * this.setId(String.valueOf(computer.getId())); this.name=computer.getName();
-	 * DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd",
-	 * Locale.ENGLISH); if(computer.getIntro()!=null) {
-	 * this.intro=computer.getIntro().format(formatter); }
-	 * if(computer.getDisco()!=null) {
-	 * this.disco=computer.getDisco().format(formatter); }
-	 * this.company_id=String.valueOf(computer.getCompanyId());
-	 * this.setCompany_name(computer.getCompany()); }
-	 */
 
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		this.id = builder.id;

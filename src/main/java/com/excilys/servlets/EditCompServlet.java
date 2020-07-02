@@ -23,7 +23,9 @@ import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 import com.excilys.validator.ComputerValidator;
 
-
+/**
+ * The Class EditCompServlet.
+ */
 //TODO As of now it is not possible to edit a computer back to back without going through the dashboard in between
 @WebServlet(name = "EditCompServlet", urlPatterns = "/editComputer")
 public class EditCompServlet extends HttpServlet {
@@ -33,8 +35,13 @@ public class EditCompServlet extends HttpServlet {
 
 	/** The cs. */
 	private CompanyS CS = new CompanyS();
+	
+	/** The logger. */
 	public static Logger logger = LoggerFactory.getLogger(EditCompServlet.class);
 
+	/**
+	 * Instantiates a new edits the comp servlet.
+	 */
 	public EditCompServlet() {
 		super();
 
@@ -93,60 +100,52 @@ public class EditCompServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		Map<String, String> messages = new HashMap<String, String>();
-		
+
 		String compId = request.getParameter("id");
-		
+
 		String name = request.getParameter("computerName");
 		if ((ComputerValidator.emptyName(name))) {
 			messages.put("computerName", "Computer name cannot be left empty... :( ");
 		}
 		String intro = request.getParameter("introduced");
 		String disco = request.getParameter("discontinued");
-		
-		if ((ComputerValidator.wrongFormat(intro)))
-		{
+
+		if ((ComputerValidator.wrongFormat(intro))) {
 			messages.put("introduced", "Your input for introduced has the wrong format :(");
-		}
-	else 
-		{
+		} else {
 			if ((ComputerValidator.wrongFormat(disco)))
-			
-				{
-				
-				
-					messages.put("discontinued", "Your input for discontinued has the wrong format :(");
-					
-				}
-			else if ((ComputerValidator.wrongDate(intro,disco)))
-				{
-					messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
-				}
+
+			{
+
+				messages.put("discontinued", "Your input for discontinued has the wrong format :(");
+
+			} else if ((ComputerValidator.wrongDate(intro, disco))) {
+				messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
+			}
 		}
-		
-		String company_id=request.getParameter("companyId");
-		if(messages.isEmpty())
-		{
-			messages.put("success","Update completed successfully!!!!");
+
+		String company_id = request.getParameter("companyId");
+		if (messages.isEmpty()) {
+			messages.put("success", "Update completed successfully!!!!");
 		}
-		ComputerDTO dto=new ComputerDTO.ComputerDTOBuilder().setId(compId).setName(name).setIntro(intro).setDisco(disco).setAnyId(Integer.parseInt(company_id)).build();
-		
+		ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setId(compId).setName(name).setIntro(intro)
+				.setDisco(disco).setAnyId(Integer.parseInt(company_id)).build();
+
 		try {
-			if(!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro) && !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco))
-			{
-				ComputerS C= new ComputerS();
+			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)
+					&& !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco)) {
+				ComputerS C = new ComputerS();
 				C.updateComputer(ComputerMapper.toComputer(dto));
+			} else {
+				logger.error("Update could not go through.");
 			}
-			else
-			{
-				logger.error("Update could not go through.");			
-			}
-		
+
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		request.setAttribute("messages", messages);
-		
-		doGet(request,response);
+
+		doGet(request, response);
 	}
 
 }

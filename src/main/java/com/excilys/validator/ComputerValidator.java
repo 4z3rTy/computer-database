@@ -8,39 +8,32 @@ import com.excilys.mapper.ComputerMapper;
 public class ComputerValidator {
 
 	private static final Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
-	
-	public static boolean emptyName(String name)
-	{
-		boolean result=false;
-		if(name==null||name=="")
-		{
-			result=true;
-		}
-		return result;		
-	}
-	
-	public static boolean wrongDate(String intro, String disco)
-	{
-		boolean result=false;
-		if(ComputerMapper.stringToLocal(intro).compareTo(ComputerMapper.stringToLocal(disco))>0)
-		{
-			result=true;
+
+	public static boolean emptyName(String name) {
+		boolean result = false;
+		if (name == null || name == "") {
+			result = true;
 		}
 		return result;
 	}
-	
-	public static boolean wrongFormat(String intro)
-	{
-		boolean result=false;
-		
+
+	public static boolean wrongDate(String intro, String disco) {
+		boolean result = false;
+		if (ComputerMapper.stringToLocal(intro).compareTo(ComputerMapper.stringToLocal(disco)) > 0) {
+			result = true;
+		}
+		return result;
+	}
+
+	public static boolean wrongFormat(String intro) {
+		boolean result = false;
+
 		try {
 			ComputerMapper.stringToLocal(intro);
+		} catch (DateTimeParseException e) {
+			result = true;
+			logger.error("Sorry,there was an issue with the format of your discontinued date input. Insertion failed");
 		}
-		catch(DateTimeParseException e )
-  	  {
-		  result=true;
-		  logger.error("Sorry,there was an issue with the format of your discontinued date input. Insertion failed");
-  	  }
 		return result;
 	}
 }

@@ -9,11 +9,14 @@ import org.slf4j.LoggerFactory;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
+/**
+ * The Class CompanyMapper.
+ */
 public class CompanyMapper {
 
+	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
-	
-	
+
 	/**
 	 * Company map.
 	 *
@@ -21,14 +24,13 @@ public class CompanyMapper {
 	 * @return the company
 	 * @throws SQLException the SQL exception
 	 */
-	public static Company companyMap(ResultSet rs) throws SQLException
-	{
-		Company c=new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
-		logger.debug("New Company Object initialized",c);
-        
+	public static Company companyMap(ResultSet rs) throws SQLException {
+		Company c = new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
+		logger.debug("New Company Object initialized", c);
+
 		return c;
 	}
-	
+
 	/**
 	 * Pretty company map.
 	 *
@@ -36,25 +38,35 @@ public class CompanyMapper {
 	 * @return the company
 	 * @throws SQLException the SQL exception
 	 */
-	public static Company prettyCompanyMap(ResultSet rs) throws SQLException
-	{
-		Company c=new Company.CompanyBuilder().setId(rs.getInt("computer.company_id")).setName(rs.getString("company.name")).build();
-		logger.debug("New Company Object initialized",c);
-        
+	public static Company prettyCompanyMap(ResultSet rs) throws SQLException {
+		Company c = new Company.CompanyBuilder().setId(rs.getInt("computer.company_id"))
+				.setName(rs.getString("company.name")).build();
+		logger.debug("New Company Object initialized", c);
+
 		return c;
 	}
-	
-	public static Company toCompany(CompanyDTO dto)
-	{
-		int c_id=Integer.parseInt(dto.getId());				
-		String name=dto.getName();
-		Company c=new Company.CompanyBuilder().setId(c_id).setName(name).build();
+
+	/**
+	 * To company.
+	 *
+	 * @param dto the dto
+	 * @return the company
+	 */
+	public static Company toCompany(CompanyDTO dto) {
+		int c_id = Integer.parseInt(dto.getId());
+		String name = dto.getName();
+		Company c = new Company.CompanyBuilder().setId(c_id).setName(name).build();
 		return c;
 	}
-	
-	public static CompanyDTO toDto(Company company)
-	{
-		CompanyDTO d=new CompanyDTO(company);
+
+	/**
+	 * To dto.
+	 *
+	 * @param company the company
+	 * @return the company DTO
+	 */
+	public static CompanyDTO toDto(Company company) {
+		CompanyDTO d = new CompanyDTO(company);
 		return d;
 	}
 }

@@ -2,9 +2,6 @@ package com.excilys.model;
 
 import java.time.LocalDate;
 
-/**
- * The Class Computer.
- */
 public class Computer {
 
 	public int getId() {
@@ -18,11 +15,11 @@ public class Computer {
 	public String getCompanyName() {
 		return company.getName();
 	}
-	
+
 	public int getCompanyId() {
 		return company.getId();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -55,24 +52,18 @@ public class Computer {
 		this.name = name;
 	}
 
-	/** The id. */
 	private int id;
 
-	/** The company id. */
-	// private int company_id;
 	private Company company;
 
-	/** The name. */
 	private String name;
 
-	/** The introduced. */
 	private LocalDate introduced;
 
-	/** The discontinued. */
 	private LocalDate discontinued;
 
 	private Computer(ComputerBuilder builder) {
-		this.id=builder.id;
+		this.id = builder.id;
 		this.company = builder.company;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
@@ -81,23 +72,16 @@ public class Computer {
 	}
 
 	public static class ComputerBuilder {
-		/** The id. */
+
 		private int id;
 
-		/** The company id. */
-		// private int company_id;
 		private Company company;
 
-		/** The name. */
 		private String name;
 
-		/** The introduced. */
 		private LocalDate introduced;
 
-		/** The discontinued. */
-		private LocalDate discontinued;	
-		
-
+		private LocalDate discontinued;
 
 		public ComputerBuilder setName(String name) {
 			this.name = name;
@@ -108,7 +92,7 @@ public class Computer {
 			this.id = id;
 			return this;
 		}
-		
+
 		public ComputerBuilder setIntro(LocalDate intro) {
 			this.introduced = intro;
 			return this;

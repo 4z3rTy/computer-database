@@ -1,5 +1,4 @@
 package com.excilys.servlets;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ComputerS;
 import com.excilys.ui.Page;
 
-//
 /**
  * The Class DashboardServlet.
  */
@@ -79,12 +77,12 @@ public class DashboardServlet extends HttpServlet {
 				p.setMax(nb);
 				p.calcPages();
 				try {
-					if (request.getParameter("searchName")!=null) {
+					if (request.getParameter("searchName") != null) {
 						compList = service.getSearchName(search, p);
-						searchType="searchId";
-					} else if (request.getParameter("searchIntro")!=null) {
+						searchType = "searchId";
+					} else if (request.getParameter("searchIntro") != null) {
 						compList = service.getSearchIntro(search, p);
-						searchType="searchIntro";
+						searchType = "searchIntro";
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
