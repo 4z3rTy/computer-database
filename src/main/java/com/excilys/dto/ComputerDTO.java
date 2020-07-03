@@ -43,10 +43,6 @@ public class ComputerDTO {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		this.id = builder.id;
 		this.name = builder.name;

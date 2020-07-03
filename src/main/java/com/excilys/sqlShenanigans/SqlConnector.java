@@ -17,12 +17,10 @@ import com.excilys.persistence.ComputerDAO;
 /**
  * The Class SqlConnector.
  */
-public class SqlConnector {  // Lazy Initialization Singleton
+public class SqlConnector {
 
 	/** The connection. */
   private static Connection con;
-  //private static String username="admincdb";
-  //private static String password = "qwerty1234";
   
   private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
@@ -42,7 +40,6 @@ public class SqlConnector {  // Lazy Initialization Singleton
 			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			//Class.forName("com.mysql.cj.jdbc.Driver");
 			InputStream inputStream = SqlConnector.class.getResourceAsStream("/local.properties");
-			//InputStream inputStream= new FileInputStream("local.properties");
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			con = DriverManager.getConnection(properties.getProperty("db.url"), 
@@ -63,7 +60,6 @@ public class SqlConnector {  // Lazy Initialization Singleton
 			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			//Class.forName("com.mysql.cj.jdbc.Driver");
 			InputStream inputStream = SqlConnector.class.getResourceAsStream("/local.properties");
-			//InputStream inputStream= new FileInputStream("local.properties");
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			con = DriverManager.getConnection(properties.getProperty("db.url"), 

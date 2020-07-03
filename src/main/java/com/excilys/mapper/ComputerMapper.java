@@ -14,7 +14,6 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
-// 
 /**
  * The Class Mapper.
  */
@@ -31,18 +30,16 @@ public class ComputerMapper {
 	 * @throws SQLException the SQL exception
 	 */
 	public static Computer computerMap(ResultSet rs) throws SQLException {
-		Computer c = new Computer.ComputerBuilder().build();
-		logger.debug("New Computer Object initialized", c);
-		c.setId(rs.getInt("id"));
-		c.setName(rs.getString("name"));
-		LocalDate intro;
+		Company temp = CompanyMapper.companyMap(rs);
+		logger.debug("Temporary Company Object initialized", temp);
+		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {
-			intro = null;
+			intr = null;
 			logger.info("Introduced date is set as NULL inside the database");
 		} else {
 
 			Date sqlDate = (rs.getDate("introduced"));
-			intro = sqlDate.toLocalDate();
+			intr = sqlDate.toLocalDate();
 		}
 
 		LocalDate disc;
@@ -53,10 +50,11 @@ public class ComputerMapper {
 			Date sqlDate2 = (rs.getDate("discontinued"));
 			disc = sqlDate2.toLocalDate();
 		}
-		Company temp = CompanyMapper.companyMap(rs);
-		c.setCompany(temp);
-		c.setIntroduced(intro);
-		c.setDiscontinued(disc);
+
+		Computer c = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
+				.setIntro(intr).setDisco(disc).build();
+		logger.debug("New Computer Object initialized", c);
+
 		return c;
 	}
 
@@ -68,18 +66,16 @@ public class ComputerMapper {
 	 * @throws SQLException the SQL exception
 	 */
 	public static Computer prettyMap(ResultSet rs) throws SQLException {
-		Computer c = new Computer.ComputerBuilder().build();
-		logger.debug("New Computer Object initialized", c);
-		c.setId(rs.getInt("id"));
-		c.setName(rs.getString("name"));
-		LocalDate intro;
+		Company temp = CompanyMapper.prettyCompanyMap(rs);
+		logger.debug("Temporary Company Object initialized", temp);
+		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {
-			intro = null;
+			intr = null;
 			logger.info("Introduced date is set as NULL inside the database");
 		} else {
 
 			Date sqlDate = (rs.getDate("introduced"));
-			intro = sqlDate.toLocalDate();
+			intr = sqlDate.toLocalDate();
 		}
 
 		LocalDate disc;
@@ -90,10 +86,11 @@ public class ComputerMapper {
 			Date sqlDate2 = (rs.getDate("discontinued"));
 			disc = sqlDate2.toLocalDate();
 		}
-		Company temp = CompanyMapper.prettyCompanyMap(rs);
-		c.setCompany(temp);
-		c.setIntroduced(intro);
-		c.setDiscontinued(disc);
+
+		Computer c = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
+				.setIntro(intr).setDisco(disc).build();
+		logger.debug("New Computer Object initialized", c);
+
 		return c;
 	}
 
@@ -120,6 +117,7 @@ public class ComputerMapper {
 	 */
 	public static Date localToSql(LocalDate d) {
 		Date sqld = Date.valueOf(d);
+		
 		return sqld;
 	}
 
@@ -132,6 +130,7 @@ public class ComputerMapper {
 	public static LocalDate stringToLocal(String d) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate i = LocalDate.parse(d, formatter);
+
 		return i;
 	}
 

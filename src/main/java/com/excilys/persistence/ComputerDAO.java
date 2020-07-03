@@ -25,10 +25,10 @@ public class ComputerDAO {
 	private static final String tbName = "computer";
 
 	/** The Constant SELECT_ALL. */
-	private static final String SELECT_ALL = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ";
+	private static final String SELECT_ALL = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ";
 
 	/** The Constant SELECT_SOME. */
-	private static final String SELECT_SOME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id ORDER BY id LIMIT ? OFFSET ?";
+	private static final String SELECT_SOME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY id LIMIT ? OFFSET ?";
 
 	/** The Constant UPDATE_NAME. */
 	private static final String UPDATE_NAME = "UPDATE computer SET name=? WHERE id=?";
@@ -43,25 +43,25 @@ public class ComputerDAO {
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id =?";
 
 	/** The Constant SELECT_WHERE. */
-	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+	private static final String SELECT_WHERE = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.id=? ";
 
 	/** The Constant COUNT. */
-	private static final String COUNT = "SELECT COUNT(*) from " + tbName;
+	private static final String COUNT = "SELECT COUNT(*) FROM " + tbName;
 
 	/** The Constant INSERT. */
 	private static final String INSERT = "INSERT into computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 
-	private static final String SEARCH_ID = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+	private static final String SEARCH_ID = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY id LIMIT ? OFFSET ? ";
 	
-	private static final String SEARCH_INTRO = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+	private static final String SEARCH_INTRO = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY introduced LIMIT ? OFFSET ? ";
 	
-	private static final String SEARCH_NAME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name from computer LEFT JOIN company ON computer.company_id=company.id "
+	private static final String SEARCH_NAME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.name LIMIT ? OFFSET ? ";
 
-	private static final String SEARCH_COUNT = "SELECT COUNT(*) from (SELECT computer.id from computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ) AS S ";
+	private static final String SEARCH_COUNT = "SELECT COUNT(*) FROM (SELECT computer.id FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ) AS S ";
 
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
@@ -103,7 +103,7 @@ public class ComputerDAO {
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
-		try (Connection con = DataSource.getConnection()) { // SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) { 
 
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
@@ -117,10 +117,7 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		} /*
-			 * catch (ClassNotFoundException e1) { e1.printStackTrace(); } catch
-			 * (IOException e1) { e1.printStackTrace(); }
-			 */
+		} 
 		return computers;
 	}
 
@@ -345,8 +342,6 @@ public class ComputerDAO {
 		try (Connection con = DataSource.getConnection()) {
 
 			pstmt = con.prepareStatement(SELECT_WHERE);
-			// "SELECT id, name, introduced, discontinued, company_id FROM "+tbName +"WHERE
-			// id=? ");
 
 			pstmt.setInt(1, computerId);
 			ResultSet rs = pstmt.executeQuery();

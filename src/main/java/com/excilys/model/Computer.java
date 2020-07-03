@@ -36,21 +36,6 @@ public class Computer {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDate discontinued) {
-		this.discontinued = discontinued;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	private int id;
 

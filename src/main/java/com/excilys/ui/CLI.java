@@ -64,7 +64,7 @@ public class CLI {
 			System.out.println("|        6. Delete a computer                 |");
 			System.out.println("|        7. Exit                              |");
 			System.out.println("|        8. List some or all of the computers |");
-			System.out.println("|        9. Delete a company 				  |");
+			System.out.println("|        9. Delete a company                  |");
 			System.out.println("===============================================");
 			System.out.println("");
 			System.out.println(" Please select the (next) option you are interested in:  ");

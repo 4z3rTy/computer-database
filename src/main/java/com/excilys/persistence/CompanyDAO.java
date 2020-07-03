@@ -23,15 +23,15 @@ public class CompanyDAO{
 	private static final String tbName="company";
 	
 	/** The Constant SELECT_ALL. */
-	private static final String SELECT_ALL="SELECT id, name FROM "+ tbName;
+	private static final String SELECT_ALL="SELECT id, name FROM " + tbName;
 	
 	/** The Constant SELECT_SOME. */
-	private static final String SELECT_SOME="SELECT * FROM "+ tbName+ " ORDER BY id LIMIT ? OFFSET ?";
+	private static final String SELECT_SOME="SELECT * FROM " + tbName+ " ORDER BY id LIMIT ? OFFSET ?";
 	
 	/** The Constant COUNT. */
-	private static final String COUNT="SELECT COUNT(*) from " + tbName;
+	private static final String COUNT="SELECT COUNT(*) FROM " + tbName;
 	
-	private static final String DELETE_COMPANY= "DELETE FROM" + tbName+ " WHERE id =?";
+	private static final String DELETE_COMPANY= "DELETE FROM " + tbName+ " WHERE id =?";
 	private static final String DELETE_COMPUTERS="DELETE FROM computer WHERE company_id=? ";
 
 	/** The logger. */

@@ -1,7 +1,5 @@
 package com.excilys.dto;
 
-import com.excilys.model.Company;
-
 public class CompanyDTO {
 
 	private String name;
@@ -11,31 +9,41 @@ public class CompanyDTO {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	@Override
 	public String toString() {
 		return "CompanyDTO [name=" + name + ", id=" + id + "]";
 	}
 
-	public CompanyDTO(String name, String id) {
-		super();
-		this.name = name;
-		this.id = id;
+	
+	private CompanyDTO(CompanyDTOBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
 	}
+	
+	public static class CompanyDTOBuilder {
 
-	public CompanyDTO(Company company) {
-		this.name = company.getName();
-		this.id = String.valueOf(company.getId());
+		private String id;
+		private String name;
+
+	
+		public CompanyDTOBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public CompanyDTOBuilder setId(String id) {
+			this.id = id;
+			return this;
+		}
+		
+		public CompanyDTO build() {
+			return new CompanyDTO(this);
+		}
 	}
 }

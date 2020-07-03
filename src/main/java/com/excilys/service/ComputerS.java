@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.ui.Page;
@@ -60,6 +61,12 @@ public class ComputerS {
 
 	public ComputerDTO getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
 		Computer temp = compDAO.viewCompDetails(computerID);
+		if(temp.getCompany()==null)
+		{
+			Company tempany=new Company.CompanyBuilder().setId(0).setName(null).build();
+			temp=new Computer.ComputerBuilder().setId(temp.getId()).setName(temp.getName()).setAny(tempany)
+					.setIntro(temp.getIntroduced()).setDisco(temp.getDiscontinued()).build();
+		}
 		ComputerDTO res = ComputerMapper.toDto(temp);
 		return res;
 	}
