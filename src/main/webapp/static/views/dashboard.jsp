@@ -18,8 +18,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 
@@ -28,23 +28,22 @@
 			<h1 id="homeTitle">${sum} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="dashboard" method="GET" class="form-inline">
+					<form id="searchForm" action="dashboard" method="GET"
+						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" name="searchName" value="Filter by name"
-							class="btn btn-primary" />
-							<input
-							type="submit" id="searchsubmit2" name="searchIntro" value="Filter by introduced"
-							class="btn btn-primary" />
+							type="submit" id="searchsubmit" name="searchName"
+							value="Filter by name" class="btn btn-primary" /> <input
+							type="submit" id="searchsubmit2" name="searchIntro"
+							value="Filter by introduced" class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> 
-						<a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
-						
+
 				</div>
 			</div>
 		</div>
@@ -81,9 +80,9 @@
 					<c:forEach items="${compList}" var="compList">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="${compList.id}"></td>
+								class="cb" value="${compList.id}"></td>
 							<td><a href="editComputer?computerId=${compList.id }"> <c:out
-										 value="${compList.name}" />
+										value="${compList.name}" />
 							</a></td>
 							<td>${compList.intro}</td>
 							<td>${compList.disco}</td>
@@ -99,20 +98,23 @@
 		<div class="container text-center">
 			<ul class="pagination">
 				<c:if test="${currentPage > 0}">
-					<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage-1}"
+					<li><a
+						href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage-1}&pageAmount=${pageAmount}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
 
 				</c:if>
 				<c:forEach var="i" begin="1" end="${items}">
 					<c:if test="${currentPage+i <= pageTotal}">
-						<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage+i}"> <c:out
-									value="${currentPage+i}"></c:out>
+						<li><a
+							href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage+i}&pageAmount=${pageAmount}">
+								<c:out value="${currentPage+i}"></c:out>
 						</a></li>
 					</c:if>
 
 				</c:forEach>
 				<c:if test="${currentPage < pageTotal}">
-					<li><a href="dashboard?search=${searchRes}&searchId=${searchType}&pageNum=${currentPage+1}"
+					<li><a
+						href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage+1}&pageAmount=${pageAmount}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a></li>
 				</c:if>

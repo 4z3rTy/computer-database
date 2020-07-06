@@ -65,7 +65,7 @@ public class DashboardServlet extends HttpServlet {
 			p.setPage(Integer.parseInt(request.getParameter("pageNum")));
 		}
 
-		if (request.getParameter("pageAmount") != null) {
+		if (request.getParameter("pageAmount") != null && request.getParameter("pageAmount")!="" ) {
 			p.setAmount(Integer.parseInt(request.getParameter("pageAmount")));
 		}
 		p.calcPages();
@@ -73,15 +73,15 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			String search = request.getParameter("search");
 			String searchType = null;
-			if (search != null && search.isEmpty() == false) {
+			if (search != null && search.isEmpty() == false ) {
 				sum = service.searchCount(search);
 				p.setMax(sum);
 				p.calcPages();
 				try {
-					if (request.getParameter("searchName") != null) {
+					if (request.getParameter("searchName") != null || (request.getParameter("searchName")!="")) {
 						compList = service.getSearchName(search, p);
-						searchType = "searchId";
-					} else if (request.getParameter("searchIntro") != null) {
+						searchType = "searchName";
+					} else if (request.getParameter("searchIntro") != null || (request.getParameter("searchIntro")!="")) {
 						compList = service.getSearchIntro(search, p);
 						searchType = "searchIntro";
 					}
@@ -94,15 +94,17 @@ public class DashboardServlet extends HttpServlet {
 				sum = service.count("computer");
 				compList = service.viewSomeComputers(p);
 			}
-			request.setAttribute("nb", sum);
+			request.setAttribute("sum", sum);
 			request.setAttribute("compList", compList);
 			request.setAttribute("pageTotal", p.getTotal());
 			request.setAttribute("currentPage", p.getPage());
 			request.setAttribute("items", p.getAmount());
 			request.setAttribute("searchRes", search);
-			request.setAttribute("searchType", searchType);
+			request.setAttribute("searchId", searchType);
+			//request.setAttribute("pageAmount", p.getAmount());
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
+			//request.setAttribute("pageAmount", p.getAmount());
 		}
 
 		processRequest(request, response);
