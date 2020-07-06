@@ -49,6 +49,7 @@
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" name="companyId" id="companyId">
+									<option value="0">NULL</option>
 									<c:forEach var="i" items="${compList}">
 										<option value="${i.id}">
 											<c:out value="${i.name}"></c:out>

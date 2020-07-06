@@ -45,10 +45,10 @@ public class AddCompServlet extends HttpServlet {
 	}
 
 	/** The cs. */
-	private CompanyS CS = new CompanyS();
+	private final CompanyS CS = new CompanyS();
 
 	/** The logger. */
-	public static Logger logger = LoggerFactory.getLogger(AddCompServlet.class);
+	public static final Logger logger = LoggerFactory.getLogger(AddCompServlet.class);
 
 	/**
 	 * Process request.
@@ -111,42 +111,48 @@ public class AddCompServlet extends HttpServlet {
 		String intro = request.getParameter("introduced");
 		String disco = request.getParameter("discontinued");
 
-		if ((ComputerValidator.wrongFormat(intro))) {
-			messages.put("introduced", "Your input for introduced has the wrong format :(");
-		} else {
+		if (!(ComputerValidator.emptyDate(intro))) {
+
+			if ((ComputerValidator.wrongFormat(intro))) {
+				messages.put("introduced", "Your input for introduced has the wrong format :(");
+			}
+		}
+
+		if (!(ComputerValidator.emptyDate(disco))) {
+
 			if ((ComputerValidator.wrongFormat(disco)))
 
 			{
-
 				messages.put("discontinued", "Your input for discontinued has the wrong format :(");
+			}
+		}
 
-			} else if ((ComputerValidator.wrongDate(intro, disco))) {
+		if (!(ComputerValidator.emptyDate(intro)) && !(ComputerValidator.emptyDate(disco))) {
+			if (ComputerValidator.wrongDate(intro, disco)) {
 				messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
 			}
 		}
-
+		
 		String companyId = request.getParameter("companyId");
 
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco)
+				.setAny(anyDto).build();
+		
 		if (messages.isEmpty()) {
 			messages.put("success", "Insertion completed successfully!!!!");
-		}
-		ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco)
-				.setAnyId(Integer.parseInt(companyId)).build();
+			
+			try {
+					ComputerS C = new ComputerS();
+					C.insertComputer(ComputerMapper.toComputer(compDto));
 
-		try {
-			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)
-					&& !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco)) {
-				ComputerS C = new ComputerS();
-				C.insertComputer(ComputerMapper.toComputer(dto));
-			} else {
-				logger.error("Insertion did not go through.");
+			} catch (ClassNotFoundException | SQLException | IOException e) {
+				logger.error("Insertion did not go through.",e);
+				e.printStackTrace();
 			}
-
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-			e.printStackTrace();
 		}
+		
 		request.setAttribute("messages", messages);
-		// processRequest(request, response);
 		doGet(request, response);
 	}
 

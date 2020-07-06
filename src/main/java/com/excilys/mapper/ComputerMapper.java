@@ -116,8 +116,12 @@ public class ComputerMapper {
 	 * @return the date
 	 */
 	public static Date localToSql(LocalDate d) {
-		Date sqld = Date.valueOf(d);
-		
+		Date sqld=null;
+		if(d!=null)
+		{
+		sqld = Date.valueOf(d);
+		}
+
 		return sqld;
 	}
 
@@ -143,12 +147,21 @@ public class ComputerMapper {
 	public static Computer toComputer(ComputerDTO dto) {
 		int c_id = Integer.parseInt(dto.getCompany_id());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i = LocalDate.parse(dto.getIntro(), formatter);
-		LocalDate d = LocalDate.parse(dto.getDisco(), formatter);
-
+		LocalDate i,d;
+		if (dto.getIntro()!=null && dto.getIntro().equals("")==false) {
+			i = LocalDate.parse(dto.getIntro(), formatter);
+		}
+		else {
+			i=null;
+		}
+		if (dto.getDisco()!=null && dto.getDisco().equals("")==false) {
+			d = LocalDate.parse(dto.getDisco(), formatter);
+		}
+		else {
+			d=null;
+		}
 		Company company = new Company.CompanyBuilder().setId(c_id).build();
-		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName())
-				/* .setId(Integer.parseInt(dto.getId())) */.setAny(company).build();
+		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setAny(company).build();
 		return c;
 	}
 
@@ -162,8 +175,7 @@ public class ComputerMapper {
 
 		ComputerDTO d = new ComputerDTO.ComputerDTOBuilder().setName(computer.getName())
 				.setDisco(localToString(computer.getDiscontinued())).setIntro(localToString(computer.getIntroduced()))
-				.setId(String.valueOf(computer.getId())).setAnyId(computer.getCompanyId())
-				.setAnyName(computer.getCompanyName()).build();
+				.setId(String.valueOf(computer.getId())).setAny(CompanyMapper.toDto(computer.getCompany())).build();
 		return d;
 	}
 }

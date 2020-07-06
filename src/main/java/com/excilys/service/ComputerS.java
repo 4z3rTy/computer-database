@@ -22,7 +22,7 @@ import com.excilys.ui.Page;
 public class ComputerS {
 
 	/** The comp DAO. */
-	private static ComputerDAO compDAO = new ComputerDAO();
+	private final ComputerDAO compDAO = new ComputerDAO();
 
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerS.class);

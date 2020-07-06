@@ -136,10 +136,11 @@ public class CLI {
 				System.out.println("date introduced=" + intr);
 				System.out.println("date discontinued=" + disc);
 				System.out.println("company ID=" + c_id);
-				ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intr).setDisco(disc)
-						.setAnyId(c_id).build();
+				CompanyDTO anyDto= new CompanyDTO.CompanyDTOBuilder().setId(String.valueOf(c_id)).build();
+				ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intr).setDisco(disc)
+						.setAny(anyDto).build();
 				try {
-					compS.insertComputer(ComputerMapper.toComputer(dto));
+					compS.insertComputer(ComputerMapper.toComputer(compDto));
 				} catch (DateTimeParseException e) {
 					System.out
 							.println("Sorry,there was an issue with the format of either or both of the dates input.");

@@ -34,10 +34,10 @@ public class EditCompServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/** The cs. */
-	private CompanyS CS = new CompanyS();
-	
+	private final CompanyS CS = new CompanyS();
+
 	/** The logger. */
-	public static Logger logger = LoggerFactory.getLogger(EditCompServlet.class);
+	public static final Logger logger = LoggerFactory.getLogger(EditCompServlet.class);
 
 	/**
 	 * Instantiates a new edits the comp servlet.
@@ -101,7 +101,7 @@ public class EditCompServlet extends HttpServlet {
 
 		Map<String, String> messages = new HashMap<String, String>();
 
-		String compId = request.getParameter("id");
+		String computerId = request.getParameter("id");
 
 		String name = request.getParameter("computerName");
 		if ((ComputerValidator.emptyName(name))) {
@@ -128,14 +128,16 @@ public class EditCompServlet extends HttpServlet {
 		if (messages.isEmpty()) {
 			messages.put("success", "Update completed successfully!!!!");
 		}
-		ComputerDTO dto = new ComputerDTO.ComputerDTOBuilder().setId(compId).setName(name).setIntro(intro)
-				.setDisco(disco).setAnyId(Integer.parseInt(companyId)).build();
+
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setId(computerId).setName(name).setIntro(intro)
+				.setDisco(disco).setAny(anyDto).build();
 
 		try {
 			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)
 					&& !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco)) {
 				ComputerS C = new ComputerS();
-				C.updateComputer(ComputerMapper.toComputer(dto));
+				C.updateComputer(ComputerMapper.toComputer(compDto));
 			} else {
 				logger.error("Update could not go through.");
 			}

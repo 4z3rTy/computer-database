@@ -25,7 +25,7 @@ public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/** The cs. */
-	private ComputerS service = new ComputerS();
+	private final ComputerS service = new ComputerS();
 
 	/** The nb. */
 	private int sum = service.count("computer");
@@ -65,44 +65,67 @@ public class DashboardServlet extends HttpServlet {
 			p.setPage(Integer.parseInt(request.getParameter("pageNum")));
 		}
 
-		if (request.getParameter("pageAmount") != null && request.getParameter("pageAmount")!="" ) {
+		if (request.getParameter("pageAmount") != null && request.getParameter("pageAmount") != "") {
 			p.setAmount(Integer.parseInt(request.getParameter("pageAmount")));
 		}
 		p.calcPages();
 
 		try {
+
 			String search = request.getParameter("search");
-			String searchType = null;
-			if (search != null && search.isEmpty() == false ) {
-				sum = service.searchCount(search);
-				p.setMax(sum);
-				p.calcPages();
+			String searchType = request.getParameter("searchType");
+			if (searchType == null) {
+
+				if (search == null) {
+					sum = service.count("computer");
+					compList = service.viewSomeComputers(p);
+				} else {
+					sum = service.searchCount(search);
+					p.setMax(sum);
+					p.calcPages();
+				}
+
 				try {
-					if (request.getParameter("searchName") != null || (request.getParameter("searchName")!="")) {
+					if (request.getParameter("searchName") != null) {
 						compList = service.getSearchName(search, p);
 						searchType = "searchName";
-					} else if (request.getParameter("searchIntro") != null || (request.getParameter("searchIntro")!="")) {
+					} else if (request.getParameter("searchIntro") != null) {
 						compList = service.getSearchIntro(search, p);
 						searchType = "searchIntro";
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+			} else {
+
+				p.setMax(sum);
+				p.calcPages();
+
+				switch (searchType) {
+
+				case "":
+					compList = service.viewSomeComputers(p);
+					break;
+
+				case "searchName":
+					compList = service.getSearchName(search, p);
+					break;
+
+				case "searchIntro":
+					compList = service.getSearchIntro(search, p);
+					break;
+				}
 			}
 
-			else {
-				sum = service.count("computer");
-				compList = service.viewSomeComputers(p);
-			}
 			request.setAttribute("sum", sum);
 			request.setAttribute("compList", compList);
 			request.setAttribute("pageTotal", p.getTotal());
 			request.setAttribute("currentPage", p.getPage());
 			request.setAttribute("items", p.getAmount());
 			request.setAttribute("searchRes", search);
-			request.setAttribute("searchId", searchType);
+			request.setAttribute("searchType", searchType);
 			request.setAttribute("pageAmount", p.getAmount());
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 

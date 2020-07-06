@@ -17,9 +17,25 @@ public class ComputerValidator {
 		return result;
 	}
 
+	public static boolean emptyDate(String intro) {
+		boolean result = false;
+		if (intro.equals(null) || intro.equals("")) {
+			result = true;
+		}
+		return result;
+	}
+
 	public static boolean wrongDate(String intro, String disco) {
 		boolean result = false;
 		if (ComputerMapper.stringToLocal(intro).compareTo(ComputerMapper.stringToLocal(disco)) > 0) {
+			result = true;
+		}
+		return result;
+	}
+
+	public static boolean emptyCompany(String companyId) {
+		boolean result = false;
+		if (companyId.equals(0)) {
 			result = true;
 		}
 		return result;

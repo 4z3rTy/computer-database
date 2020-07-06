@@ -278,17 +278,24 @@ public class ComputerDAO {
 
 			pstmt = con.prepareStatement(INSERT);
 
-			if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {
+			/*if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {*/
 				pstmt.setString(1, myComp.getName());
 				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
 				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
+				if(myComp.getCompanyId()!=0)
+				{
 				pstmt.setInt(4, myComp.getCompanyId());
+				}
+				else
+				{
+					pstmt.setNull(4,Types.BIGINT);
+				}
 				pstmt.executeUpdate();
 
-			} else {
+		/*	} else {
 				logger.info("Sorry there seems to be an incoherence with your date format input. Creation was aborted");
 
-			}
+			}*/
 		} catch (SQLException e) {
 			Xeptions.printSQLException(e);
 		} finally {

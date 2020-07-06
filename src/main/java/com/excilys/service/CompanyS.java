@@ -20,7 +20,7 @@ import com.excilys.ui.Page;
 public class CompanyS {
 
 	/** The any DAO. */
-	private CompanyDAO anyDAO = new CompanyDAO();
+	private final CompanyDAO anyDAO = new CompanyDAO();
 	
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);

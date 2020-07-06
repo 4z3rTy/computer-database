@@ -97,16 +97,16 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
-				<c:if test="${currentPage > 0}">
+				<c:if test="${currentPage > 1}">
 					<li><a
-						href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage-1}&pageAmount=${pageAmount}"
+						href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage-1}&pageAmount=${pageAmount}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
 
 				</c:if>
-				<c:forEach var="i" begin="1" end="${items}">
+				<c:forEach var="i" begin="0" end="${items}">
 					<c:if test="${currentPage+i <= pageTotal}">
 						<li><a
-							href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage+i}&pageAmount=${pageAmount}">
+							href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage+i}&pageAmount=${pageAmount}">
 								<c:out value="${currentPage+i}"></c:out>
 						</a></li>
 					</c:if>
@@ -114,18 +114,18 @@
 				</c:forEach>
 				<c:if test="${currentPage < pageTotal}">
 					<li><a
-						href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage+1}&pageAmount=${pageAmount}"
+						href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage+1}&pageAmount=${pageAmount}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a></li>
 				</c:if>
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage}&pageAmount=10">
+				<a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=10">
 					<button type="button" class="btn btn-default">10</button>
-				</a> <a href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage}&pageAmount=50">
+				</a> <a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=50">
 					<button type="button" class="btn btn-default">50</button>
-				</a> <a href="dashboard?search=${searchRes}&searchId=${searchId}&pageNum=${currentPage}&pageAmount=100">
+				</a> <a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=100">
 					<button type="button" class="btn btn-default">100</button>
 				</a>
 			</div>
