@@ -101,10 +101,9 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("items", p.getAmount());
 			request.setAttribute("searchRes", search);
 			request.setAttribute("searchId", searchType);
-			//request.setAttribute("pageAmount", p.getAmount());
+			request.setAttribute("pageAmount", p.getAmount());
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
-			//request.setAttribute("pageAmount", p.getAmount());
 		}
 
 		processRequest(request, response);
