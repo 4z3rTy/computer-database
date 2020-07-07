@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
@@ -19,6 +20,8 @@ import com.excilys.ui.Page;
 /**
  * The Class ComputerDAO.
  */
+
+@Repository
 public class ComputerDAO {
 
 	/** The table name. */
@@ -54,10 +57,10 @@ public class ComputerDAO {
 
 	private static final String SEARCH_ID = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY id LIMIT ? OFFSET ? ";
-	
+
 	private static final String SEARCH_INTRO = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY introduced LIMIT ? OFFSET ? ";
-	
+
 	private static final String SEARCH_NAME = "SELECT computer.id, computer.name, computer.company_id, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY computer.name LIMIT ? OFFSET ? ";
 
@@ -103,7 +106,7 @@ public class ComputerDAO {
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
-		try (Connection con = DataSource.getConnection()) { 
+		try (Connection con = DataSource.getConnection()) {
 
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
@@ -117,7 +120,7 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		} 
+		}
 		return computers;
 	}
 
@@ -133,7 +136,6 @@ public class ComputerDAO {
 	public List<Computer> viewSomeComputers(Page page) throws SQLException, ClassNotFoundException, IOException {
 
 		PreparedStatement pstmt = null;
-
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
@@ -205,11 +207,10 @@ public class ComputerDAO {
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerId)
 			throws SQLException, ClassNotFoundException, IOException {
-		boolean res =false;
+		boolean res = false;
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
-
 			pstmt = con.prepareStatement(UPDATE_DATE);
 			if (disc.after(intr)) {
 				pstmt.setDate(1, intr);
@@ -232,11 +233,10 @@ public class ComputerDAO {
 	}
 
 	public boolean updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		boolean res =false;
+		boolean res = false;
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
-
 			pstmt = con.prepareStatement(UPDATE_ALL);
 			if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {
 				pstmt.setString(1, myComp.getName());
@@ -274,28 +274,28 @@ public class ComputerDAO {
 	 */
 	public Computer insertComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
 		PreparedStatement pstmt = null;
-		try (Connection con = DataSource.getConnection()) {
 
+		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(INSERT);
 
-			/*if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {*/
-				pstmt.setString(1, myComp.getName());
-				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
-				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
-				if(myComp.getCompanyId()!=0)
-				{
+			/* if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) { */
+			pstmt.setString(1, myComp.getName());
+			pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
+			pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
+			if (myComp.getCompanyId() != 0) {
 				pstmt.setInt(4, myComp.getCompanyId());
-				}
-				else
-				{
-					pstmt.setNull(4,Types.BIGINT);
-				}
-				pstmt.executeUpdate();
+			} else {
+				pstmt.setNull(4, Types.BIGINT);
+			}
+			pstmt.executeUpdate();
 
-		/*	} else {
-				logger.info("Sorry there seems to be an incoherence with your date format input. Creation was aborted");
-
-			}*/
+			/*
+			 * } else { logger.
+			 * info("Sorry there seems to be an incoherence with your date format input. Creation was aborted"
+			 * );
+			 * 
+			 * }
+			 */
 		} catch (SQLException e) {
 			Xeptions.printSQLException(e);
 		} finally {
@@ -320,9 +320,7 @@ public class ComputerDAO {
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
-
 			pstmt = con.prepareStatement(DELETE_COMPUTER);
-
 			pstmt.setInt(1, computerId);
 			pstmt.executeUpdate();
 		} finally {
@@ -346,10 +344,9 @@ public class ComputerDAO {
 
 		PreparedStatement pstmt = null;
 		Computer computer = new Computer.ComputerBuilder().build();
+
 		try (Connection con = DataSource.getConnection()) {
-
 			pstmt = con.prepareStatement(SELECT_WHERE);
-
 			pstmt.setInt(1, computerId);
 			ResultSet rs = pstmt.executeQuery();
 
@@ -369,7 +366,6 @@ public class ComputerDAO {
 	public List<Computer> getSearchId(String search, Page page) throws SQLException {
 
 		PreparedStatement pstmt = null;
-
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
@@ -401,12 +397,10 @@ public class ComputerDAO {
 		}
 		return computers;
 	}
-	
-	
+
 	public List<Computer> getSearchIntro(String search, Page page) throws SQLException {
 
 		PreparedStatement pstmt = null;
-
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
@@ -438,11 +432,10 @@ public class ComputerDAO {
 		}
 		return computers;
 	}
-	
+
 	public List<Computer> getSearchName(String search, Page page) throws SQLException {
 
 		PreparedStatement pstmt = null;
-
 		Computer computer = null;
 		List<Computer> computers = new ArrayList<Computer>();
 
@@ -478,9 +471,9 @@ public class ComputerDAO {
 	public int searchCount(String search) {
 		int count = -2;
 		PreparedStatement pstmt = null;
+
 		try (Connection con = SqlConnector.getInstance()) {
 			pstmt = con.prepareStatement(SEARCH_COUNT);
-
 			pstmt.setString(1, '%' + search + '%');
 			pstmt.setString(2, '%' + search + '%');
 

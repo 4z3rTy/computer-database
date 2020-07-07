@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
@@ -17,10 +19,18 @@ import com.excilys.ui.Page;
 /**
  * The Class CompanyS.
  */
+@Service
 public class CompanyS {
 
 	/** The any DAO. */
-	private final CompanyDAO anyDAO = new CompanyDAO();
+	@Autowired
+	private CompanyDAO anyDao;
+	
+	@Autowired
+	public void setComputerDao(CompanyDAO anyDao)
+	{
+		this.anyDao=anyDao;
+	}
 	
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
@@ -32,7 +42,7 @@ public class CompanyS {
 	 * @return the int
 	 */
 	public int count(String tbName) {
-		return anyDAO.countDb(tbName);
+		return anyDao.countDb(tbName);
 	}
 
 	/**
@@ -44,7 +54,7 @@ public class CompanyS {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public List<CompanyDTO> getAllCompanies() throws SQLException, ClassNotFoundException, IOException {
-		List<Company> temp = anyDAO.viewCompany();
+		List<Company> temp = anyDao.viewCompany();
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 
 		return res;
@@ -65,7 +75,7 @@ public class CompanyS {
 		logger.debug("Page object initialized", page);
 		page.setMax(count("company"));
 		page.calcPages();
-		List<Company> temp = anyDAO.viewSomeCompanies(page);
+		List<Company> temp = anyDao.viewSomeCompanies(page);
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 		return res;
 	}
@@ -77,6 +87,6 @@ public class CompanyS {
 	 * @throws SQLException the SQL exception
 	 */
 	public void deleteCompany(int companyId) throws SQLException {
-		anyDAO.deleteCompany(companyId);
+		anyDao.deleteCompany(companyId);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.persistence.ComputerDAO;
 
@@ -17,6 +18,7 @@ import com.excilys.persistence.ComputerDAO;
 /**
  * The Class SqlConnector.
  */
+@Component
 public class SqlConnector {
 
 	/** The connection. */

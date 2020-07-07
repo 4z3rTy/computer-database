@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ComputerS;
 import com.excilys.ui.Page;
@@ -24,17 +27,27 @@ public class DashboardServlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	/** The cs. */
-	private final ComputerS service = new ComputerS();
+	ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 
-	/** The nb. */
+	/** The computer service. */
+/*	@Autowired
+	private ComputerS service;
+
+	@Autowired
+	public void setComputerS(ComputerS service) {
+		this.service = service;
+	}
+	*/
+	ComputerS service=context.getBean(ComputerS.class);
+
+
+	/** The sum of elements to query. */
 	private int sum = service.count("computer");
-	// List <Computer> compList=CS.getAllComputer();
 
 	/**
 	 * Process request.
 	 *
-	 * @param request  the request
+	 * @param request  the request 
 	 * @param response the response
 	 * @throws ServletException the servlet exception
 	 * @throws IOException      Signals that an I/O exception has occurred.

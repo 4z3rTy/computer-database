@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -33,8 +34,14 @@ public class EditCompServlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	/** The cs. */
-	private final CompanyS CS = new CompanyS();
+	/** The company service. */
+	@Autowired
+	private CompanyS CS;
+
+	@Autowired
+	public void setCompanyS(CompanyS service) {
+		this.CS = service;
+	}
 
 	/** The logger. */
 	public static final Logger logger = LoggerFactory.getLogger(EditCompServlet.class);

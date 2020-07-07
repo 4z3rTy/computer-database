@@ -35,7 +35,7 @@ public class ComputerValidator {
 
 	public static boolean emptyCompany(String companyId) {
 		boolean result = false;
-		if (companyId.equals(0)) {
+		if (companyId.equals("0")) {  // ????
 			result = true;
 		}
 		return result;

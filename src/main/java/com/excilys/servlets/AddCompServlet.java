@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -35,7 +36,7 @@ public class AddCompServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Instantiates a new adds the comp servlet.
+	 * Instantiates a new add computer servlet.
 	 *
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -44,8 +45,14 @@ public class AddCompServlet extends HttpServlet {
 
 	}
 
-	/** The cs. */
-	private final CompanyS CS = new CompanyS();
+	/** The company service. */
+	@Autowired
+	private CompanyS CS;
+
+	@Autowired
+	public void setCompanyS(CompanyS service) {
+		this.CS = service;
+	}
 
 	/** The logger. */
 	public static final Logger logger = LoggerFactory.getLogger(AddCompServlet.class);
@@ -132,26 +139,26 @@ public class AddCompServlet extends HttpServlet {
 				messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
 			}
 		}
-		
+
 		String companyId = request.getParameter("companyId");
 
 		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
 		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco)
 				.setAny(anyDto).build();
-		
+
 		if (messages.isEmpty()) {
 			messages.put("success", "Insertion completed successfully!!!!");
-			
+
 			try {
-					ComputerS C = new ComputerS();
-					C.insertComputer(ComputerMapper.toComputer(compDto));
+				ComputerS C = new ComputerS();
+				C.insertComputer(ComputerMapper.toComputer(compDto));
 
 			} catch (ClassNotFoundException | SQLException | IOException e) {
-				logger.error("Insertion did not go through.",e);
+				logger.error("Insertion did not go through.", e);
 				e.printStackTrace();
 			}
 		}
-		
+
 		request.setAttribute("messages", messages);
 		doGet(request, response);
 	}
