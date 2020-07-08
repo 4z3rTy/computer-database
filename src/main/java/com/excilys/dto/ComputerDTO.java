@@ -1,8 +1,6 @@
 package com.excilys.dto;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class ComputerDTO {
 
 	private String id;

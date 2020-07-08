@@ -22,16 +22,24 @@ import com.excilys.ui.Page;
 @Service
 public class CompanyS {
 
-	/** The any DAO. */
+	/*@Autowired
+	public CompanyS() {}
+
 	@Autowired
-	private CompanyDAO anyDao;
-	
-	@Autowired
-	public void setComputerDao(CompanyDAO anyDao)
+	public CompanyS(CompanyDAO companyDao)
 	{
-		this.anyDao=anyDao;
+		this.companyDao=companyDao;
 	}
+	*/
+	/** The any DAO. */
+	private CompanyDAO companyDao;
 	
+	@Autowired
+	public void setCompanyDao(CompanyDAO companyDao)
+	{
+		this.companyDao=companyDao;
+	}
+
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
 
@@ -42,7 +50,7 @@ public class CompanyS {
 	 * @return the int
 	 */
 	public int count(String tbName) {
-		return anyDao.countDb(tbName);
+		return companyDao.countDb(tbName);
 	}
 
 	/**
@@ -54,7 +62,7 @@ public class CompanyS {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public List<CompanyDTO> getAllCompanies() throws SQLException, ClassNotFoundException, IOException {
-		List<Company> temp = anyDao.viewCompany();
+		List<Company> temp = companyDao.viewCompany();
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 
 		return res;
@@ -71,11 +79,12 @@ public class CompanyS {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public List<CompanyDTO> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException {
-		Page page = new Page(pageNumber, "company");
+		int total=count("company");
+		Page page = new Page(pageNumber,total);
 		logger.debug("Page object initialized", page);
 		page.setMax(count("company"));
 		page.calcPages();
-		List<Company> temp = anyDao.viewSomeCompanies(page);
+		List<Company> temp = companyDao.viewSomeCompanies(page);
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 		return res;
 	}
@@ -87,6 +96,6 @@ public class CompanyS {
 	 * @throws SQLException the SQL exception
 	 */
 	public void deleteCompany(int companyId) throws SQLException {
-		anyDao.deleteCompany(companyId);
+		companyDao.deleteCompany(companyId);
 	}
 }

@@ -5,14 +5,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ComputerS;
@@ -21,33 +23,40 @@ import com.excilys.ui.Page;
 /**
  * The Class DashboardServlet.
  */
+@Controller
 @WebServlet(name = "DashboardServlet", urlPatterns = "/dashboard")
 public class DashboardServlet extends HttpServlet {
 
 	/** The Constant serialVersionUID. */
+	@Autowired
+	private ComputerS service;
 	private static final long serialVersionUID = 1L;
+	int sum;
 
-	ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
+
+	// ApplicationContext context = new
+	// ClassPathXmlApplicationContext("spring.xml");
 
 	/** The computer service. */
-/*	@Autowired
-	private ComputerS service;
+	/*
+	 * @Autowired private ComputerS service;
+	 * 
+	 * @Autowired public void setComputerS(ComputerS service) { this.service =
+	 * service; }
+	 */
 
-	@Autowired
-	public void setComputerS(ComputerS service) {
-		this.service = service;
-	}
-	*/
-	ComputerS service=context.getBean(ComputerS.class);
-
-
+	// ComputerS service=context.getBean(ComputerS.class);
 	/** The sum of elements to query. */
-	private int sum = service.count("computer");
+	// private int sum = service.count("computer");
 
 	/**
 	 * Process request.
 	 *
-	 * @param request  the request 
+	 * @param request  the request
 	 * @param response the response
 	 * @throws ServletException the servlet exception
 	 * @throws IOException      Signals that an I/O exception has occurred.
@@ -59,6 +68,9 @@ public class DashboardServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	
+	
+	
 	/**
 	 * Do get.
 	 *
@@ -72,7 +84,8 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		List<ComputerDTO> compList = null;
-		Page p = new Page("computer");
+
+			Page p = new Page(sum);
 
 		if (request.getParameter("pageNum") != null) {
 			p.setPage(Integer.parseInt(request.getParameter("pageNum")));

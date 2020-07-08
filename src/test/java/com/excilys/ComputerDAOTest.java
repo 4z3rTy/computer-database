@@ -74,7 +74,7 @@ public class ComputerDAOTest
     public void getAllComptTest() throws SQLException, ClassNotFoundException, IOException
     {
     	
-      List<ComputerDTO> all= mockComputerS.getAllComputer();
+      List<ComputerDTO> all= mockComputerS.getAllComputers();
         try {
         	verify(mockDAO).viewComputer();
         	assertEquals(580,all.size());

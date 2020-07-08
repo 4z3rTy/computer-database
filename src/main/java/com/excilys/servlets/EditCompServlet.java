@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -34,14 +36,15 @@ public class EditCompServlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
+	
 	/** The company service. */
 	@Autowired
 	private CompanyS CS;
 
-	@Autowired
-	public void setCompanyS(CompanyS service) {
-		this.CS = service;
-	}
 
 	/** The logger. */
 	public static final Logger logger = LoggerFactory.getLogger(EditCompServlet.class);

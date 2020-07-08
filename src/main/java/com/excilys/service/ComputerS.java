@@ -26,16 +26,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ComputerS {
 
-	/** The comp DAO. */
+	/*
 	@Autowired
-	private ComputerDAO compDao;
+	public ComputerS(ComputerDAO computerDao)
+	{
+		this.computerDao=computerDao;
+	}
+	*/
 	
+	/** The computer DAO. */
 	@Autowired
+	private ComputerDAO computerDao;
+	
+/*	@Autowired
 	public void setComputerDao(ComputerDAO computerDao)
 	{
-		this.compDao=computerDao;
+		this.computerDao=computerDao;
 	}
-
+*/
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerS.class);
 
@@ -46,7 +54,7 @@ public class ComputerS {
 	 * @return the int
 	 */
 	public int count(String tbName) {
-		return compDao.countDb(tbName);
+		return computerDao.countDb(tbName);
 	}
 
 	/**
@@ -54,8 +62,8 @@ public class ComputerS {
 	 *
 	 * @return the all computer
 	 */
-	public List<ComputerDTO> getAllComputer() {
-		List<Computer> temp = compDao.viewComputer();
+	public List<ComputerDTO> getAllComputers() {
+		List<Computer> temp = computerDao.viewComputer();
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
@@ -72,7 +80,7 @@ public class ComputerS {
 	 */
 
 	public ComputerDTO getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
-		Computer temp = compDao.viewCompDetails(computerID);
+		Computer temp = computerDao.viewCompDetails(computerID);
 		if(temp.getCompany()==null)
 		{
 			Company tempany=new Company.CompanyBuilder().setId(0).setName(null).build();
@@ -96,7 +104,7 @@ public class ComputerS {
 		logger.debug("Page object initialized", p);
 		// page.setMax(count("computer"));
 		// page.calcPages();
-		List<Computer> temp = compDao.viewSomeComputers(p);
+		List<Computer> temp = computerDao.viewSomeComputers(p);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 
@@ -114,7 +122,7 @@ public class ComputerS {
 	 */
 	public void updateComputerName(String newName, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
-		compDao.updateComputerName(newName, computerID);
+		computerDao.updateComputerName(newName, computerID);
 	}
 
 	/**
@@ -130,7 +138,7 @@ public class ComputerS {
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerID)
 			throws SQLException, ClassNotFoundException, IOException {
-		return compDao.updateComputerDisc(intr, disc, computerID);
+		return computerDao.updateComputerDisc(intr, disc, computerID);
 	}
 
 	/**
@@ -142,7 +150,7 @@ public class ComputerS {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		compDao.updateComputer(myComp);
+		computerDao.updateComputer(myComp);
 	}
 
 	/**
@@ -154,7 +162,7 @@ public class ComputerS {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void insertComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		compDao.insertComputer(myComp);
+		computerDao.insertComputer(myComp);
 	}
 
 	/**
@@ -166,7 +174,7 @@ public class ComputerS {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void deleteComputer(int computerID) throws SQLException, ClassNotFoundException, IOException {
-		compDao.deleteComputer(computerID);
+		computerDao.deleteComputer(computerID);
 	}
 
 	/**
@@ -178,7 +186,7 @@ public class ComputerS {
 	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchId(String search, Page page) throws SQLException {
-		List<Computer> temp = compDao.getSearchId(search, page);
+		List<Computer> temp = computerDao.getSearchId(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
@@ -193,7 +201,7 @@ public class ComputerS {
 	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchIntro(String search, Page page) throws SQLException {
-		List<Computer> temp = compDao.getSearchIntro(search, page);
+		List<Computer> temp = computerDao.getSearchIntro(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
@@ -208,7 +216,7 @@ public class ComputerS {
 	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchName(String search, Page page) throws SQLException {
-		List<Computer> temp = compDao.getSearchName(search, page);
+		List<Computer> temp = computerDao.getSearchName(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return res;
@@ -221,7 +229,7 @@ public class ComputerS {
 	 * @return the int
 	 */
 	public int searchCount(String search) {
-		return compDao.searchCount(search);
+		return computerDao.searchCount(search);
 	}
 
 }

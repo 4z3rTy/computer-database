@@ -1,8 +1,6 @@
 package com.excilys.model;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class Company {
 
 	public int getId() {

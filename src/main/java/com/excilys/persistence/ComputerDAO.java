@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.sqlShenanigans.DataSource;
-import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.sqlShenanigans.Xeptions;
 import com.excilys.ui.Page;
 
@@ -77,7 +77,7 @@ public class ComputerDAO {
 	 */
 	public int countDb(String tbName) {
 		int count = -1;
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(COUNT);
 			rs.next();
@@ -87,10 +87,6 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return count;
 	}
@@ -472,7 +468,7 @@ public class ComputerDAO {
 		int count = -2;
 		PreparedStatement pstmt = null;
 
-		try (Connection con = SqlConnector.getInstance()) {
+		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(SEARCH_COUNT);
 			pstmt.setString(1, '%' + search + '%');
 			pstmt.setString(2, '%' + search + '%');
@@ -485,10 +481,6 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error("Connection to the database could not be established", e);
 			Xeptions.printSQLException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return count;
 	}

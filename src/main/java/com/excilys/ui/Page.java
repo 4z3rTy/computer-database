@@ -3,41 +3,35 @@ package com.excilys.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.service.ComputerS;
-import com.excilys.service.CompanyS;
 
 public class Page {
 	int itemsNb = 10;
 	int maxItems;
 	int pageTotal;
 	int currentPage = 1;
-	private static final Logger logger = LoggerFactory.getLogger(Page.class);
+	//private static final Logger logger = LoggerFactory.getLogger(Page.class);
 
-	public Page(int userChoice, String tbName) {
+	
+	public Page(int userChoice,int total) {
 		this.currentPage = userChoice;
+		this.maxItems = total;		
+	}
+/*
+	public Page(String tbName) {
 		switch (tbName) {
 		case "computer":
-			CompanyS CS = new CompanyS();
 			this.maxItems = CS.count(tbName);
 		case "company":
-			ComputerS C = new ComputerS();
 			this.maxItems = C.count(tbName);
 		default:
 			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
 		}
 	}
-
-	public Page(String tbName) {
-		switch (tbName) {
-		case "computer":
-			CompanyS CS = new CompanyS();
-			this.maxItems = CS.count(tbName);
-		case "company":
-			ComputerS C = new ComputerS();
-			this.maxItems = C.count(tbName);
-		default:
-			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
-		}
+	*/
+	
+	public Page(int total)
+	{
+		this.maxItems =total;
 	}
 
 	public int getAmount() {
