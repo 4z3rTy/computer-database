@@ -25,20 +25,37 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
+
+/**
+ * The Class CLI.
+ */
 @Configuration
 @ComponentScan("com.excilys")
 public class CLI {
 
+	/**
+	 * Instantiates a new cli.
+	 *
+	 * @param computerService the computer service
+	 * @param companyService the company service
+	 */
 	public CLI(ComputerService computerService, CompanyService companyService) {
 		this.companyService = companyService;
 		this.computerService = computerService;
 	}
 
+	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CLI.class);
 
+	/** The company service. */
 	private CompanyService companyService;
+	
+	/** The computer service. */
 	private ComputerService computerService;
 
+	/**
+	 * Prints the computers.
+	 */
 	public void printComputers() {
 		System.out.println("'List all computers' selected ->");
 		System.out.println("");
@@ -49,6 +66,9 @@ public class CLI {
 		}
 	}
 
+	/**
+	 * Prints the companies.
+	 */
 	public void printCompanies() {
 		System.out.println("'List all companies' selected ->");
 		System.out.println("");
@@ -65,6 +85,9 @@ public class CLI {
 
 	}
 
+	/**
+	 * Show computer details.
+	 */
 	public void show() {
 		System.out.println("'Show computer details' selected:");
 		System.out.println("Please indicate which computer you are interested in using its id ->");
@@ -81,11 +104,13 @@ public class CLI {
 			System.out.println("That’s not an integer => ");
 			System.out.println();
 		} finally {
-			scan.close();
+			//scan.close();
 		}
-
 	}
 
+	/**
+	 * Creates a computer.
+	 */
 	public void createComputer() {
 		String name = null;
 		String intr = null;
@@ -117,9 +142,12 @@ public class CLI {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
-		scan.close();
+		//scan.close();
 	}
 
+	/**
+	 * Edits a computer .
+	 */
 	public void edit() {
 
 		int id = -1;
@@ -191,6 +219,9 @@ public class CLI {
 		}
 	}
 
+	/**
+	 * Delete a computer.
+	 */
 	public void deleteComputer() {
 		int id = -1;
 
@@ -212,6 +243,9 @@ public class CLI {
 		scan.close();
 	}
 
+	/**
+	 * Show some amounts of computers (per Page).
+	 */
 	public void showSome() {
 		int id = -1;
 
@@ -246,9 +280,12 @@ public class CLI {
 				}
 			}
 		}
-		scan.close();
+		//scan.close();
 	}
 
+	/**
+	 * Delete a company.
+	 */
 	public void deleteCompany() {
 		int id = -1;
 
@@ -267,7 +304,7 @@ public class CLI {
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
 		}
-		scan.close();
+		//scan.close();
 	}
 
 	/**
@@ -277,26 +314,24 @@ public class CLI {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 * @throws SQLException           the SQL exception
 	 * @throws ParseException         the parse exception
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	public static void main(String[] args) throws IOException, SQLException, ParseException, ClassNotFoundException {
 
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		int option = 0;
-
+		
 		logger.info("Log4j Enabled");
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLI.class);
-		/*
-		 * ctx.scan("com.excilys.service"); ctx.refresh();
-		 */
+
 
 		ComputerService computerService = ctx.getBean(ComputerService.class);
 		CompanyService companyService = ctx.getBean(CompanyService.class);
 		CLI myne = new CLI(computerService, companyService);
 
 		while (running) {
-			// Display menu graphics
+
 			System.out.println("===============================================");
 			System.out.println("|   CDB WONDERFUL CLI (Much options such wow) |");
 			System.out.println("===============================================");
@@ -313,6 +348,7 @@ public class CLI {
 			System.out.println("===============================================");
 			System.out.println("");
 			System.out.println(" Please select the (next) option you are interested in:  ");
+			
 			try {
 				option = sc.nextInt();
 			}
