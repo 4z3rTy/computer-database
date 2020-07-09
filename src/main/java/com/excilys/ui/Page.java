@@ -1,33 +1,17 @@
 package com.excilys.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 public class Page {
 	int itemsNb = 10;
 	int maxItems;
 	int pageTotal;
 	int currentPage = 1;
-	//private static final Logger logger = LoggerFactory.getLogger(Page.class);
 
 	
 	public Page(int userChoice,int total) {
 		this.currentPage = userChoice;
 		this.maxItems = total;		
 	}
-/*
-	public Page(String tbName) {
-		switch (tbName) {
-		case "computer":
-			this.maxItems = CS.count(tbName);
-		case "company":
-			this.maxItems = C.count(tbName);
-		default:
-			logger.debug("The table name in your input is not valid. maxItems value remained unchanged");
-		}
-	}
-	*/
 	
 	public Page(int total)
 	{

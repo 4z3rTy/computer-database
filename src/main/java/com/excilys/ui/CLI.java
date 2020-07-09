@@ -15,8 +15,6 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.excilys.dto.CompanyDTO;
@@ -25,56 +23,69 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyS;
 import com.excilys.service.ComputerS;
 
+
 public class CLI {
+
+	public CLI(ComputerS computerService, CompanyS companyService) {
+			this.companyService=companyService;
+			this.computerService=computerService;
+	}
+
 
 	private static final Logger logger = LoggerFactory.getLogger(CLI.class);
 
-	@Autowired
-	CompanyS anyS;
 
-	@Autowired
-	ComputerS compS;
-
-	public static void printComputers() {
+	private CompanyS companyService;
+	private ComputerS computerService;
+	
+	
+	public void printComputers() {
 		System.out.println("'List all computers' selected ->");
 		System.out.println("");
-		ArrayList<ComputerDTO> c = (ArrayList<ComputerDTO>) compS.getAllComputers();
+		ArrayList<ComputerDTO> c = (ArrayList<ComputerDTO>) computerService.getAllComputers();
 		for (int i = 0; i < c.size(); i++) {
 			System.out.println(c.get(i).toString());
 
 		}
 	}
 
-	public static void printCompanies() {
+	public void printCompanies() {
 		System.out.println("'List all companies' selected ->");
 		System.out.println("");
-		ArrayList<CompanyDTO> co = (ArrayList<CompanyDTO>) anyS.getAllCompanies();
-		for (int i = 0; i < co.size(); i++) {
-			System.out.println(co.get(i).toString());
+		ArrayList<CompanyDTO> co;
+		try {
+			co = (ArrayList<CompanyDTO>) companyService.getAllCompanies();
+			for (int i = 0; i < co.size(); i++) {
+				System.out.println(co.get(i).toString());
 
+			}
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
 		}
+		
 	}
 
-	public static void show() {
+	public void show() {
 		System.out.println("'Show computer details' selected:");
 		System.out.println("Please indicate which computer you are interested in using its id ->");
-		Scanner three = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		try {
-			int id = three.nextInt();
+			int id = scan.nextInt();
 			// three.close();
 			System.out.println("Attempting to fetch computer details for computer ID=" + id);
-			compS.getCompDetails(id);
+			computerService.getCompDetails(id);
 		}
 
-		catch (InputMismatchException e) {
-			three.next();
+		catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+			scan.next();
 			System.out.println("That’s not an integer => ");
 			System.out.println();
 		}
+		scan.close();
 
 	}
 
-	public static void createComputer() {
+	public void createComputer() {
 		String name = null;
 		String intr = null;
 		String disc = null;
@@ -83,12 +94,12 @@ public class CLI {
 		System.out.println("'Create a computer' selected:");
 		System.out.println(
 				"Please indicate the desired attributes of the computer you wish to create (name, date introduced (yyyy-MM-dd), date discontinued (yyyy-MM-dd) & company id) ->");
-		Scanner four = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		try {
-			name = four.next();
-			intr = four.next();
-			disc = four.next();
-			c_id = four.nextInt();
+			name = scan.next();
+			intr = scan.next();
+			disc = scan.next();
+			c_id = scan.nextInt();
 		} catch (InputMismatchException e) {
 			System.out.println("Sorry,there was an issue with the number of inputs. Creation aborted.");
 		}
@@ -100,65 +111,60 @@ public class CLI {
 		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intr).setDisco(disc)
 				.setAny(anyDto).build();
 		try {
-			compS.insertComputer(ComputerMapper.toComputer(compDto));
-		} catch (DateTimeParseException e) {
+			computerService.insertComputer(ComputerMapper.toComputer(compDto));
+		} catch (DateTimeParseException | ClassNotFoundException | SQLException | IOException e) {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
-
-		/*
-		 * else { System.out.println("Sorry,too many arguments. Insertion has failed");
-		 * }
-		 */
+		scan.close();
 	}
 
-	public static void edit() {
+	public void edit() {
+		
 		int id = -1;
 		String name = null;
 		String intr = null;
 		String disc = null;
-		int c_id = -1;
 
 		System.out.println("'Update a computer' selected:");
 		System.out.println("Please indicate which computer you wish to update using it's id ->");
-		Scanner five = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 
 		try {
-			id = five.nextInt();
+			id = scan.nextInt();
 		} catch (InputMismatchException e) {
-			five.next();
+			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Update Failed");
 			System.out.println();
-			break;
 		}
 
 		System.out.println("Please input '1' if you wish to update " + id
 				+ "'s Computer name or '2' if you wish to update " + id + "'s discontinued date ->");
 		int subc;
-		subc = five.nextInt();
+		subc = scan.nextInt();
 		switch (subc) {
 		case 1:
 			System.out.println("Please input a new name for Computer id=" + id + ":");
-			Scanner subfive = new Scanner(System.in);
+			Scanner scan1 = new Scanner(System.in);
 
 			try {
-				name = subfive.next();
-				compS.updateComputerName(name, id);
+				name = scan1.next();
+				computerService.updateComputerName(name, id);
 				System.out.println(
 						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless " + id
 								+ " didn't even exist to begin with)");
 				System.out.println("");
-			} catch (NoSuchElementException e) {
-				five.next();
-				five.close();
+			} catch (NoSuchElementException | ClassNotFoundException | SQLException | IOException e) {
+				scan.next();
+				scan.close();
 				System.out.println("This computer is not present in the database");
 			}
 			break;
 		case 2:
 			System.out.println("Please input a new introduced & discontinued date for Computer " + id + ":");
-			Scanner five2 = new Scanner(System.in);
-			intr = five2.next();
-			disc = five2.next();
+			Scanner scan2 = new Scanner(System.in);
+			intr = scan2.next();
+			disc = scan2.next();
 			DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 			try {
 				LocalDate date1 = LocalDate.parse(disc, formatter1);
@@ -167,14 +173,14 @@ public class CLI {
 				Date sqlDate2 = Date.valueOf(date2);
 
 				// five2.close();
-				if (compS.updateComputerDisc(sqlDate2, sqlDate1, id)) {
+				if (computerService.updateComputerDisc(sqlDate2, sqlDate1, id)) {
 					System.out
 							.println("Your modification has been carried out (hopefully, maybe, probably, definitely)");
 					System.out.println("");
 				}
 			}
 
-			catch (DateTimeParseException e) {
+			catch (DateTimeParseException | ClassNotFoundException | SQLException | IOException e) {
 				System.out.println(
 						"Sorry,there was an issue with the format of your discontinued date input. Update failed");
 				System.out.println();
@@ -184,42 +190,43 @@ public class CLI {
 		}
 	}
 
-	public static void deleteComputer() {
+	public void deleteComputer() {
 		int id = -1;
 
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which computer you wish to delete using it's id ->");
-		Scanner six = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		try {
-			id = six.nextInt();
+			id = scan.nextInt();
 			// six.close();
-			compS.deleteComputer(id);
+			computerService.deleteComputer(id);
 			System.out.println("Computer " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
-		} catch (InputMismatchException e) {
-			six.next();
+		} catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
 		}
+		scan.close();
 	}
 
-	public static void showSome() {
+	public void showSome() {
 		int id = -1;
 
 		boolean notdone = true;
 		System.out.println("List some or all of the computers in the db ->");
-		Page p = new Page(compS.count("computer"));
+		Page p = new Page(computerService.count("computer"));
 		p.calcPages();
-		Scanner eight = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		while (notdone) {
 			System.out.println("Please indicate which page you wish to see:");
 			try {
-				id = eight.nextInt();
+				id = scan.nextInt();
 				// three.close();
 				System.out.println("Attempting to display page " + id);
 				p.setPage(id);
-				ArrayList<ComputerDTO> com = (ArrayList<ComputerDTO>) compS.viewSomeComputers(p);
+				ArrayList<ComputerDTO> com = (ArrayList<ComputerDTO>) computerService.viewSomeComputers(p);
 				for (int i = 0; i < com.size(); i++) {
 					System.out.println(com.get(i).toString());
 
@@ -228,8 +235,8 @@ public class CLI {
 				System.out.println("If you wish to exit please input 'exit'");
 			}
 
-			catch (InputMismatchException e) {
-				if (eight.next().equals("exit")) {
+			catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+				if (scan.next().equals("exit")) {
 					notdone = false;
 					System.out.println("Option exited succesfully.");
 				} else {
@@ -238,28 +245,30 @@ public class CLI {
 				}
 			}
 		}
+		scan.close();
 	}
 	
-	public static void deleteCompany()
+	public void deleteCompany()
 	{
 		int id=-1;
 		
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which company you wish to delete using it's id ->");
-		Scanner nine = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		try {
-			id = nine.nextInt();
+			id = scan.nextInt();
 			// six.close();
-			anyS.deleteCompany(id);
+			companyService.deleteCompany(id);
 			System.out.println(
 					"Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless " + id
 							+ " didn't even exist to begin with)");
 
-		} catch (InputMismatchException e) {
-			nine.next();
+		} catch (InputMismatchException | SQLException e) {
+			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
 		}
+		scan.close();
 	}
 
 	/**
@@ -276,9 +285,16 @@ public class CLI {
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		int option = 0;
+		
 		logger.info("Log4j Enabled");
-		//AnnotationConfigApplicationContext c=new AnnotationConfigApplicationContext(CLI.class);
-
+		AnnotationConfigApplicationContext ctx=new AnnotationConfigApplicationContext(CLI.class);
+		ctx.scan("com.excilys");
+		ctx.refresh();
+		
+		ComputerS computerService=ctx.getBean(ComputerS.class);
+		CompanyS companyService=ctx.getBean(CompanyS.class);
+		CLI myne= new CLI(computerService,companyService);
+		
 		while (running) {
 			// Display menu graphics
 			System.out.println("===============================================");
@@ -291,9 +307,9 @@ public class CLI {
 			System.out.println("|        4. Create a computer                 |");
 			System.out.println("|        5. Update a computer                 |");
 			System.out.println("|        6. Delete a computer                 |");
-			System.out.println("|        7. Exit                              |");
+			System.out.println("|        7. Delete a company                  |");
 			System.out.println("|        8. List some or all of the computers |");
-			System.out.println("|        9. Delete a company                  |");
+			System.out.println("|        9. Exit                              |");
 			System.out.println("===============================================");
 			System.out.println("");
 			System.out.println(" Please select the (next) option you are interested in:  ");
@@ -310,41 +326,42 @@ public class CLI {
 			switch (option) {
 
 			case 1:
-				printComputers();
+				myne.printComputers();
 				break;
 
 			case 2:
-				printCompanies();
+				myne.printCompanies();
 				break;
 
 			case 3:
-				show();
+				myne.show();
 				break;
 
 			case 4:
-				createComputer();
+				myne.createComputer();
 				break;
 
 			case 5:
-				edit();
+				myne.edit();
 				break;
 
 			case 6:
-				deleteComputer();
+				myne.deleteComputer();
 				break;
 
 			case 7:
-				System.out.println("'Exit' selected...bye bye!");
-				sc.close();
-				running = false;
+				myne.deleteCompany();
 				break;
 
 			case 8:
-				showSome();
+				myne.showSome();
 				break;
 
 			case 9:
-				deleteCompany();
+				System.out.println("'Exit' selected...bye bye!");
+				sc.close();
+				running = false;
+				ctx.close();
 				break;
 			default:
 				System.out.println("The option you selected is not currently available, please try again :) ");

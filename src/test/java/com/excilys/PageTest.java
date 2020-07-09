@@ -21,7 +21,7 @@ import com.excilys.ui.Page;
 
 
 public class PageTest {
-	Page p = new Page(22,"computer");
+	//Page p = new Page(22,"computer");
 	CompanyS c= new CompanyS();
 
 	// p.calcPages();
