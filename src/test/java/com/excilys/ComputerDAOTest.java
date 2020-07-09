@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
  
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.service.ComputerS;
+import com.excilys.service.ComputerService;
 import com.excilys.sqlShenanigans.SqlConnector;
 import com.excilys.ui.Page;
 import com.excilys.dto.ComputerDTO;
@@ -34,7 +34,7 @@ public class ComputerDAOTest
 	   ComputerDAO mockDAO;
 	    
 	    @InjectMocks
-	    ComputerS mockComputerS;
+	    ComputerService mockComputerS;
 	    
 	    @Mock
 	    Statement stmt;

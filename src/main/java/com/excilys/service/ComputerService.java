@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * The Class ComputerS.
  */
 @Service
-public class ComputerS {
+public class ComputerService {
 
 	/*
 	@Autowired
@@ -45,7 +45,7 @@ public class ComputerS {
 	}
 */
 	/** The logger. */
-	private static final Logger logger = LoggerFactory.getLogger(ComputerS.class);
+	private static final Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
 	/**
 	 * Count.

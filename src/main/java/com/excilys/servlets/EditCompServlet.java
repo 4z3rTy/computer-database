@@ -22,8 +22,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
-import com.excilys.service.CompanyS;
-import com.excilys.service.ComputerS;
+import com.excilys.service.CompanyService;
+import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
 
 /**
@@ -43,7 +43,7 @@ public class EditCompServlet extends HttpServlet {
 	
 	/** The company service. */
 	@Autowired
-	private CompanyS CS;
+	private CompanyService CS;
 
 
 	/** The logger. */
@@ -146,7 +146,7 @@ public class EditCompServlet extends HttpServlet {
 		try {
 			if (!(ComputerValidator.emptyName(name)) && !ComputerValidator.wrongFormat(intro)
 					&& !ComputerValidator.wrongFormat(disco) && !ComputerValidator.wrongDate(intro, disco)) {
-				ComputerS C = new ComputerS();
+				ComputerService C = new ComputerService();
 				C.updateComputer(ComputerMapper.toComputer(compDto));
 			} else {
 				logger.error("Update could not go through.");

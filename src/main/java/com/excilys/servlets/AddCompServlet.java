@@ -23,8 +23,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
-import com.excilys.service.CompanyS;
-import com.excilys.service.ComputerS;
+import com.excilys.service.CompanyService;
+import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
 
 /**
@@ -54,7 +54,7 @@ public class AddCompServlet extends HttpServlet {
 
 	/** The company service. */
 	@Autowired
-	private CompanyS CS;
+	private CompanyService CS;
 
 
 	/** The logger. */
@@ -153,7 +153,7 @@ public class AddCompServlet extends HttpServlet {
 			messages.put("success", "Insertion completed successfully!!!!");
 
 			try {
-				ComputerS C = new ComputerS();
+				ComputerService C = new ComputerService();
 				C.insertComputer(ComputerMapper.toComputer(compDto));
 
 			} catch (ClassNotFoundException | SQLException | IOException e) {

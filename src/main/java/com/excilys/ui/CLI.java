@@ -16,29 +16,29 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
-import com.excilys.service.CompanyS;
-import com.excilys.service.ComputerS;
+import com.excilys.service.CompanyService;
+import com.excilys.service.ComputerService;
 
-
+@Configuration
+@ComponentScan("com.excilys")
 public class CLI {
 
-	public CLI(ComputerS computerService, CompanyS companyService) {
-			this.companyService=companyService;
-			this.computerService=computerService;
+	public CLI(ComputerService computerService, CompanyService companyService) {
+		this.companyService = companyService;
+		this.computerService = computerService;
 	}
-
 
 	private static final Logger logger = LoggerFactory.getLogger(CLI.class);
 
+	private CompanyService companyService;
+	private ComputerService computerService;
 
-	private CompanyS companyService;
-	private ComputerS computerService;
-	
-	
 	public void printComputers() {
 		System.out.println("'List all computers' selected ->");
 		System.out.println("");
@@ -62,7 +62,7 @@ public class CLI {
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void show() {
@@ -71,7 +71,7 @@ public class CLI {
 		Scanner scan = new Scanner(System.in);
 		try {
 			int id = scan.nextInt();
-			// three.close();
+			// scan.close();
 			System.out.println("Attempting to fetch computer details for computer ID=" + id);
 			computerService.getCompDetails(id);
 		}
@@ -80,8 +80,9 @@ public class CLI {
 			scan.next();
 			System.out.println("That’s not an integer => ");
 			System.out.println();
+		} finally {
+			scan.close();
 		}
-		scan.close();
 
 	}
 
@@ -120,7 +121,7 @@ public class CLI {
 	}
 
 	public void edit() {
-		
+
 		int id = -1;
 		String name = null;
 		String intr = null;
@@ -247,11 +248,10 @@ public class CLI {
 		}
 		scan.close();
 	}
-	
-	public void deleteCompany()
-	{
-		int id=-1;
-		
+
+	public void deleteCompany() {
+		int id = -1;
+
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which company you wish to delete using it's id ->");
 		Scanner scan = new Scanner(System.in);
@@ -259,9 +259,8 @@ public class CLI {
 			id = scan.nextInt();
 			// six.close();
 			companyService.deleteCompany(id);
-			System.out.println(
-					"Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless " + id
-							+ " didn't even exist to begin with)");
+			System.out.println("Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
+					+ id + " didn't even exist to begin with)");
 
 		} catch (InputMismatchException | SQLException e) {
 			scan.next();
@@ -285,16 +284,17 @@ public class CLI {
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		int option = 0;
-		
+
 		logger.info("Log4j Enabled");
-		AnnotationConfigApplicationContext ctx=new AnnotationConfigApplicationContext(CLI.class);
-		ctx.scan("com.excilys");
-		ctx.refresh();
-		
-		ComputerS computerService=ctx.getBean(ComputerS.class);
-		CompanyS companyService=ctx.getBean(CompanyS.class);
-		CLI myne= new CLI(computerService,companyService);
-		
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLI.class);
+		/*
+		 * ctx.scan("com.excilys.service"); ctx.refresh();
+		 */
+
+		ComputerService computerService = ctx.getBean(ComputerService.class);
+		CompanyService companyService = ctx.getBean(CompanyService.class);
+		CLI myne = new CLI(computerService, companyService);
+
 		while (running) {
 			// Display menu graphics
 			System.out.println("===============================================");
@@ -358,9 +358,9 @@ public class CLI {
 				break;
 
 			case 9:
+				running = false;
 				System.out.println("'Exit' selected...bye bye!");
 				sc.close();
-				running = false;
 				ctx.close();
 				break;
 			default:

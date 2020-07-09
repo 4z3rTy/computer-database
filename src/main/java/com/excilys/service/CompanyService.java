@@ -20,7 +20,7 @@ import com.excilys.ui.Page;
  * The Class CompanyS.
  */
 @Service
-public class CompanyS {
+public class CompanyService {
 
 	/*@Autowired
 	public CompanyS() {}
@@ -41,7 +41,7 @@ public class CompanyS {
 	}
 
 	/** The Constant logger. */
-	private static final Logger logger = LoggerFactory.getLogger(CompanyS.class);
+	private static final Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
 	/**
 	 * Count.

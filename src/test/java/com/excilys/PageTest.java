@@ -16,13 +16,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import com.excilys.service.CompanyS;
+import com.excilys.service.CompanyService;
 import com.excilys.ui.Page;
 
 
 public class PageTest {
 	//Page p = new Page(22,"computer");
-	CompanyS c= new CompanyS();
+	CompanyService c= new CompanyService();
 
 	// p.calcPages();
 	@Before

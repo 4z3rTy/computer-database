@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
-import com.excilys.service.ComputerS;
+import com.excilys.service.ComputerService;
 import com.excilys.ui.Page;
 
 /**
@@ -29,7 +29,7 @@ public class DashboardServlet extends HttpServlet {
 
 	/** The Constant serialVersionUID. */
 	@Autowired
-	private ComputerS service;
+	private ComputerService service;
 	private static final long serialVersionUID = 1L;
 	int sum;
 
