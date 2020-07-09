@@ -1,9 +1,7 @@
 package com.excilys;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -41,10 +39,10 @@ public class MapperTest {
 		LocalDate disco2=disco.toLocalDate();
 		Computer c2= new Computer.ComputerBuilder().setName("RRR").setId(580).setIntro(intro2).setDisco(disco2).build();
 		ResultSet mockRS= Mockito.mock(ResultSet.class);
-		//Mockito.when(mockRS.getInt("id")).thenReturn(580);
-		//Mockito.when(mockRS.getString("name")).thenReturn("RRR");
-		//Mockito.when(mockRS.getDate("intro")).thenReturn(intro);
-		//Mockito.when(mockRS.getDate("disco")).thenReturn(disco);
+		Mockito.when(mockRS.getInt("id")).thenReturn(580);
+		Mockito.when(mockRS.getString("name")).thenReturn("RRR");
+		Mockito.when(mockRS.getDate("intro")).thenReturn(intro);
+		Mockito.when(mockRS.getDate("disco")).thenReturn(disco);
 		Mockito.when(mockRS.getInt("id")).thenReturn(0);
 		Mockito.when(mockRS.getString("name")).thenReturn(null);
 		Mockito.when(mockRS.getDate("intro")).thenReturn(null);

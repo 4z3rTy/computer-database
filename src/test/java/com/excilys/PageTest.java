@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -21,10 +20,9 @@ import com.excilys.ui.Page;
 
 
 public class PageTest {
-	//Page p = new Page(22,"computer");
+	Page p = new Page(22);
 	CompanyService c= new CompanyService();
 
-	// p.calcPages();
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -35,13 +33,12 @@ public class PageTest {
 
 		
 		assertEquals(c.count("computer"), 573);
-		// assertEquals(mockPage.countDb("computer"), 573);
+		//assertEquals(mockPage.countDb("computer"), 573);
 
 	}
 
-/*	@Test
+	@Test
 	public void calcPages() {
 		assertEquals(p.getTotal(), 58);
 	}
-	*/
 }
