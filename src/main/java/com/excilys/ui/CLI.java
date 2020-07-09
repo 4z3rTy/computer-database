@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
+import com.excilys.model.Page;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
@@ -30,7 +31,7 @@ import com.excilys.service.ComputerService;
  * The Class CLI.
  */
 @Configuration
-@ComponentScan("com.excilys")
+@ComponentScan({"com.excilys.persistence","com.excilys.service"})
 public class CLI {
 
 	/**

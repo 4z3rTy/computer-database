@@ -148,6 +148,7 @@ public class ComputerMapper {
 		int c_id = Integer.parseInt(dto.getCompany_id());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate i,d;
+		
 		if (dto.getIntro()!=null && dto.getIntro().equals("")==false) {
 			i = LocalDate.parse(dto.getIntro(), formatter);
 		}
@@ -160,8 +161,10 @@ public class ComputerMapper {
 		else {
 			d=null;
 		}
+		
 		Company company = new Company.CompanyBuilder().setId(c_id).build();
 		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setAny(company).build();
+		
 		return c;
 	}
 

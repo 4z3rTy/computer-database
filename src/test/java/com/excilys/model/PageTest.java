@@ -1,4 +1,4 @@
-package com.excilys;
+package com.excilys.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -16,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.excilys.service.CompanyService;
-import com.excilys.ui.Page;
 
 
 public class PageTest {

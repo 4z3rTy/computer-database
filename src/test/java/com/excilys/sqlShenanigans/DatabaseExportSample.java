@@ -1,4 +1,4 @@
-package com.excilys;
+package com.excilys.sqlShenanigans;
 
 import java.io.FileOutputStream;
 import java.sql.Connection;

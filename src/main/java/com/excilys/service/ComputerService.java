@@ -14,8 +14,8 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
+import com.excilys.model.Page;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.ui.Page;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,24 +26,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ComputerService {
 
-	/*
-	@Autowired
-	public ComputerS(ComputerDAO computerDao)
-	{
-		this.computerDao=computerDao;
-	}
-	*/
-	
-	/** The computer DAO. */
 	@Autowired
 	private ComputerDAO computerDao;
-	
-/*	@Autowired
-	public void setComputerDao(ComputerDAO computerDao)
-	{
-		this.computerDao=computerDao;
-	}
-*/
+
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
@@ -58,7 +43,7 @@ public class ComputerService {
 	}
 
 	/**
-	 * Gets the all computer.
+	 * Gets all the computers.
 	 *
 	 * @return the all computer
 	 */
@@ -94,7 +79,7 @@ public class ComputerService {
 	/**
 	 * View some computer.
 	 *
-	 * @param p the p
+	 * @param p the page
 	 * @return the computer
 	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
@@ -145,12 +130,13 @@ public class ComputerService {
 	 * Update computer.
 	 *
 	 * @param myComp the my comp
+	 * @return 
 	 * @throws SQLException the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		computerDao.updateComputer(myComp);
+	public boolean updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+		return computerDao.updateComputer(myComp);
 	}
 
 	/**

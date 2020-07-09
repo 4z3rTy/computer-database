@@ -1,4 +1,4 @@
-package com.excilys;
+package com.excilys.persistence;
 
 public class CompanyDAOTest {
 

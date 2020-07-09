@@ -1,4 +1,4 @@
-package com.excilys;
+package com.excilys.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,12 +20,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.ComputerService;
 import com.excilys.sqlShenanigans.DataSource;
-import com.excilys.ui.Page;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
+import com.excilys.model.Page;
 
 public class ComputerDAOTest {
 

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.CompanyDTO;
@@ -31,10 +32,15 @@ import com.excilys.validator.ComputerValidator;
  * Servlet implementation class secondServlet.
  */
 
+@Controller
 @WebServlet(name = "AddCompServlet", urlPatterns = "/addComputer")
 public class AddCompServlet extends HttpServlet {
 
-	/** The Constant serialVersionUID. */
+	/** The company service. */
+	@Autowired
+	private CompanyService CS;
+	@Autowired
+	private ComputerService C;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -47,14 +53,11 @@ public class AddCompServlet extends HttpServlet {
 
 	}
 
-	public void init(ServletConfig config) throws ServletException{
+	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	/** The company service. */
-	@Autowired
-	private CompanyService CS;
 
 
 	/** The logger. */
@@ -90,13 +93,11 @@ public class AddCompServlet extends HttpServlet {
 
 		try {
 			List<CompanyDTO> compList = CS.getAllCompanies();
-			// System.out.println(compList.size());
 			request.setAttribute("compList", compList);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		processRequest(request, response);
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -114,52 +115,26 @@ public class AddCompServlet extends HttpServlet {
 		Map<String, String> messages = new HashMap<String, String>();
 
 		String name = request.getParameter("computerName");
-		if ((ComputerValidator.emptyName(name))) {
-			messages.put("computerName", "Computer name cannot be left empty... :( ");
-		}
-
 		String intro = request.getParameter("introduced");
 		String disco = request.getParameter("discontinued");
-
-		if (!(ComputerValidator.emptyDate(intro))) {
-
-			if ((ComputerValidator.wrongFormat(intro))) {
-				messages.put("introduced", "Your input for introduced has the wrong format :(");
-			}
-		}
-
-		if (!(ComputerValidator.emptyDate(disco))) {
-
-			if ((ComputerValidator.wrongFormat(disco)))
-
-			{
-				messages.put("discontinued", "Your input for discontinued has the wrong format :(");
-			}
-		}
-
-		if (!(ComputerValidator.emptyDate(intro)) && !(ComputerValidator.emptyDate(disco))) {
-			if (ComputerValidator.wrongDate(intro, disco)) {
-				messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
-			}
-		}
-
 		String companyId = request.getParameter("companyId");
 
 		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
 		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intro).setDisco(disco)
 				.setAny(anyDto).build();
 
-		if (messages.isEmpty()) {
-			messages.put("success", "Insertion completed successfully!!!!");
-
-			try {
-				ComputerService C = new ComputerService();
-				C.insertComputer(ComputerMapper.toComputer(compDto));
-
-			} catch (ClassNotFoundException | SQLException | IOException e) {
-				logger.error("Insertion did not go through.", e);
-				e.printStackTrace();
+		messages = ComputerValidator.validate(compDto, messages);
+		
+		try {
+			if (messages.isEmpty()) {
+				messages.put("success", "Insertion completed successfully!!!!");
+			
+			C.insertComputer(ComputerMapper.toComputer(compDto));
 			}
+
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			logger.error("Insertion did not go through.", e);
+			e.printStackTrace();
 		}
 
 		request.setAttribute("messages", messages);

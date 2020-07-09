@@ -7,7 +7,7 @@
 
 	<groupId>com.excilys</groupId>
 	<artifactId>computerdatabase</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>4.0-RELEASE</version>
 	<packaging>war</packaging>
 
 	<name>computerdatabase</name>
@@ -18,6 +18,22 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		
+		<spring.version>5.2.7.RELEASE</spring.version>
+		
+		<mysql.version>8.0.20</mysql.version>
+		<hikari.version>3.4.5</hikari.version>
+		
+		<servlet.version>3.1.0</servlet.version>
+		<jstl.version>1.2</jstl.version>
+		<jquery.version>1.19.0</jquery.version>
+		
+		<junit.version>4.11</junit.version>
+		<dbunit.version>2.7.0</dbunit.version>
+		<mockito.version>1.9.5</mockito.version>
+		<slf4j.version>1.7.30</slf4j.version>
+		<checkstyle.version>3.1.1</checkstyle.version>
+
 	</properties>
 
 	<dependencies>
@@ -26,34 +42,41 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>5.2.7.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>5.2.7.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.20</version>
+			<version>${mysql.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>3.4.5</version>
+			<version>${hikari.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>${servlet.version}</scope>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstl.version}</version>
 		</dependency>
 
 
@@ -61,55 +84,48 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-validation</artifactId>
-			<version>1.19.0</version>
+			<version>${jquery.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<scope>test</scope>
+			<scope>${junit.version}</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<version>2.7.0</version>
-			<scope>test</scope>
+			<scope>${dbunit.version}</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
-			<scope>test</scope>
+			<scope>${mockito.version}</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.30</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-checkstyle-plugin</artifactId>
-			<version>3.1.1</version>
+			<version>${checkstyle.version}</version>
 		</dependency>
 	</dependencies>
 

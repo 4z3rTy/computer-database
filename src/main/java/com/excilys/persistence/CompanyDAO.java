@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
+import com.excilys.model.Page;
 import com.excilys.sqlShenanigans.DataSource;
 import com.excilys.sqlShenanigans.Xeptions;
-import com.excilys.ui.Page;
 
 // 
 /**

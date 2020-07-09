@@ -17,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Page;
 import com.excilys.service.ComputerService;
-import com.excilys.ui.Page;
 
 /**
  * The Class DashboardServlet.
@@ -31,27 +31,13 @@ public class DashboardServlet extends HttpServlet {
 	@Autowired
 	private ComputerService service;
 	private static final long serialVersionUID = 1L;
-	int sum;
+	private int sum;
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	// ApplicationContext context = new
-	// ClassPathXmlApplicationContext("spring.xml");
-
-	/** The computer service. */
-	/*
-	 * @Autowired private ComputerS service;
-	 * 
-	 * @Autowired public void setComputerS(ComputerS service) { this.service =
-	 * service; }
-	 */
-
-	// ComputerS service=context.getBean(ComputerS.class);
-	/** The sum of elements to query. */
-	// private int sum = service.count("computer");
 
 	/**
 	 * Process request.
@@ -84,9 +70,9 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		List<ComputerDTO> compList = null;
-
+		
 			Page p = new Page(sum);
-
+			//p.calcPages();
 		if (request.getParameter("pageNum") != null) {
 			p.setPage(Integer.parseInt(request.getParameter("pageNum")));
 		}

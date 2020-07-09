@@ -25,7 +25,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${sum} Computers found</h1>
+			<h1 id="homeTitle">${sum}Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
@@ -121,11 +121,14 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=10">
+				<a
+					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=10">
 					<button type="button" class="btn btn-default">10</button>
-				</a> <a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=50">
+				</a> <a
+					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=50">
 					<button type="button" class="btn btn-default">50</button>
-				</a> <a href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=100">
+				</a> <a
+					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=100">
 					<button type="button" class="btn btn-default">100</button>
 				</a>
 			</div>

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
+import com.excilys.model.Page;
 import com.excilys.persistence.CompanyDAO;
-import com.excilys.ui.Page;
 
 /**
  * The Class CompanyS.
@@ -22,16 +22,7 @@ import com.excilys.ui.Page;
 @Service
 public class CompanyService {
 
-	/*@Autowired
-	public CompanyS() {}
-
-	@Autowired
-	public CompanyS(CompanyDAO companyDao)
-	{
-		this.companyDao=companyDao;
-	}
-	*/
-	/** The any DAO. */
+	/** The company DAO. */
 	private CompanyDAO companyDao;
 	
 	@Autowired

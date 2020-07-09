@@ -7,7 +7,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 @Configuration
-@ComponentScan(basePackages = "com.excilys")
+@ComponentScan({"com.excilys.service","com.excilys.persistence"})
 
 
 public class SpringAnnotationWebInitializer extends AbstractContextLoaderInitializer {

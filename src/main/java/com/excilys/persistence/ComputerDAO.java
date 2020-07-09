@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
+import com.excilys.model.Page;
 import com.excilys.sqlShenanigans.DataSource;
 import com.excilys.sqlShenanigans.Xeptions;
-import com.excilys.ui.Page;
 
 //
 /**
@@ -233,7 +233,9 @@ public class ComputerDAO {
 
 		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(UPDATE_ALL);
-			if (myComp.getDiscontinued().isAfter(myComp.getIntroduced())) {
+//TODO ????
+			if ((myComp.getIntroduced() == null || myComp.getDiscontinued() == null
+					|| myComp.getDiscontinued().isAfter(myComp.getIntroduced()))) {
 				pstmt.setString(1, myComp.getName());
 				pstmt.setDate(2, ComputerMapper.localToSql(myComp.getIntroduced()));
 				pstmt.setDate(3, ComputerMapper.localToSql(myComp.getDiscontinued()));
