@@ -24,11 +24,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">id: ${compId}</div> 
+					<div class="label label-default pull-right">id: ${computerId}</div> 
 					<h1>Edit Computer</h1>
 
-					<form action="editComputer" method="POST">  
-						<input type="hidden" value="${compId}" id="id" name="id" />
+					<form action="editComputer?computerId=${computerId}" method="POST">  
+						<input type="hidden" value="${computerId}" id="id" name="id" />
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input

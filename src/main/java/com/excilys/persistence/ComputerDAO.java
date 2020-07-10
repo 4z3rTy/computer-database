@@ -227,13 +227,13 @@ public class ComputerDAO {
 		return res;
 	}
 
-	public boolean updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		boolean res = false;
+	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+		
 		PreparedStatement pstmt = null;
 
 		try (Connection con = DataSource.getConnection()) {
 			pstmt = con.prepareStatement(UPDATE_ALL);
-//TODO ????
+			
 			if ((myComp.getIntroduced() == null || myComp.getDiscontinued() == null
 					|| myComp.getDiscontinued().isAfter(myComp.getIntroduced()))) {
 				pstmt.setString(1, myComp.getName());
@@ -242,7 +242,6 @@ public class ComputerDAO {
 				pstmt.setInt(4, myComp.getCompanyId());
 				pstmt.setInt(5, myComp.getId());
 				pstmt.executeUpdate();
-				res = true;
 
 			} else {
 				logger.info(
@@ -254,7 +253,6 @@ public class ComputerDAO {
 				logger.debug("Connection to the database was terminated");
 			}
 		}
-		return res;
 	}
 
 	/**

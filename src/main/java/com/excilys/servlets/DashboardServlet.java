@@ -90,6 +90,8 @@ public class DashboardServlet extends HttpServlet {
 
 				if (search == null) {
 					sum = service.count("computer");
+					p.setMax(sum);
+					p.calcPages();
 					compList = service.viewSomeComputers(p);
 				} else {
 					sum = service.searchCount(search);

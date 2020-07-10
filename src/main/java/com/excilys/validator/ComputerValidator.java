@@ -13,21 +13,7 @@ public class ComputerValidator {
 
 	private static final Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
-	/*
-	 * public static void lol() { if ((ComputerValidator.emptyName(name))) {
-	 * messages.put("computerName", "Computer name cannot be left empty... :( "); }
-	 * 
-	 * if ((ComputerValidator.wrongFormat(intro))) { messages.put("introduced",
-	 * "Your input for introduced has the wrong format :("); } else { if
-	 * ((ComputerValidator.wrongFormat(disco)))
-	 * 
-	 * { messages.put("discontinued",
-	 * "Your input for discontinued has the wrong format :("); } else if
-	 * ((ComputerValidator.wrongDate(intro, disco))) { messages.put("discontinued",
-	 * "Discontinued date cannot be more recent than introduced date"); } } if
-	 * (messages.isEmpty()) { messages.put("success",
-	 * "Update completed successfully!!!!"); } }
-	 */
+
 	public static Map<String, String> validate(ComputerDTO dto, Map<String, String> messages) {
 
 		if ((ComputerValidator.emptyName(dto.getName()))) {

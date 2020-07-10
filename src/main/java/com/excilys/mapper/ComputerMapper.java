@@ -133,8 +133,11 @@ public class ComputerMapper {
 	 */
 	public static LocalDate stringToLocal(String d) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i = LocalDate.parse(d, formatter);
-
+		LocalDate i=null;
+		if(d!=null)
+		{
+		i = LocalDate.parse(d, formatter);
+		}		
 		return i;
 	}
 
@@ -164,7 +167,7 @@ public class ComputerMapper {
 		
 		Company company = new Company.CompanyBuilder().setId(c_id).build();
 		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setAny(company).build();
-		
+		//setId not used because when AddingComputers  computerId is autoincremented by the sql side
 		return c;
 	}
 

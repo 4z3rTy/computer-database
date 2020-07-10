@@ -87,7 +87,7 @@ public class EditCompServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String compId = request.getParameter("computerId");
-		request.setAttribute("compId", compId);
+		request.setAttribute("computerId", compId);
 		try {
 			List<CompanyDTO> compList = CS.getAllCompanies();
 			request.setAttribute("compList", compList);
@@ -112,7 +112,7 @@ public class EditCompServlet extends HttpServlet {
 
 		Map<String, String> messages = new HashMap<String, String>();
 
-		boolean result=false;
+		
 		String computerId = request.getParameter("id");
 		String name = request.getParameter("computerName");
 		String intro = request.getParameter("introduced");
@@ -131,8 +131,7 @@ public class EditCompServlet extends HttpServlet {
 				messages.put("success", "Updated completed successfully!!!!");
 			
 			  
-			result=C.updateComputer(ComputerMapper.toComputer(compDto));
-			//TODO RIP :(
+			C.updateComputer(ComputerMapper.toComputer(compDto));
 			}
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			logger.error("Update could not go through.");

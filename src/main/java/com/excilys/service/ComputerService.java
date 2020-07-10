@@ -135,8 +135,8 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public boolean updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
-		return computerDao.updateComputer(myComp);
+	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+		computerDao.updateComputer(myComp);
 	}
 
 	/**
