@@ -18,16 +18,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		
+
 		<spring.version>5.2.7.RELEASE</spring.version>
-		
+
 		<mysql.version>8.0.20</mysql.version>
 		<hikari.version>3.4.5</hikari.version>
-		
+
 		<servlet.version>3.1.0</servlet.version>
 		<jstl.version>1.2</jstl.version>
 		<jquery.version>1.19.0</jquery.version>
-		
+
 		<junit.version>4.11</junit.version>
 		<dbunit.version>2.7.0</dbunit.version>
 		<mockito.version>1.9.5</mockito.version>
@@ -52,6 +52,13 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -71,7 +78,7 @@
 			<version>3.1.0</version>
 			<scope>${servlet.version}</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
 			<groupId>jstl</groupId>
