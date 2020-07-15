@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.model.Page;
 import com.excilys.persistence.CompanyDAO;
 
 /**
@@ -58,26 +57,6 @@ public class CompanyService {
 
 		return res;
 
-	}
-
-	/**
-	 * View some companies.
-	 *
-	 * @param pageNumber the page number
-	 * @return the list
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public List<CompanyDTO> viewSomeCompanies(int pageNumber) throws SQLException, ClassNotFoundException, IOException {
-		int total=count("company");
-		Page page = new Page(pageNumber,total);
-		logger.debug("Page object initialized", page);
-		page.setMax(count("company"));
-		page.calcPages();
-		List<Company> temp = companyDao.viewSomeCompanies(page);
-		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
-		return res;
 	}
 
 	/**

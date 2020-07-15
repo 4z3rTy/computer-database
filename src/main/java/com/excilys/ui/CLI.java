@@ -31,7 +31,7 @@ import com.excilys.service.ComputerService;
  * The Class CLI.
  */
 @Configuration
-@ComponentScan({"com.excilys.persistence","com.excilys.service"})
+@ComponentScan({"com.excilys.persistence","com.excilys.service","com.excilys.config"})
 public class CLI {
 
 	/**

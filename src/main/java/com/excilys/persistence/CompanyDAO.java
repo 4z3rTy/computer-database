@@ -5,15 +5,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
-import com.excilys.mapper.CompanyMapper;
+import com.excilys.mapper.CompanyRowMapper;
 import com.excilys.model.Company;
-import com.excilys.model.Page;
-import com.excilys.sqlShenanigans.DataSource;
-import com.excilys.sqlShenanigans.Xeptions;
 
 // 
 /**
@@ -28,60 +31,31 @@ public class CompanyDAO {
 	/** The Constant SELECT_ALL. */
 	private static final String SELECT_ALL = "SELECT id, name FROM " + tbName;
 
-	/** The Constant SELECT_SOME. */
-	private static final String SELECT_SOME = "SELECT * FROM " + tbName + " ORDER BY id LIMIT ? OFFSET ?";
 
 	/** The Constant COUNT. */
 	private static final String COUNT = "SELECT COUNT(*) FROM " + tbName;
 
-	private static final String DELETE_COMPANY = "DELETE FROM " + tbName + " WHERE id =?";
-	private static final String DELETE_COMPUTERS = "DELETE FROM computer WHERE company_id=? ";
+	private static final String DELETE_COMPANY = "DELETE FROM " + tbName + " WHERE id = :id";
+	private static final String DELETE_COMPUTERS = "DELETE FROM computer WHERE company_id= :id ";
 
 	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-	public void deleteComputers(int companyId) throws SQLException // End up not using this because of needing ot be
-																	// able to Rollback
-	{
-		PreparedStatement pstmt = null;
+	private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-		try (Connection con = DataSource.getConnection()) {
-
-			pstmt = con.prepareStatement(DELETE_COMPUTERS);
-			pstmt.setInt(1, companyId);
-			pstmt.executeUpdate();
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-				logger.debug("Connection to the database was terminated");
-			}
-		}
+	@Autowired
+	DataSource ds;
+	
+	@Autowired
+	public CompanyDAO(DataSource ds) {
+		this.namedJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 	}
 
+
 	public void deleteCompany(int companyId) throws SQLException {
-		// deleteComputers(companyId);
-		PreparedStatement p_pstmt = null;
-		PreparedStatement pstmt = null;
-
-		try (Connection con = DataSource.getConnection()) {
-
-			p_pstmt = con.prepareStatement(DELETE_COMPUTERS);
-			pstmt = con.prepareStatement(DELETE_COMPANY);
-			con.setAutoCommit(false);
-
-			p_pstmt.setInt(1, companyId);
-			p_pstmt.executeUpdate();
-
-			pstmt.setInt(1, companyId);
-			pstmt.executeUpdate();
-
-			con.commit();
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-				logger.debug("Connection to the database was terminated");
-			}
-		}
+		SqlParameterSource sp= new MapSqlParameterSource().addValue("id", companyId);
+		namedJdbcTemplate.update(DELETE_COMPUTERS,sp);
+		namedJdbcTemplate.update(DELETE_COMPANY,sp);
 	}
 
 	/**
@@ -91,20 +65,8 @@ public class CompanyDAO {
 	 * @return the int
 	 */
 	public int countDb(String tbName) {
-		Statement stmt = null;
 		int count = -1;
-		try (Connection con = DataSource.getConnection()) {
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(COUNT);
-			rs.next();
-			count = rs.getInt(1);
-			stmt.close();
-			logger.debug("Connection to the database was terminated");
-		} catch (SQLException e) {
-			logger.error("Connection to the database could not be established", e);
-			Xeptions.printSQLException(e);
-		}
-
+		count= namedJdbcTemplate.query(COUNT,((ResultSet rs) -> rs.getInt(1)));
 		return count;
 	}
 
@@ -117,72 +79,11 @@ public class CompanyDAO {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 
-	public List<Company> viewCompany() throws SQLException, ClassNotFoundException, IOException {
+	public List<Company> viewCompany() throws SQLException {
 
-		Statement stmt = null;
-		Company company = null;
 		List<Company> companies = new ArrayList<Company>();
-
-		try (Connection con = DataSource.getConnection()) {
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(SELECT_ALL);
-			while (rs.next()) {
-				company = CompanyMapper.companyMap(rs);
-				companies.add(company);
-			}
-		} catch (SQLException e) {
-			logger.error("Connection to the database could not be established", e);
-			Xeptions.printSQLException(e);
-		} finally {
-			if (stmt != null) {
-				stmt.close();
-				logger.debug("Connection to the database was terminated");
-			}
-		}
-
+		companies = namedJdbcTemplate.query(SELECT_ALL, new CompanyRowMapper());
 		return companies;
 	}
 
-	/**
-	 * View some companies.
-	 *
-	 * @param page the page number the user wishes to display
-	 * @return the list of all the companies
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
-	 */
-	public List<Company> viewSomeCompanies(Page page) throws SQLException, ClassNotFoundException, IOException {
-
-		PreparedStatement pstmt = null;
-
-		Company company = null;
-		List<Company> companies = new ArrayList<Company>();
-
-		try (Connection con = DataSource.getConnection()) {
-
-			pstmt = con.prepareStatement(SELECT_SOME);
-
-			int limit = page.getAmount();
-			int offset = (page.getPage() - 1) * page.getAmount();
-			pstmt.setInt(1, limit);
-			pstmt.setInt(2, offset);
-
-			ResultSet rs = pstmt.executeQuery();
-			company = new Company.CompanyBuilder().build();
-			while (rs.next()) {
-				company = CompanyMapper.companyMap(rs);
-				companies.add(company);
-			}
-		} catch (SQLException e) {
-			logger.error("Connection to the database could not be established", e);
-			Xeptions.printSQLException(e);
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-				logger.debug("Connection to the database was terminated");
-			}
-		}
-		return companies;
-	}
 }
