@@ -135,7 +135,7 @@ public class CLI {
 		System.out.println("date discontinued=" + disc);
 		System.out.println("company ID=" + c_id);
 		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(String.valueOf(c_id)).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setName(name).setIntro(intr).setDisco(disc)
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setcomputerName(name).setintroduced(intr).setdiscontinued(disc)
 				.setAny(anyDto).build();
 		try {
 			computerService.insertComputer(ComputerMapper.toComputer(compDto));

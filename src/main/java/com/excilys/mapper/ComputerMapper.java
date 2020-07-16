@@ -148,25 +148,25 @@ public class ComputerMapper {
 	 * @return the computer
 	 */
 	public static Computer toComputer(ComputerDTO dto) {
-		int c_id = Integer.parseInt(dto.getCompany_id());
+		int c_id = Integer.parseInt(dto.getcompanyId());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate i,d;
 		
-		if (dto.getIntro()!=null && dto.getIntro().equals("")==false) {
-			i = LocalDate.parse(dto.getIntro(), formatter);
+		if (dto.getintroduced()!=null && dto.getintroduced().equals("")==false) {
+			i = LocalDate.parse(dto.getintroduced(), formatter);
 		}
 		else {
 			i=null;
 		}
-		if (dto.getDisco()!=null && dto.getDisco().equals("")==false) {
-			d = LocalDate.parse(dto.getDisco(), formatter);
+		if (dto.getdiscontinued()!=null && dto.getdiscontinued().equals("")==false) {
+			d = LocalDate.parse(dto.getdiscontinued(), formatter);
 		}
 		else {
 			d=null;
 		}
 		
 		Company company = new Company.CompanyBuilder().setId(c_id).build();
-		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getName()).setAny(company).build();
+		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getcomputerName()).setAny(company).build();
 		//setId not used because when AddingComputers  computerId is autoincremented by the sql side
 		return c;
 	}
@@ -179,8 +179,8 @@ public class ComputerMapper {
 	 */
 	public static ComputerDTO toDto(Computer computer) {
 
-		ComputerDTO d = new ComputerDTO.ComputerDTOBuilder().setName(computer.getName())
-				.setDisco(localToString(computer.getDiscontinued())).setIntro(localToString(computer.getIntroduced()))
+		ComputerDTO d = new ComputerDTO.ComputerDTOBuilder().setcomputerName(computer.getName())
+				.setdiscontinued(localToString(computer.getDiscontinued())).setintroduced(localToString(computer.getIntroduced()))
 				.setId(String.valueOf(computer.getId())).setAny(CompanyMapper.toDto(computer.getCompany())).build();
 		return d;
 	}

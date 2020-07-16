@@ -5,20 +5,30 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = { "com.excilys.controllers","com.excilys.service","com.excilys.persistence","com.excilys.config"})
+@ComponentScan(basePackages = { "com.excilys.controllers"})
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("dashboard");
+		registry.addViewController("/").setViewName("index");
 	}
+	
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+          .addResourceHandler("/static/**")
+          .addResourceLocations("/static/"); 
+    }
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -30,4 +40,10 @@ public class WebConfig implements WebMvcConfigurer {
 
 		return bean;
 	}
+	
+	@Bean
+	  public HikariDataSource mysqlDataSource() {
+		  HikariConfig config = new HikariConfig("/hikari.properties");
+	      return new HikariDataSource(config);
+	  }
 }

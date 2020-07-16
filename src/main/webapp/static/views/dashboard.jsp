@@ -81,11 +81,11 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${compList.id}"></td>
-							<td><a href="editComputer?computerId=${compList.id }"> <c:out
-										value="${compList.name}" />
+							<td><a href="editComputer?Id=${compList.id }"> <c:out
+										value="${compList.computerName}" />
 							</a></td>
-							<td>${compList.intro}</td>
-							<td>${compList.disco}</td>
+							<td>${compList.introduced}</td>
+							<td>${compList.discontinued}</td>
 							<td>${compList.company_name}</td>
 						</tr>
 					</c:forEach>
@@ -99,14 +99,14 @@
 			<ul class="pagination">
 				<c:if test="${currentPage > 1}">
 					<li><a
-						href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage-1}&pageAmount=${pageAmount}"
+						href="dashboard?search=${search}&searchType=${searchType}&currentPage=${currentPage-1}&pageAmount=${pageAmount}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
 
 				</c:if>
 				<c:forEach var="i" begin="0" end="${items}">
 					<c:if test="${currentPage+i <= pageTotal}">
 						<li><a
-							href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage+i}&pageAmount=${pageAmount}">
+							href="dashboard?search=${search}&searchType=${searchType}&currentPage=${currentPage+i}&pageAmount=${pageAmount}">
 								<c:out value="${currentPage+i}"></c:out>
 						</a></li>
 					</c:if>
@@ -114,7 +114,7 @@
 				</c:forEach>
 				<c:if test="${currentPage < pageTotal}">
 					<li><a
-						href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=${currentPage+1}&pageAmount=${pageAmount}"
+						href="dashboard?search=${search}&searchType=${searchType}&currentPage=${currentPage+1}&pageAmount=${pageAmount}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a></li>
 				</c:if>
@@ -122,13 +122,13 @@
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
 				<a
-					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=10">
+					href="dashboard?search=${search}&searchType=${searchType}&currentPage=1&pageAmount=10">
 					<button type="button" class="btn btn-default">10</button>
 				</a> <a
-					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=50">
+					href="dashboard?search=${search}&searchType=${searchType}&currentPage=1&pageAmount=50">
 					<button type="button" class="btn btn-default">50</button>
 				</a> <a
-					href="dashboard?search=${searchRes}&searchType=${searchType}&pageNum=1&pageAmount=100">
+					href="dashboard?search=${search}&searchType=${searchType}&currentPage=1&pageAmount=100">
 					<button type="button" class="btn btn-default">100</button>
 				</a>
 			</div>

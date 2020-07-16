@@ -16,29 +16,29 @@ public class ComputerValidator {
 
 	public static Map<String, String> validate(ComputerDTO dto, Map<String, String> messages) {
 
-		if ((ComputerValidator.emptyName(dto.getName()))) {
+		if ((ComputerValidator.emptyName(dto.getcomputerName()))) {
 			messages.put("computerName", "Computer name cannot be left empty... :( ");
 		}
 
-		if (!(ComputerValidator.emptyDate(dto.getIntro()))) {
+		if (!(ComputerValidator.emptyDate(dto.getintroduced()))) {
 
-			if ((ComputerValidator.wrongFormat(dto.getIntro()))) {
+			if ((ComputerValidator.wrongFormat(dto.getdiscontinued()))) {
 				messages.put("introduced", "Your input for introduced has the wrong format :(");
 			}
 		}
 
-		if (!(ComputerValidator.emptyDate(dto.getDisco()))) {
+		if (!(ComputerValidator.emptyDate(dto.getdiscontinued()))) {
 
-			if ((ComputerValidator.wrongFormat(dto.getDisco())))
+			if ((ComputerValidator.wrongFormat(dto.getdiscontinued())))
 
 			{
 				messages.put("discontinued", "Your input for discontinued has the wrong format :(");
 			}
 		}
 
-		if (!(ComputerValidator.emptyDate(dto.getIntro())) && !(ComputerValidator.emptyDate(dto.getDisco()))) {
-			if (ComputerValidator.wrongFormat(dto.getIntro()) && (ComputerValidator.wrongFormat(dto.getDisco()))) {
-				if (ComputerValidator.wrongDate(dto.getIntro(), dto.getDisco())) {
+		if (!(ComputerValidator.emptyDate(dto.getintroduced())) && !(ComputerValidator.emptyDate(dto.getdiscontinued()))) {
+			if (ComputerValidator.wrongFormat(dto.getintroduced()) && (ComputerValidator.wrongFormat(dto.getdiscontinued()))) {
+				if (ComputerValidator.wrongDate(dto.getintroduced(), dto.getdiscontinued())) {
 					messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
 				}
 			}
