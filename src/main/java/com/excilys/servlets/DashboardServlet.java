@@ -27,7 +27,6 @@ import com.excilys.service.ComputerService;
 @WebServlet(name = "DashboardServlet", urlPatterns = "/dashboard")
 public class DashboardServlet extends HttpServlet {
 
-	/** The Constant serialVersionUID. */
 	@Autowired
 	private ComputerService service;
 	private static final long serialVersionUID = 1L;
@@ -139,7 +138,7 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("searchRes", search);
 			request.setAttribute("searchType", searchType);
 			request.setAttribute("pageAmount", p.getAmount());
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -165,12 +164,11 @@ public class DashboardServlet extends HttpServlet {
 		for (String i : strings) {
 			try {
 				service.deleteComputer(Integer.parseInt(i));
-			} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
+			} catch (NumberFormatException | SQLException e) {
 				e.printStackTrace();
 			}
 		}
 
 		doGet(request, response);
-		// processRequest(request, response);
 	}
 }

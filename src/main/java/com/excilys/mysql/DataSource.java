@@ -1,4 +1,4 @@
-package com.excilys.sqlShenanigans;
+package com.excilys.mysql;
 
 import java.sql.Connection;
 import java.sql.SQLException;

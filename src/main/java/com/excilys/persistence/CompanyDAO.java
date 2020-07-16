@@ -1,6 +1,5 @@
 package com.excilys.persistence;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +24,16 @@ import com.excilys.model.Company;
 @Repository
 public class CompanyDAO {
 
-	/** The table name. */
 	private static final String tbName = "company";
 
-	/** The Constant SELECT_ALL. */
 	private static final String SELECT_ALL = "SELECT id, name FROM " + tbName;
 
-
-	/** The Constant COUNT. */
 	private static final String COUNT = "SELECT COUNT(*) FROM " + tbName;
 
 	private static final String DELETE_COMPANY = "DELETE FROM " + tbName + " WHERE id = :id";
+	
 	private static final String DELETE_COMPUTERS = "DELETE FROM computer WHERE company_id= :id ";
 
-	/** The logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	private NamedParameterJdbcTemplate namedJdbcTemplate;
@@ -46,12 +41,23 @@ public class CompanyDAO {
 	@Autowired
 	DataSource ds;
 	
+	/**
+	 * Instantiates a new company DAO.
+	 *
+	 * @param ds the ds
+	 */
 	@Autowired
 	public CompanyDAO(DataSource ds) {
 		this.namedJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 	}
 
 
+	/**
+	 * Delete company.
+	 *
+	 * @param companyId the company id
+	 * @throws SQLException the SQL exception
+	 */
 	public void deleteCompany(int companyId) throws SQLException {
 		SqlParameterSource sp= new MapSqlParameterSource().addValue("id", companyId);
 		namedJdbcTemplate.update(DELETE_COMPUTERS,sp);
@@ -75,13 +81,12 @@ public class CompanyDAO {
 	 *
 	 * @return The list of all companies queried
 	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 
 	public List<Company> viewCompany() throws SQLException {
 
 		List<Company> companies = new ArrayList<Company>();
+		logger.debug("Company List initialized");
 		companies = namedJdbcTemplate.query(SELECT_ALL, new CompanyRowMapper());
 		return companies;
 	}

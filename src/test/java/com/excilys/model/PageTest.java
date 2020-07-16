@@ -1,9 +1,6 @@
 package com.excilys.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,8 +8,6 @@ import java.sql.SQLException;
 import org.dbunit.dataset.DataSetException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.excilys.service.CompanyService;

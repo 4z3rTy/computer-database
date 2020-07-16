@@ -80,7 +80,7 @@ public class CLI {
 				System.out.println(co.get(i).toString());
 
 			}
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -100,7 +100,7 @@ public class CLI {
 			computerService.getCompDetails(id);
 		}
 
-		catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+		catch (InputMismatchException | SQLException e) {
 			scan.next();
 			System.out.println("That’s not an integer => ");
 			System.out.println();
@@ -139,7 +139,7 @@ public class CLI {
 				.setAny(anyDto).build();
 		try {
 			computerService.insertComputer(ComputerMapper.toComputer(compDto));
-		} catch (DateTimeParseException | ClassNotFoundException | SQLException | IOException e) {
+		} catch (DateTimeParseException | SQLException e) {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
@@ -184,7 +184,7 @@ public class CLI {
 						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless " + id
 								+ " didn't even exist to begin with)");
 				System.out.println("");
-			} catch (NoSuchElementException | ClassNotFoundException | SQLException | IOException e) {
+			} catch (NoSuchElementException | SQLException e) {
 				scan.next();
 				scan.close();
 				System.out.println("This computer is not present in the database");
@@ -210,7 +210,7 @@ public class CLI {
 				}
 			}
 
-			catch (DateTimeParseException | ClassNotFoundException | SQLException | IOException e) {
+			catch (DateTimeParseException | SQLException e) {
 				System.out.println(
 						"Sorry,there was an issue with the format of your discontinued date input. Update failed");
 				System.out.println();
@@ -236,7 +236,7 @@ public class CLI {
 			System.out.println("Computer " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
-		} catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+		} catch (InputMismatchException | SQLException e) {
 			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
@@ -271,7 +271,7 @@ public class CLI {
 				System.out.println("If you wish to exit please input 'exit'");
 			}
 
-			catch (InputMismatchException | ClassNotFoundException | SQLException | IOException e) {
+			catch (InputMismatchException | SQLException e) {
 				if (scan.next().equals("exit")) {
 					notdone = false;
 					System.out.println("Option exited succesfully.");

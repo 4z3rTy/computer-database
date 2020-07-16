@@ -9,17 +9,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.excilys.model.Computer;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 
 public class ComputerRowMapper implements RowMapper<Computer>{
 	
-	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerRowMapper.class);
 	
 	@Override
 	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Company temp = CompanyMapper.companyMap(rs);
+		Company temp = CompanyMapper.prettyCompanyMap(rs);
 		logger.debug("Temporary Company Object initialized", temp);
 		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {

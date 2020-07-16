@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +28,6 @@ public class CompanyService {
 		this.companyDao=companyDao;
 	}
 
-	/** The Constant logger. */
-	private static final Logger logger = LoggerFactory.getLogger(CompanyService.class);
-
 	/**
 	 * Count.
 	 *
@@ -51,7 +46,7 @@ public class CompanyService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public List<CompanyDTO> getAllCompanies() throws SQLException, ClassNotFoundException, IOException {
+	public List<CompanyDTO> getAllCompanies() throws SQLException {
 		List<Company> temp = companyDao.viewCompany();
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 

@@ -34,7 +34,6 @@ import com.excilys.validator.ComputerValidator;
 @WebServlet(name = "EditCompServlet", urlPatterns = "/editComputer")
 public class EditCompServlet extends HttpServlet {
 
-	/** The company service. */
 	@Autowired
 	private CompanyService CS;
 
@@ -91,7 +90,7 @@ public class EditCompServlet extends HttpServlet {
 		try {
 			List<CompanyDTO> compList = CS.getAllCompanies();
 			request.setAttribute("compList", compList);
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException  e) {
 			e.printStackTrace();
 		}
 		processRequest(request, response);
@@ -133,7 +132,7 @@ public class EditCompServlet extends HttpServlet {
 			  
 			C.updateComputer(ComputerMapper.toComputer(compDto));
 			}
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException  e) {
 			logger.error("Update could not go through.");
 			e.printStackTrace();
 		}

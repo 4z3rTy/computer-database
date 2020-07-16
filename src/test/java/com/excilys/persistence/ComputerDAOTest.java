@@ -21,10 +21,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.excilys.service.ComputerService;
-import com.excilys.sqlShenanigans.DataSource;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
+import com.excilys.mysql.DataSource;
 
 public class ComputerDAOTest {
 

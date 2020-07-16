@@ -94,7 +94,7 @@ public class AddCompServlet extends HttpServlet {
 		try {
 			List<CompanyDTO> compList = CS.getAllCompanies();
 			request.setAttribute("compList", compList);
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		processRequest(request, response);
@@ -132,7 +132,7 @@ public class AddCompServlet extends HttpServlet {
 			C.insertComputer(ComputerMapper.toComputer(compDto));
 			}
 
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (SQLException e) {
 			logger.error("Insertion did not go through.", e);
 			e.printStackTrace();
 		}

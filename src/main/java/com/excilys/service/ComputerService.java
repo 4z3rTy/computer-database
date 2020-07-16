@@ -64,7 +64,7 @@ public class ComputerService {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 
-	public ComputerDTO getCompDetails(int computerID) throws SQLException, ClassNotFoundException, IOException {
+	public ComputerDTO getCompDetails(int computerID) throws SQLException {
 		Computer temp = computerDao.viewCompDetails(computerID);
 		if(temp.getCompany()==null)
 		{
@@ -85,7 +85,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public List<ComputerDTO> viewSomeComputers(Page p) throws SQLException, ClassNotFoundException, IOException {
+	public List<ComputerDTO> viewSomeComputers(Page p) throws SQLException {
 		logger.debug("Page object initialized", p);
 		// page.setMax(count("computer"));
 		// page.calcPages();
@@ -106,7 +106,7 @@ public class ComputerService {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void updateComputerName(String newName, int computerID)
-			throws SQLException, ClassNotFoundException, IOException {
+			throws SQLException {
 		computerDao.updateComputerName(newName, computerID);
 	}
 
@@ -122,7 +122,7 @@ public class ComputerService {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerID)
-			throws SQLException, ClassNotFoundException, IOException {
+			throws SQLException {
 		return computerDao.updateComputerDisc(intr, disc, computerID);
 	}
 
@@ -135,7 +135,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void updateComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+	public void updateComputer(Computer myComp) throws SQLException {
 		computerDao.updateComputer(myComp);
 	}
 
@@ -147,7 +147,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void insertComputer(Computer myComp) throws SQLException, ClassNotFoundException, IOException {
+	public void insertComputer(Computer myComp) throws SQLException {
 		computerDao.insertComputer(myComp);
 	}
 
@@ -159,7 +159,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void deleteComputer(int computerID) throws SQLException, ClassNotFoundException, IOException {
+	public void deleteComputer(int computerID) throws SQLException {
 		computerDao.deleteComputer(computerID);
 	}
 

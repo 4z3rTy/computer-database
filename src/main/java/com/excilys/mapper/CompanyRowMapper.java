@@ -11,7 +11,6 @@ import com.excilys.model.Company;
 
 public class CompanyRowMapper implements RowMapper<Company>{
 	
-	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyRowMapper.class);
 	
 	@Override
