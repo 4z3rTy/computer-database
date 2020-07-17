@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.dto.ComputerDTO.ComputerDTOBuilder;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
@@ -31,15 +33,15 @@ public class EditComp {
 	private static final Logger logger = LoggerFactory.getLogger(EditComp.class);
 
 	@GetMapping("/editComputer")
-	public ModelAndView doGet(ComputerDTO dto) {
+	public ModelAndView doGet(ComputerDTOBuilder dto) {
 
 		ModelAndView mv = new ModelAndView("editComputer");
 
-		String compId = dto.getId();
+		String compId = dto.build().getId();
 		mv.getModel().put("id", compId);
 		try {
-			List<CompanyDTO> compList = CS.getAllCompanies();
-			mv.getModel().put("compList", compList);
+			List<CompanyDTO> companies = CS.getAllCompanies();
+			mv.getModel().put("companies", companies);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -47,28 +49,32 @@ public class EditComp {
 	}
 
 	@PostMapping("/editComputer")
-	public ModelAndView doPost(ComputerDTO dto) {
+	public ModelAndView doPost(ComputerDTOBuilder dto, CompanyDTOBuilder fyoudto) {
 
+		ComputerDTO temp=dto.build();
+		CompanyDTO fyoutemp=fyoudto.build();
+		
+		//ModelAndView mv = new ModelAndView("redirect:editComputer?Id="+temp.getId());
 		ModelAndView mv = new ModelAndView("editComputer");
 		Map<String, String> messages = new HashMap<String, String>();
 
-		
-		String computerId = dto.getId();
-		String name = dto.getcomputerName();
-		String intro = dto.getintroduced();
-		String disco = dto.getdiscontinued();
-		String companyId = dto.getcompanyId();
+		String computerId = temp.getId();
+		String name = temp.getComputerName();
+		String intro = temp.getIntroduced();
+		String disco = temp.getDiscontinued();
+		//String companyId = temp.getCompanyId();
+		String companyId=fyoutemp.getcId();
 
-		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setId(computerId).setcomputerName(name)
-				.setintroduced(intro).setdiscontinued(disco).setAny(anyDto).build();
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setId(computerId).setComputerName(name)
+				.setIntroduced(intro).setDiscontinued(disco).setCompany(anyDto).build();
 
 		messages = ComputerValidator.validate(compDto, messages);
 
 		try {
 
 			if (messages.isEmpty()) {
-				messages.put("success", "Updated completed successfully!!!!");
+				messages.put("success", "Update completed successfully!!!!");
 
 				C.updateComputer(ComputerMapper.toComputer(compDto));
 			}

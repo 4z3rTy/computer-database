@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.dto.ComputerDTO.ComputerDTOBuilder;
 import com.excilys.dto.MyLittleDTO;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.CompanyService;
@@ -35,8 +37,8 @@ public class AddComp {
 
 		ModelAndView mv=new ModelAndView("addComputer");
 		try {
-			List<CompanyDTO> compList = CS.getAllCompanies();
-			mv.getModel().put("compList", compList);
+			List<CompanyDTO> companies = CS.getAllCompanies();
+			mv.getModel().put("companies", companies);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,18 +47,21 @@ public class AddComp {
 	
 	
 	@PostMapping("/addComputer")
-	public ModelAndView doPost(ComputerDTO dto) {
+	public ModelAndView doPost(ComputerDTOBuilder dtoBuilder, CompanyDTOBuilder fyouBuilder) {
 		Map<String, String> messages = new HashMap<String, String>();
 		ModelAndView mv=new ModelAndView("addComputer");
 		
-		String name = dto.getcomputerName();
-		String intro = dto.getintroduced();
-		String disco = dto.getdiscontinued();
-		String companyId = dto.getcompanyId();
+		ComputerDTO dto= dtoBuilder.build();
+		CompanyDTO fyou=fyouBuilder.build();
+		String name = dto.getComputerName();
+		String intro = dto.getIntroduced();
+		String disco = dto.getDiscontinued();
+		//String companyId = dto.getCompanyId();
+		String companyId= fyou.getcId();
 
-		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(companyId).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setcomputerName(name).setintroduced(intro).setdiscontinued(disco)
-				.setAny(anyDto).build();
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro).setDiscontinued(disco)
+				.setCompany(anyDto).build();
 
 		messages = ComputerValidator.validate(compDto, messages);
 		
@@ -64,7 +69,7 @@ public class AddComp {
 			if (messages.isEmpty()) {
 				messages.put("success", "Insertion completed successfully!!!!");
 			
-			C.insertComputer(ComputerMapper.toComputer(compDto));
+			C.insertComputer(ComputerMapper.toComputerBis(compDto));
 			}
 
 		} catch (SQLException e) {

@@ -25,7 +25,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${sum} Computers found</h1>
+			<h1 id="homeTitle">${sum}Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
@@ -86,7 +86,7 @@
 							</a></td>
 							<td>${compList.introduced}</td>
 							<td>${compList.discontinued}</td>
-							<td>${compList.company_name}</td>
+							<td>${compList.companyName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

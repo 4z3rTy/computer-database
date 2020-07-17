@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
+import com.excilys.config.CLIconfig;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -26,19 +28,19 @@ import com.excilys.model.Page;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
-
 /**
  * The Class CLI.
  */
 @Configuration
-@ComponentScan({"com.excilys.persistence","com.excilys.service","com.excilys.config"})
+@Import(CLIconfig.class)
+@ComponentScan({ "com.excilys.persistence", "com.excilys.service" })
 public class CLI {
 
 	/**
 	 * Instantiates a new cli.
 	 *
 	 * @param computerService the computer service
-	 * @param companyService the company service
+	 * @param companyService  the company service
 	 */
 	public CLI(ComputerService computerService, CompanyService companyService) {
 		this.companyService = companyService;
@@ -50,9 +52,11 @@ public class CLI {
 
 	/** The company service. */
 	private CompanyService companyService;
-	
+
 	/** The computer service. */
 	private ComputerService computerService;
+
+	protected static Scanner myScan;
 
 	/**
 	 * Prints the computers.
@@ -92,20 +96,17 @@ public class CLI {
 	public void show() {
 		System.out.println("'Show computer details' selected:");
 		System.out.println("Please indicate which computer you are interested in using its id ->");
-		Scanner scan = new Scanner(System.in);
 		try {
-			int id = scan.nextInt();
-			// scan.close();
+			int id = myScan.nextInt();
 			System.out.println("Attempting to fetch computer details for computer ID=" + id);
-			computerService.getCompDetails(id);
+			System.out.println(computerService.getCompDetails(id));
+			
 		}
 
 		catch (InputMismatchException | SQLException e) {
-			scan.next();
+			myScan.next();
 			System.out.println("That’s not an integer => ");
 			System.out.println();
-		} finally {
-			//scan.close();
 		}
 	}
 
@@ -121,12 +122,11 @@ public class CLI {
 		System.out.println("'Create a computer' selected:");
 		System.out.println(
 				"Please indicate the desired attributes of the computer you wish to create (name, date introduced (yyyy-MM-dd), date discontinued (yyyy-MM-dd) & company id) ->");
-		Scanner scan = new Scanner(System.in);
 		try {
-			name = scan.next();
-			intr = scan.next();
-			disc = scan.next();
-			c_id = scan.nextInt();
+			name = myScan.next();
+			intr = myScan.next();
+			disc = myScan.next();
+			c_id = myScan.nextInt();
 		} catch (InputMismatchException e) {
 			System.out.println("Sorry,there was an issue with the number of inputs. Creation aborted.");
 		}
@@ -134,16 +134,16 @@ public class CLI {
 		System.out.println("date introduced=" + intr);
 		System.out.println("date discontinued=" + disc);
 		System.out.println("company ID=" + c_id);
-		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setId(String.valueOf(c_id)).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setcomputerName(name).setintroduced(intr).setdiscontinued(disc)
-				.setAny(anyDto).build();
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(c_id)).build();
+		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intr)
+				.setDiscontinued(disc).setCompany(anyDto).build();
 		try {
-			computerService.insertComputer(ComputerMapper.toComputer(compDto));
+			computerService.insertComputer(ComputerMapper.toComputerBis(compDto));
 		} catch (DateTimeParseException | SQLException e) {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
-		//scan.close();
+		// scan.close();
 	}
 
 	/**
@@ -202,7 +202,6 @@ public class CLI {
 				LocalDate date2 = LocalDate.parse(intr, formatter1);
 				Date sqlDate2 = Date.valueOf(date2);
 
-				// five2.close();
 				if (computerService.updateComputerDisc(sqlDate2, sqlDate1, id)) {
 					System.out
 							.println("Your modification has been carried out (hopefully, maybe, probably, definitely)");
@@ -215,7 +214,6 @@ public class CLI {
 						"Sorry,there was an issue with the format of your discontinued date input. Update failed");
 				System.out.println();
 			}
-
 			break;
 		}
 	}
@@ -228,20 +226,17 @@ public class CLI {
 
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which computer you wish to delete using it's id ->");
-		Scanner scan = new Scanner(System.in);
 		try {
-			id = scan.nextInt();
-			// six.close();
+			id = myScan.nextInt();
 			computerService.deleteComputer(id);
 			System.out.println("Computer " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
 		} catch (InputMismatchException | SQLException e) {
-			scan.next();
+			myScan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
 		}
-		scan.close();
 	}
 
 	/**
@@ -254,12 +249,10 @@ public class CLI {
 		System.out.println("List some or all of the computers in the db ->");
 		Page p = new Page(computerService.count("computer"));
 		p.calcPages();
-		Scanner scan = new Scanner(System.in);
 		while (notdone) {
 			System.out.println("Please indicate which page you wish to see:");
 			try {
-				id = scan.nextInt();
-				// three.close();
+				id = myScan.nextInt();
 				System.out.println("Attempting to display page " + id);
 				p.setPage(id);
 				ArrayList<ComputerDTO> com = (ArrayList<ComputerDTO>) computerService.viewSomeComputers(p);
@@ -272,7 +265,7 @@ public class CLI {
 			}
 
 			catch (InputMismatchException | SQLException e) {
-				if (scan.next().equals("exit")) {
+				if (myScan.next().equals("exit")) {
 					notdone = false;
 					System.out.println("Option exited succesfully.");
 				} else {
@@ -281,7 +274,6 @@ public class CLI {
 				}
 			}
 		}
-		//scan.close();
 	}
 
 	/**
@@ -292,20 +284,17 @@ public class CLI {
 
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which company you wish to delete using it's id ->");
-		Scanner scan = new Scanner(System.in);
 		try {
-			id = scan.nextInt();
-			// six.close();
+			id = myScan.nextInt();
 			companyService.deleteCompany(id);
 			System.out.println("Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
 		} catch (InputMismatchException | SQLException e) {
-			scan.next();
+			myScan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
 		}
-		//scan.close();
 	}
 
 	/**
@@ -319,13 +308,13 @@ public class CLI {
 	 */
 	public static void main(String[] args) throws IOException, SQLException, ParseException, ClassNotFoundException {
 
-		Scanner sc = new Scanner(System.in);
+		// Scanner sc = new Scanner(System.in);
+		myScan = new Scanner(System.in);
 		boolean running = true;
 		int option = 0;
-		
+
 		logger.info("Log4j Enabled");
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLI.class);
-
 
 		ComputerService computerService = ctx.getBean(ComputerService.class);
 		CompanyService companyService = ctx.getBean(CompanyService.class);
@@ -349,13 +338,13 @@ public class CLI {
 			System.out.println("===============================================");
 			System.out.println("");
 			System.out.println(" Please select the (next) option you are interested in:  ");
-			
+
 			try {
-				option = sc.nextInt();
+				option = myScan.nextInt();
 			}
 
 			catch (InputMismatchException e) {
-				sc.next();
+				myScan.next();
 				System.out.print("That’s not an integer => ");
 				System.out.print("");
 			}
@@ -397,7 +386,7 @@ public class CLI {
 			case 9:
 				running = false;
 				System.out.println("'Exit' selected...bye bye!");
-				sc.close();
+				myScan.close();
 				ctx.close();
 				break;
 			default:

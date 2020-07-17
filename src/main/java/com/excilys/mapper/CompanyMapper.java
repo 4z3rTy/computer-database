@@ -53,7 +53,7 @@ public class CompanyMapper {
 	 * @return the company
 	 */
 	public static Company toCompany(CompanyDTO dto) {
-		int c_id = Integer.parseInt(dto.getId());
+		int c_id = Integer.parseInt(dto.getcId());
 		String name = dto.getName();
 		Company c = new Company.CompanyBuilder().setId(c_id).setName(name).build();
 		return c;
@@ -66,7 +66,7 @@ public class CompanyMapper {
 	 * @return the company DTO
 	 */
 	public static CompanyDTO toDto(Company company) {
-		CompanyDTO d = new CompanyDTO.CompanyDTOBuilder().setId(String.valueOf(company.getId())).setName(company.getName()).build();
+		CompanyDTO d = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(company.getId())).setName(company.getName()).build();
 		return d;
 	}
 }

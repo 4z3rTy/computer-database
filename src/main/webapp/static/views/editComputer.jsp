@@ -24,11 +24,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">Id: ${Id}</div> 
+					<div class="label label-default pull-right">id: ${id}</div> 
 					<h1>Edit Computer</h1>
 
-					<form action="editComputer?Id=${Id}" method="POST">  
-						<input type="hidden" value="${Id}" id="id" name="id" />
+					<form action="editComputer?Id=${id}" method="POST">  
+						<input type="hidden" value="${id}" id="id" name="id" />
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
@@ -49,11 +49,11 @@
 									class="error">${messages['discontinued']}</span>
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" name="companyId" id="companyId">
-									<c:forEach var="i" items="${compList}">
-										<option value="${i.id}">
-											<c:out value="${i.name}"></c:out>
+								<label for="cId">Company</label> <select
+									class="form-control" name="cId" id="cId">
+									<c:forEach var="company" items="${companies}">
+										<option value="${company.cId}">
+											<c:out value="${company.name}"></c:out>
 										</option>
 									</c:forEach>
 								</select>

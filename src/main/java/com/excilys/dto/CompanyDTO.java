@@ -3,33 +3,39 @@ package com.excilys.dto;
 
 public class CompanyDTO {
 
+	public CompanyDTO() {}
 	private String name;
-	private String id;
+	private String cId;
 
 	public String getName() {
 		return name;
 	}
 
 
-	public String getId() {
-		return id;
+	public String getcId() {
+		String result=cId;
+		if(cId==null)
+		{
+			result="0";
+		}
+		return result;
 	}
 
 
 	@Override
 	public String toString() {
-		return " [name=" + name + ", id=" + id + "]";
+		return " [name=" + name + ", cId=" + cId + "]";
 	}
 
 	
 	private CompanyDTO(CompanyDTOBuilder builder) {
-		this.id = builder.id;
+		this.cId = builder.cId;
 		this.name = builder.name;
 	}
 	
 	public static class CompanyDTOBuilder {
 
-		private String id;
+		private String cId;
 		private String name;
 
 	
@@ -38,8 +44,8 @@ public class CompanyDTO {
 			return this;
 		}
 
-		public CompanyDTOBuilder setId(String id) {
-			this.id = id;
+		public CompanyDTOBuilder setcId(String cId) {
+			this.cId = cId;
 			return this;
 		}
 		

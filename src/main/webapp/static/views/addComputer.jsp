@@ -47,12 +47,12 @@
 									class="error">${messages['discontinued']}</span>
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" name="companyId" id="companyId">
+								<label for="cId">Company</label> <select
+									class="form-control" name="cId" id="cId">
 									<option value="0">NULL</option>
-									<c:forEach var="i" items="${compList}">
-										<option value="${i.id}">
-											<c:out value="${i.name}"></c:out>
+									<c:forEach var="company" items="${companies}">
+										<option value="${company.cId}">
+											<c:out value="${company.name}"></c:out>
 										</option>
 									</c:forEach>
 								</select>
