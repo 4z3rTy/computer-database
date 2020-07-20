@@ -66,7 +66,11 @@ public class CompanyMapper {
 	 * @return the company DTO
 	 */
 	public static CompanyDTO toDto(Company company) {
+		//TODO
 		CompanyDTO d = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(company.getId())).setName(company.getName()).build();
+		/*else {
+			CompanyDTO d = new CompanyDTO.CompanyDTOBuilder().setcId(company.getId()).setName(company.getName()).build();
+		}*/
 		return d;
 	}
 }

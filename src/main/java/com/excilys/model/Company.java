@@ -1,7 +1,25 @@
 package com.excilys.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "company")
 public class Company {
+
+	public Company() {}
+	
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="name")
+	private String name;
 
 	public int getId() {
 		return this.id;
@@ -10,9 +28,6 @@ public class Company {
 	public String getName() {
 		return this.name;
 	}
-
-	private int id;
-	private String name;
 
 	private Company(CompanyBuilder builder) {
 		this.id = builder.id;

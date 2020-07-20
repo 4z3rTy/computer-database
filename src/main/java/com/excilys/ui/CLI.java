@@ -100,7 +100,7 @@ public class CLI {
 			int id = myScan.nextInt();
 			System.out.println("Attempting to fetch computer details for computer ID=" + id);
 			System.out.println(computerService.getCompDetails(id));
-			
+
 		}
 
 		catch (InputMismatchException | SQLException e) {

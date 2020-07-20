@@ -4,7 +4,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,30 +72,33 @@ public class ComputerDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-	// private NamedParameterJdbcTemplate namedJdbcTemplate;
-
 	@Autowired
 	DataSource ds;
 
 	@Autowired
 	NamedParameterJdbcTemplate namedJdbcTemplate;
 
+	private CriteriaBuilder cb;
+
+	@Autowired
+	private EntityManagerFactory emf;
+
+	@Autowired
+	private EntityManager em;
+
 	/*
 	 * Count db.
 	 *
 	 * @param tbName the tb name
+	 * 
 	 * @return the int
 	 */
 	public int countDb(String tbName) {
-		int count = -1;
-		count = namedJdbcTemplate.query(COUNT, ((ResultSet rs) -> {
-			if (rs.next()) {
-				return rs.getInt(1);
-			}
-
-			return -1;
-		}));
-		return count;
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		cq.select(cb.count(cq.from(Computer.class)));
+		return em.createQuery(cq).getSingleResult().intValue();
 	}
 
 	/**
@@ -95,12 +107,13 @@ public class ComputerDAO {
 	 * @return the list
 	 */
 	public List<Computer> viewComputer() {
-
-		List<Computer> computers = new ArrayList<Computer>();
-		logger.debug("Computer List initialized");
-		computers = namedJdbcTemplate.query(SELECT_ALL, new ComputerRowMapper());
-
-		return computers;
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
+		Root<Computer> rootEntry = cq.from(Computer.class);
+		CriteriaQuery<Computer> all = cq.select(rootEntry);
+		TypedQuery<Computer> allQuery = em.createQuery(all);
+		return allQuery.getResultList();
 	}
 
 	/**
@@ -114,12 +127,19 @@ public class ComputerDAO {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
-
-		List<Computer> computers = new ArrayList<>();
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
-		computers = namedJdbcTemplate.query(SELECT_SOME, sp, new ComputerRowMapper());
-
-		return computers;
+		/*
+		 * List<Computer> computers = new ArrayList<>(); SqlParameterSource sp = new
+		 * MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
+		 * computers = namedJdbcTemplate.query(SELECT_SOME, sp, new
+		 * ComputerRowMapper()); return computers;
+		 */
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
+		Root<Computer> rootEntry = cq.from(Computer.class);
+		CriteriaQuery<Computer> all = cq.select(rootEntry);
+		TypedQuery<Computer> allQuery = em.createQuery(all).setFirstResult(offset).setMaxResults(limit);
+		return allQuery.getResultList();
 	}
 
 	/**
@@ -131,8 +151,18 @@ public class ComputerDAO {
 	 */
 	public void updateComputerName(String newName, int computerId) throws SQLException {
 
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("id", computerId).addValue("name", newName);
-		namedJdbcTemplate.update(UPDATE_NAME, sp);
+		/*
+		 * SqlParameterSource sp = new MapSqlParameterSource().addValue("id",
+		 * computerId).addValue("name", newName); namedJdbcTemplate.update(UPDATE_NAME,
+		 * sp);
+		 */
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
+		Root<Computer> e = update.from(Computer.class);
+		update.set("name", newName);
+		update.where(cb.equal(e.get("id"), computerId));
+		this.em.createQuery(update).executeUpdate();
 	}
 
 	/**
@@ -145,11 +175,20 @@ public class ComputerDAO {
 	 * @throws SQLException the SQL exception
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerId) throws SQLException {
-		boolean res = false;
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("id", computerId).addValue("introduced", intr)
-				.addValue("discontinued", disc);
-		namedJdbcTemplate.update(UPDATE_DATE, sp);
 
+		boolean res = true;
+		/*
+		 * SqlParameterSource sp = new MapSqlParameterSource().addValue("id",
+		 * computerId).addValue("introduced", intr) .addValue("discontinued", disc);
+		 * namedJdbcTemplate.update(UPDATE_DATE, sp);
+		 */
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
+		Root<Computer> e = update.from(Computer.class);
+		update.set("introduced", intr);
+		update.set("discontinued", disc);
+		update.where(cb.equal(e.get("id"), computerId));
+		this.em.createQuery(update).executeUpdate();
 		return res;
 	}
 
@@ -159,12 +198,12 @@ public class ComputerDAO {
 	 * @param myComp the my comp
 	 * @throws SQLException the SQL exception
 	 */
+	@Transactional
 	public void updateComputer(Computer myComp) throws SQLException {
 
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("id", myComp.getId())
-				.addValue("introduced", myComp.getIntroduced()).addValue("discontinued", myComp.getDiscontinued())
-				.addValue("name", myComp.getName()).addValue("company_id", myComp.getCompanyId());
-		namedJdbcTemplate.update(UPDATE_ALL, sp);
+		em.getTransaction().begin();
+		em.merge(myComp);
+		em.getTransaction().commit();
 	}
 
 	/**
@@ -174,20 +213,16 @@ public class ComputerDAO {
 	 * @return the computer
 	 * @throws SQLException the SQL exception
 	 */
+	@Transactional
 	public Computer insertComputer(Computer myComp) throws SQLException {
-		SqlParameterSource sp = null;
+
+		em.getTransaction().begin();
 		if (myComp.getCompanyId() != 0) {
-			sp = new MapSqlParameterSource().addValue("id", myComp.getId())
-					.addValue("introduced", myComp.getIntroduced()).addValue("discontinued", myComp.getDiscontinued())
-					.addValue("name", myComp.getName()).addValue("company_id", myComp.getCompanyId());
+			em.persist(myComp);
 		} else {
-			sp = new MapSqlParameterSource().addValue("id", myComp.getId())
-					.addValue("introduced", myComp.getIntroduced()).addValue("discontinued", myComp.getDiscontinued())
-					.addValue("name", myComp.getName()).addValue("company_id", null);
-
+			// TODO Company.id==null
 		}
-
-		namedJdbcTemplate.update(INSERT, sp);
+		em.getTransaction().commit();
 		return myComp;
 	}
 
@@ -197,10 +232,20 @@ public class ComputerDAO {
 	 * @param computerId the computer ID
 	 * @throws SQLException the SQL exception
 	 */
+
+	@Transactional
 	public void deleteComputer(int computerId) throws SQLException {
 
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("id", computerId);
-		namedJdbcTemplate.update(DELETE_COMPUTER, sp);
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		CriteriaDelete<Computer> delete = cb.createCriteriaDelete(Computer.class);
+		Root<Computer> e = delete.from(Computer.class);
+		delete.where(cb.equal(e.get("id"), computerId));
+		em.getTransaction().begin();
+		int rowsDeleted = em.createQuery(delete).executeUpdate();
+		System.out.println("entities deleted: " + rowsDeleted);
+		em.getTransaction().commit();
+
 	}
 
 	/**
@@ -212,10 +257,16 @@ public class ComputerDAO {
 	 */
 	public Computer viewCompDetails(int computerId) throws SQLException {
 
-		Computer computer = new Computer.ComputerBuilder().build();
-		SqlParameterSource sp = new MapSqlParameterSource().addValue("id", computerId);
-		computer = namedJdbcTemplate.queryForObject(SELECT_WHERE, sp, new ComputerRowMapper());
-
+		/*
+		 * Computer computer = new Computer.ComputerBuilder().build();
+		 * SqlParameterSource sp = new MapSqlParameterSource().addValue("id",
+		 * computerId); computer = namedJdbcTemplate.queryForObject(SELECT_WHERE, sp,
+		 * new ComputerRowMapper());
+		 * 
+		 * return computer;
+		 */
+		em = emf.createEntityManager();
+		Computer computer = em.find(Computer.class, computerId);
 		return computer;
 	}
 

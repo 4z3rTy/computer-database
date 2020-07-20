@@ -2,8 +2,38 @@ package com.excilys.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "computer")
 public class Computer {
+
+	public Computer() {}
+	
+	@Id
+	@Column(name="id") 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+
+	@ManyToOne
+	@JoinColumn(name="company_id")
+	private Company company;
+
+	@Column(name="name")
+	private String name;
+
+	@Column(name="introduced")
+	private LocalDate introduced;
+
+	@Column(name="discontinued")
+	private LocalDate discontinued;
 
 	public int getId() {
 		return id;
@@ -36,17 +66,6 @@ public class Computer {
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-
-
-	private int id;
-
-	private Company company;
-
-	private String name;
-
-	private LocalDate introduced;
-
-	private LocalDate discontinued;
 
 	private Computer(ComputerBuilder builder) {
 		this.id = builder.id;
