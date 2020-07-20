@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -58,6 +59,7 @@ public class CompanyDAO {
 	 * @param companyId the company id
 	 * @throws SQLException the SQL exception
 	 */
+	@Transactional
 	public void deleteCompany(int companyId) throws SQLException {
 		SqlParameterSource sp= new MapSqlParameterSource().addValue("id", companyId);
 		namedJdbcTemplate.update(DELETE_COMPUTERS,sp);

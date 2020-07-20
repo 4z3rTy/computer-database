@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.dto.CompanyDTO;
@@ -22,6 +23,7 @@ import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
 
+@RequestMapping("/editComputer")
 @Controller
 public class EditComp {
 	@Autowired
@@ -32,7 +34,7 @@ public class EditComp {
 
 	private static final Logger logger = LoggerFactory.getLogger(EditComp.class);
 
-	@GetMapping("/editComputer")
+	@GetMapping()
 	public ModelAndView doGet(ComputerDTOBuilder dto) {
 
 		ModelAndView mv = new ModelAndView("editComputer");
@@ -48,7 +50,7 @@ public class EditComp {
 		return mv;
 	}
 
-	@PostMapping("/editComputer")
+	@PostMapping()
 	public ModelAndView doPost(ComputerDTOBuilder dto, CompanyDTOBuilder fyoudto) {
 
 		ComputerDTO temp=dto.build();

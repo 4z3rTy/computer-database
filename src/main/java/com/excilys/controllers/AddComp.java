@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.dto.CompanyDTO;
@@ -23,6 +24,7 @@ import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
 
+@RequestMapping("/addComputer")
 @Controller
 public class AddComp {
 
@@ -32,7 +34,7 @@ public class AddComp {
 	private ComputerService C;
 	private static final Logger logger = LoggerFactory.getLogger(AddComp.class);
 	
-	@GetMapping("/addComputer")
+	@GetMapping()
 	public ModelAndView doGet(MyLittleDTO dto){
 
 		ModelAndView mv=new ModelAndView("addComputer");
@@ -46,7 +48,7 @@ public class AddComp {
 	}
 	
 	
-	@PostMapping("/addComputer")
+	@PostMapping()
 	public ModelAndView doPost(ComputerDTOBuilder dtoBuilder, CompanyDTOBuilder fyouBuilder) {
 		Map<String, String> messages = new HashMap<String, String>();
 		ModelAndView mv=new ModelAndView("addComputer");
