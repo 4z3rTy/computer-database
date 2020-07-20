@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +16,7 @@ import com.excilys.dto.MyLittleDTO;
 import com.excilys.model.Page;
 import com.excilys.service.ComputerService;
 
+@RequestMapping("/dashboard")
 @Controller
 public class Dashboard {
 	
@@ -22,9 +24,8 @@ public class Dashboard {
 	private ComputerService service;
 	private int sum;
 	
-	@GetMapping("/dashboard")
+	@GetMapping()
 	public ModelAndView doGet(MyLittleDTO dto) {
-
 		ModelAndView mv=new ModelAndView("dashboard");
 		List<ComputerDTO> compList = null;
 		
@@ -105,7 +106,7 @@ public class Dashboard {
 
 	}
 	
-	@PostMapping("/dashboard")
+	@PostMapping()
 	public ModelAndView doPost(@RequestParam List<String> selection) {
 
 		ModelAndView mv=new ModelAndView("redirect:dashboard");
