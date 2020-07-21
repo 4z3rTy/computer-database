@@ -127,19 +127,19 @@ public class ComputerDAO {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
+
+		List<Computer> computers = new ArrayList<>();
+		SqlParameterSource sp = new MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
+		computers = namedJdbcTemplate.query(SELECT_SOME, sp, new ComputerRowMapper());
+		return computers;
 		/*
-		 * List<Computer> computers = new ArrayList<>(); SqlParameterSource sp = new
-		 * MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
-		 * computers = namedJdbcTemplate.query(SELECT_SOME, sp, new
-		 * ComputerRowMapper()); return computers;
+		 * em = emf.createEntityManager(); cb = em.getCriteriaBuilder();
+		 * CriteriaQuery<Computer> cq = cb.createQuery(Computer.class); Root<Computer>
+		 * rootEntry = cq.from(Computer.class); CriteriaQuery<Computer> all =
+		 * cq.select(rootEntry); TypedQuery<Computer> allQuery =
+		 * em.createQuery(all).setFirstResult(offset).setMaxResults(limit); return
+		 * allQuery.getResultList();
 		 */
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
-		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
-		Root<Computer> rootEntry = cq.from(Computer.class);
-		CriteriaQuery<Computer> all = cq.select(rootEntry);
-		TypedQuery<Computer> allQuery = em.createQuery(all).setFirstResult(offset).setMaxResults(limit);
-		return allQuery.getResultList();
 	}
 
 	/**
@@ -217,11 +217,8 @@ public class ComputerDAO {
 	public Computer insertComputer(Computer myComp) throws SQLException {
 
 		em.getTransaction().begin();
-		if (myComp.getCompanyId() != 0) {
-			em.persist(myComp);
-		} else {
-			// TODO Company.id==null
-		}
+		// if (myComp.getCompanyId() != 0) {
+		em.persist(myComp);
 		em.getTransaction().commit();
 		return myComp;
 	}

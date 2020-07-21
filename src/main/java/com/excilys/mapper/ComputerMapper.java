@@ -172,8 +172,12 @@ public class ComputerMapper {
 	}
 	
 public static Computer toComputerBis(ComputerDTO dto) {
-		
-		int c_id = Integer.parseInt(dto.getCompanyId());
+
+	int c_id=0;
+	if(dto.getCompanyId()!=null)
+	{
+		c_id = Integer.parseInt(dto.getCompanyId());
+	}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate i,d;
 		
@@ -189,6 +193,7 @@ public static Computer toComputerBis(ComputerDTO dto) {
 		else {
 			d=null;
 		}
+		
 		
 		Company company = new Company.CompanyBuilder().setId(c_id).build();
 		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName()).setAny(company).build();

@@ -14,10 +14,6 @@ public class CompanyDTO {
 
 	public String getcId() {
 		String result=cId;
-		if(cId==null)
-		{
-			result="0";
-		}
 		return result;
 	}
 

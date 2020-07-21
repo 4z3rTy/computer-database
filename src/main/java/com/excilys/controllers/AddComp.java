@@ -60,7 +60,10 @@ public class AddComp {
 		String disco = dto.getDiscontinued();
 		//String companyId = dto.getCompanyId();
 		String companyId= fyou.getcId();
-
+		if (companyId.equals("0"))
+		{
+			companyId=null;
+		}
 		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
 		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro).setDiscontinued(disco)
 				.setCompany(anyDto).build();
