@@ -1,12 +1,9 @@
 package com.excilys.controllers;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +29,6 @@ public class EditComp {
 	@Autowired
 	private ComputerService C;
 
-	private static final Logger logger = LoggerFactory.getLogger(EditComp.class);
 
 	@GetMapping()
 	public ModelAndView doGet(ComputerDTOBuilder dto) {
@@ -41,31 +37,27 @@ public class EditComp {
 
 		String compId = dto.build().getId();
 		mv.getModel().put("id", compId);
-		try {
-			List<CompanyDTO> companies = CS.getAllCompanies();
-			mv.getModel().put("companies", companies);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		List<CompanyDTO> companies = CS.getAllCompanies();
+		mv.getModel().put("companies", companies);
+
 		return mv;
 	}
 
 	@PostMapping()
-	public ModelAndView doPost(ComputerDTOBuilder dto, CompanyDTOBuilder fyoudto) {
+	public ModelAndView doPost(ComputerDTOBuilder uterBuilder, CompanyDTOBuilder anyBuilder) {
 
-		ComputerDTO temp=dto.build();
-		CompanyDTO fyoutemp=fyoudto.build();
-		
-		//ModelAndView mv = new ModelAndView("redirect:editComputer?Id="+temp.getId());
+		ComputerDTO computerDto = uterBuilder.build();
+		CompanyDTO companyDto = anyBuilder.build();
+
+		// ModelAndView mv = new ModelAndView("redirect:editComputer?Id="+temp.getId());
 		ModelAndView mv = new ModelAndView("editComputer");
 		Map<String, String> messages = new HashMap<String, String>();
 
-		String computerId = temp.getId();
-		String name = temp.getComputerName();
-		String intro = temp.getIntroduced();
-		String disco = temp.getDiscontinued();
-		//String companyId = temp.getCompanyId();
-		String companyId=fyoutemp.getcId();
+		String computerId = computerDto.getId();
+		String name = computerDto.getComputerName();
+		String intro = computerDto.getIntroduced();
+		String disco = computerDto.getDiscontinued();
+		String companyId = companyDto.getcId();
 
 		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
 		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setId(computerId).setComputerName(name)
@@ -73,16 +65,10 @@ public class EditComp {
 
 		messages = ComputerValidator.validate(compDto, messages);
 
-		try {
+		if (messages.isEmpty()) {
+			messages.put("success", "Update completed successfully!!!!");
 
-			if (messages.isEmpty()) {
-				messages.put("success", "Update completed successfully!!!!");
-
-				C.updateComputer(ComputerMapper.toComputer(compDto));
-			}
-		} catch (SQLException e) {
-			logger.error("Update could not go through.");
-			e.printStackTrace();
+			C.updateComputer(ComputerMapper.toComputer(compDto));
 		}
 		mv.getModel().put("messages", messages);
 

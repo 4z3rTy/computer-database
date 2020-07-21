@@ -1,12 +1,9 @@
 package com.excilys.controllers;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,54 +29,45 @@ public class AddComp {
 	private CompanyService CS;
 	@Autowired
 	private ComputerService C;
-	private static final Logger logger = LoggerFactory.getLogger(AddComp.class);
 
 	@GetMapping()
 	public ModelAndView doGet(MyLittleDTO dto) {
 
 		ModelAndView mv = new ModelAndView("addComputer");
-		try {
-			List<CompanyDTO> companies = CS.getAllCompanies();
-			mv.getModel().put("companies", companies);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		List<CompanyDTO> companies = CS.getAllCompanies();
+		mv.getModel().put("companies", companies);
+
 		return mv;
 	}
 
 	@PostMapping()
-	public ModelAndView doPost(ComputerDTOBuilder dtoBuilder, CompanyDTOBuilder fyouBuilder) {
+	public ModelAndView doPost(ComputerDTOBuilder uterBuilder, CompanyDTOBuilder anyBuilder) {
 		Map<String, String> messages = new HashMap<String, String>();
 		ModelAndView mv = new ModelAndView("addComputer");
 
-		ComputerDTO dto = dtoBuilder.build();
-		CompanyDTO fyou = fyouBuilder.build();
-		String name = dto.getComputerName();
-		String intro = dto.getIntroduced();
-		String disco = dto.getDiscontinued();
-		String companyId = fyou.getcId();
+		ComputerDTO computerDto = uterBuilder.build();
+		CompanyDTO companyDto = anyBuilder.build();
 
-		ComputerDTO compDto;
+		String name = computerDto.getComputerName();
+		String intro = computerDto.getIntroduced();
+		String disco = computerDto.getDiscontinued();
+		String companyId = companyDto.getcId();
+
+		ComputerDTO uterDto;
 		if (!companyId.equals("0")) {
 			CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
-			compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
+			uterDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
 					.setDiscontinued(disco).setCompany(anyDto).build();
 		} else {
-			compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
+			uterDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
 					.setDiscontinued(disco).build();
 		}
-		messages = ComputerValidator.validate(compDto, messages);
+		messages = ComputerValidator.validate(uterDto, messages);
 
-		try {
-			if (messages.isEmpty()) {
-				messages.put("success", "Insertion completed successfully!!!!");
+		if (messages.isEmpty()) {
+			messages.put("success", "Insertion completed successfully!!!!");
 
-				C.insertComputer(ComputerMapper.toComputerBis(compDto));
-			}
-
-		} catch (SQLException e) {
-			logger.error("Insertion did not go through.", e);
-			e.printStackTrace();
+			C.insertComputer(ComputerMapper.toComputerBis(uterDto));
 		}
 
 		mv.getModel().put("messages", messages);

@@ -13,6 +13,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.model.Company;
@@ -25,13 +27,14 @@ import com.excilys.model.Computer;
 @Repository
 public class CompanyDAO {
 
-
-	private CriteriaBuilder cb;
-
 	@Autowired
 	private EntityManagerFactory emf;
 
 	private EntityManager em;
+	
+	private CriteriaBuilder cb;
+	
+	private static Logger logger=LoggerFactory.getLogger(CompanyDAO.class);
 
 	/**
 	 * Delete company.
@@ -40,7 +43,7 @@ public class CompanyDAO {
 	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
-	public void deleteCompany(int companyId) throws SQLException {
+	public void deleteCompany(int companyId) {
 
 		em = emf.createEntityManager();
 		cb = em.getCriteriaBuilder();
@@ -50,14 +53,13 @@ public class CompanyDAO {
 		
 		em.getTransaction().begin();
 		int rowsDeleted = em.createQuery(criteriaDelete).executeUpdate();
-		System.out.println("entities deleted: " + rowsDeleted);
-
+		logger.debug("Total computers deleted: " + rowsDeleted);
+		
 		CriteriaDelete<Company> criteriaDelete2 = cb.createCriteriaDelete(Company.class);
 		Root<Company> root2 = criteriaDelete2.from(Company.class);
 		criteriaDelete2.where(cb.equal(root2.get("id"), companyId));
 		int rowsDeleted2 = em.createQuery(criteriaDelete2).executeUpdate();
-		System.out.println("entities deleted: " + rowsDeleted2);
-
+		logger.debug("Total companiesdeleted: " + rowsDeleted2);
 		em.getTransaction().commit();
 	}
 
@@ -84,7 +86,7 @@ public class CompanyDAO {
 	 * @throws SQLException the SQL exception
 	 */
 
-	public List<Company> viewCompany() throws SQLException {
+	public List<Company> viewCompany(){
 
 		em = emf.createEntityManager();
 		cb = em.getCriteriaBuilder();

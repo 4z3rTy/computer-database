@@ -46,7 +46,7 @@ public class CompanyService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public List<CompanyDTO> getAllCompanies() throws SQLException {
+	public List<CompanyDTO> getAllCompanies() {
 		List<Company> temp = companyDao.viewCompany();
 		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 
@@ -60,7 +60,7 @@ public class CompanyService {
 	 * @param companyId the company id
 	 * @throws SQLException the SQL exception
 	 */
-	public void deleteCompany(int companyId) throws SQLException {
+	public void deleteCompany(int companyId) {
 		companyDao.deleteCompany(companyId);
 	}
 }

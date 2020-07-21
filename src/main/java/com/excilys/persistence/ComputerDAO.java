@@ -14,7 +14,8 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,13 +30,14 @@ import com.excilys.model.Page;
 @Repository
 public class ComputerDAO {
 
-
-	private CriteriaBuilder cb;
-
 	@Autowired
 	private EntityManagerFactory emf;
 
 	private EntityManager em;
+	
+	private CriteriaBuilder cb;
+	
+	private static Logger logger=LoggerFactory.getLogger(ComputerDAO.class);
 
 	/*
 	 * Count db.
@@ -75,7 +77,7 @@ public class ComputerDAO {
 	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
-	public List<Computer> viewSomeComputers(Page page) throws SQLException {
+	public List<Computer> viewSomeComputers(Page page) {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
@@ -101,7 +103,7 @@ public class ComputerDAO {
 	 * @param computerId the computer ID
 	 * @throws SQLException the SQL exception
 	 */
-	public void updateComputerName(String newName, int computerId) throws SQLException {
+	public void updateComputerName(String newName, int computerId) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
@@ -120,7 +122,7 @@ public class ComputerDAO {
 	 * @return the int
 	 * @throws SQLException the SQL exception
 	 */
-	public boolean updateComputerDisc(Date intr, Date disc, int computerId) throws SQLException {
+	public boolean updateComputerDisc(Date intr, Date disc, int computerId) {
 
 		boolean res = true;
 
@@ -142,7 +144,7 @@ public class ComputerDAO {
 	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
-	public void updateComputer(Computer myComp) throws SQLException {
+	public void updateComputer(Computer myComp) {
 
 		em.getTransaction().begin();
 		em.merge(myComp);
@@ -157,7 +159,7 @@ public class ComputerDAO {
 	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
-	public Computer insertComputer(Computer myComp) throws SQLException {
+	public Computer insertComputer(Computer myComp) {
 
 		em.getTransaction().begin();
 		em.persist(myComp);
@@ -173,7 +175,7 @@ public class ComputerDAO {
 	 */
 
 	@Transactional
-	public void deleteComputer(int computerId) throws SQLException {
+	public void deleteComputer(int computerId) {
 
 		em = emf.createEntityManager();
 		cb = em.getCriteriaBuilder();
@@ -182,7 +184,7 @@ public class ComputerDAO {
 		delete.where(cb.equal(e.get("id"), computerId));
 		em.getTransaction().begin();
 		int rowsDeleted = em.createQuery(delete).executeUpdate();
-		System.out.println("entities deleted: " + rowsDeleted);
+		logger.debug("Total of computers deleted: " + rowsDeleted);
 		em.getTransaction().commit();
 
 	}
@@ -194,7 +196,7 @@ public class ComputerDAO {
 	 * @return the computer
 	 * @throws SQLException the SQL exception
 	 */
-	public Computer viewCompDetails(int computerId) throws SQLException {
+	public Computer viewCompDetails(int computerId) {
 
 		em = emf.createEntityManager();
 		Computer computer = em.find(Computer.class, computerId);
@@ -209,7 +211,7 @@ public class ComputerDAO {
 	 * @return the search id
 	 * @throws SQLException the SQL exception
 	 */
-	public List<Computer> getSearchId(String search, Page page) throws SQLException {
+	public List<Computer> getSearchId(String search, Page page) {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
@@ -220,12 +222,11 @@ public class ComputerDAO {
 		cb = em.getCriteriaBuilder();
 		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);
-		rootEntry.join("company",JoinType.LEFT);
+		rootEntry.join("company", JoinType.LEFT);
 		Predicate predicate = cb.like(rootEntry.get("name"), "%" + search + "%");
 		Predicate predicate2 = cb.like(rootEntry.get("company").get("name"), "%" + search + "%");
 		Predicate predicate3 = cb.or(predicate, predicate2);
 		CriteriaQuery<Computer> all = cq.select(rootEntry).where(predicate3).orderBy(cb.asc(rootEntry.get("id")));
-		;
 		TypedQuery<Computer> allQuery = em.createQuery(all).setFirstResult(offset).setMaxResults(limit);
 
 		em.getTransaction().commit();
@@ -241,7 +242,7 @@ public class ComputerDAO {
 	 * @return the search intro
 	 * @throws SQLException the SQL exception
 	 */
-	public List<Computer> getSearchIntro(String search, Page page) throws SQLException {
+	public List<Computer> getSearchIntro(String search, Page page) {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
@@ -252,13 +253,12 @@ public class ComputerDAO {
 		cb = em.getCriteriaBuilder();
 		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);
-		rootEntry.join("company",JoinType.LEFT);
+		rootEntry.join("company", JoinType.LEFT);
 		Predicate predicate = cb.like(rootEntry.get("name"), "%" + search + "%");
 		Predicate predicate2 = cb.like(rootEntry.get("company").get("name"), "%" + search + "%");
 		Predicate predicate3 = cb.or(predicate, predicate2);
 		CriteriaQuery<Computer> all = cq.select(rootEntry).where(predicate3)
 				.orderBy(cb.asc(rootEntry.get("introduced")));
-		;
 		TypedQuery<Computer> allQuery = em.createQuery(all).setFirstResult(offset).setMaxResults(limit);
 
 		em.getTransaction().commit();
@@ -273,7 +273,7 @@ public class ComputerDAO {
 	 * @return the search name
 	 * @throws SQLException the SQL exception
 	 */
-	public List<Computer> getSearchName(String search, Page page) throws SQLException {
+	public List<Computer> getSearchName(String search, Page page) {
 
 		int limit = page.getAmount();
 		int offset = (page.getPage() - 1) * page.getAmount();
@@ -284,7 +284,7 @@ public class ComputerDAO {
 		cb = em.getCriteriaBuilder();
 		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);
-		rootEntry.join("company",JoinType.LEFT);
+		rootEntry.join("company", JoinType.LEFT);
 		Predicate predicate = cb.like(rootEntry.get("name"), "%" + search + "%");
 		Predicate predicate2 = cb.like(rootEntry.get("company").get("name"), "%" + search + "%");
 		Predicate predicate3 = cb.or(predicate, predicate2);
@@ -309,7 +309,7 @@ public class ComputerDAO {
 
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);
-		rootEntry.join("company",JoinType.LEFT);
+		rootEntry.join("company", JoinType.LEFT);
 		Predicate predicate = cb.like(rootEntry.get("name"), "%" + search + "%");
 		Predicate predicate2 = cb.like(rootEntry.get("company").get("name"), "%" + search + "%");
 		Predicate predicate3 = cb.or(predicate, predicate2);

@@ -64,12 +64,11 @@ public class ComputerService {
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 
-	public ComputerDTO getCompDetails(int computerID) throws SQLException {
+	public ComputerDTO getCompDetails(int computerID) {
 		Computer temp = computerDao.viewCompDetails(computerID);
-		if(temp.getCompany()==null)
-		{
-			Company tempany=new Company.CompanyBuilder().setId(0).setName(null).build();
-			temp=new Computer.ComputerBuilder().setId(temp.getId()).setName(temp.getName()).setAny(tempany)
+		if (temp.getCompany() == null) {
+			Company tempany = new Company.CompanyBuilder().setId(0).setName(null).build();
+			temp = new Computer.ComputerBuilder().setId(temp.getId()).setName(temp.getName()).setAny(tempany)
 					.setIntro(temp.getIntroduced()).setDisco(temp.getDiscontinued()).build();
 		}
 		ComputerDTO res = ComputerMapper.toDto(temp);
@@ -85,7 +84,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public List<ComputerDTO> viewSomeComputers(Page p) throws SQLException {
+	public List<ComputerDTO> viewSomeComputers(Page p) {
 		logger.debug("Page object initialized", p);
 		// page.setMax(count("computer"));
 		// page.calcPages();
@@ -105,8 +104,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void updateComputerName(String newName, int computerID)
-			throws SQLException {
+	public void updateComputerName(String newName, int computerID) {
 		computerDao.updateComputerName(newName, computerID);
 	}
 
@@ -121,8 +119,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public boolean updateComputerDisc(Date intr, Date disc, int computerID)
-			throws SQLException {
+	public boolean updateComputerDisc(Date intr, Date disc, int computerID) {
 		return computerDao.updateComputerDisc(intr, disc, computerID);
 	}
 
@@ -130,12 +127,12 @@ public class ComputerService {
 	 * Update computer.
 	 *
 	 * @param myComp the my comp
-	 * @return 
-	 * @throws SQLException the SQL exception
+	 * @return
+	 * @throws SQLException           the SQL exception
 	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void updateComputer(Computer myComp) throws SQLException {
+	public void updateComputer(Computer myComp) {
 		computerDao.updateComputer(myComp);
 	}
 
@@ -147,7 +144,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void insertComputer(Computer myComp) throws SQLException {
+	public void insertComputer(Computer myComp) {
 		computerDao.insertComputer(myComp);
 	}
 
@@ -159,7 +156,7 @@ public class ComputerService {
 	 * @throws ClassNotFoundException the class not found exception
 	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
-	public void deleteComputer(int computerID) throws SQLException {
+	public void deleteComputer(int computerID) {
 		computerDao.deleteComputer(computerID);
 	}
 
@@ -167,11 +164,11 @@ public class ComputerService {
 	 * Gets the search id.
 	 *
 	 * @param search the search
-	 * @param page the page
+	 * @param page   the page
 	 * @return the search id
 	 * @throws SQLException the SQL exception
 	 */
-	public List<ComputerDTO> getSearchId(String search, Page page) throws SQLException {
+	public List<ComputerDTO> getSearchId(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchId(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
@@ -182,11 +179,11 @@ public class ComputerService {
 	 * Gets the search intro.
 	 *
 	 * @param search the search
-	 * @param page the page
+	 * @param page   the page
 	 * @return the search intro
 	 * @throws SQLException the SQL exception
 	 */
-	public List<ComputerDTO> getSearchIntro(String search, Page page) throws SQLException {
+	public List<ComputerDTO> getSearchIntro(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchIntro(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
@@ -197,11 +194,11 @@ public class ComputerService {
 	 * Gets the search name.
 	 *
 	 * @param search the search
-	 * @param page the page
+	 * @param page   the page
 	 * @return the search name
 	 * @throws SQLException the SQL exception
 	 */
-	public List<ComputerDTO> getSearchName(String search, Page page) throws SQLException {
+	public List<ComputerDTO> getSearchName(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchName(search, page);
 		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());

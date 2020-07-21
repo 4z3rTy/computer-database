@@ -10,12 +10,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class CdbApplicationInitializer implements WebApplicationInitializer {
+public class CDBInitializer implements WebApplicationInitializer {
 
 	@Override
 
 	public void onStartup(final ServletContext sc) throws ServletException {
-		
+
 		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
 
 		root.scan("com.excilys");

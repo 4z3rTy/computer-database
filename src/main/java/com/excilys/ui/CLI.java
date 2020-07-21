@@ -71,17 +71,13 @@ public class CLI {
 		System.out.println("'List all companies' selected ->");
 		System.out.println("");
 		ArrayList<CompanyDTO> co;
-		try {
 			co = (ArrayList<CompanyDTO>) companyService.getAllCompanies();
 			for (int i = 0; i < co.size(); i++) {
 				System.out.println(co.get(i).toString());
 
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} 
 
-	}
 
 	/**
 	 * Show computer details.
@@ -96,7 +92,7 @@ public class CLI {
 
 		}
 
-		catch (InputMismatchException | SQLException e) {
+		catch (InputMismatchException e) {
 			myScan.next();
 			System.out.println("That’s not an integer => ");
 			System.out.println();
@@ -132,7 +128,7 @@ public class CLI {
 				.setDiscontinued(disc).setCompany(anyDto).build();
 		try {
 			computerService.insertComputer(ComputerMapper.toComputerBis(compDto));
-		} catch (DateTimeParseException | SQLException e) {
+		} catch (DateTimeParseException e) {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
@@ -176,7 +172,7 @@ public class CLI {
 						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless " + id
 								+ " didn't even exist to begin with)");
 				System.out.println("");
-			} catch (NoSuchElementException | SQLException e) {
+			} catch (NoSuchElementException e) {
 				scan.next();
 				scan.close();
 				System.out.println("This computer is not present in the database");
@@ -201,7 +197,7 @@ public class CLI {
 				}
 			}
 
-			catch (DateTimeParseException | SQLException e) {
+			catch (DateTimeParseException e) {
 				System.out.println(
 						"Sorry,there was an issue with the format of your discontinued date input. Update failed");
 				System.out.println();
@@ -224,7 +220,7 @@ public class CLI {
 			System.out.println("Computer " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
-		} catch (InputMismatchException | SQLException e) {
+		} catch (InputMismatchException e) {
 			myScan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
@@ -256,7 +252,7 @@ public class CLI {
 				System.out.println("If you wish to exit please input 'exit'");
 			}
 
-			catch (InputMismatchException | SQLException e) {
+			catch (InputMismatchException e) {
 				if (myScan.next().equals("exit")) {
 					notdone = false;
 					System.out.println("Option exited succesfully.");
@@ -282,7 +278,7 @@ public class CLI {
 			System.out.println("Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
 					+ id + " didn't even exist to begin with)");
 
-		} catch (InputMismatchException | SQLException e) {
+		} catch (InputMismatchException e) {
 			myScan.next();
 			System.out.println("That’s not a valid ID (integer required) => Deletion Failed");
 			System.out.println();
