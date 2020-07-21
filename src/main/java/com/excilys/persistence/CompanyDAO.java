@@ -1,6 +1,5 @@
 package com.excilys.persistence;
 
-import java.sql.*;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -34,13 +33,13 @@ public class CompanyDAO {
 	
 	private CriteriaBuilder cb;
 	
+	/** The logger. */
 	private static Logger logger=LoggerFactory.getLogger(CompanyDAO.class);
 
 	/**
 	 * Delete company.
 	 *
 	 * @param companyId the company id
-	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
 	public void deleteCompany(int companyId) {
@@ -83,7 +82,6 @@ public class CompanyDAO {
 	 * View company.
 	 *
 	 * @return The list of all companies queried
-	 * @throws SQLException the SQL exception
 	 */
 
 	public List<Company> viewCompany(){

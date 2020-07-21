@@ -18,7 +18,7 @@ public class CompanyRowMapper implements RowMapper<Company>{
 		Company company = new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
 		logger.debug("New Company Object initialized", company);
 		
-		return company;
+		return company; 
 		
 	}
 

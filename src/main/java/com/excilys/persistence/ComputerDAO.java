@@ -37,8 +37,15 @@ public class ComputerDAO {
 	
 	private CriteriaBuilder cb;
 	
+	/** The logger. */
 	private static Logger logger=LoggerFactory.getLogger(ComputerDAO.class);
 
+	/**
+	 * Count db.
+	 *
+	 * @param tbName the tb name
+	 * @return the int
+	 */
 	/*
 	 * Count db.
 	 *
@@ -74,7 +81,6 @@ public class ComputerDAO {
 	 *
 	 * @param page the page
 	 * @return the list
-	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
 	public List<Computer> viewSomeComputers(Page page) {
@@ -101,7 +107,6 @@ public class ComputerDAO {
 	 *
 	 * @param newName    the new name
 	 * @param computerId the computer ID
-	 * @throws SQLException the SQL exception
 	 */
 	public void updateComputerName(String newName, int computerId) {
 
@@ -120,7 +125,6 @@ public class ComputerDAO {
 	 * @param disc       the disc
 	 * @param computerId the computer ID
 	 * @return the int
-	 * @throws SQLException the SQL exception
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerId) {
 
@@ -141,7 +145,6 @@ public class ComputerDAO {
 	 * Update computer.
 	 *
 	 * @param myComp the my comp
-	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
 	public void updateComputer(Computer myComp) {
@@ -156,7 +159,6 @@ public class ComputerDAO {
 	 *
 	 * @param myComp the my comp
 	 * @return the computer
-	 * @throws SQLException the SQL exception
 	 */
 	@Transactional
 	public Computer insertComputer(Computer myComp) {
@@ -171,7 +173,6 @@ public class ComputerDAO {
 	 * Delete computer.
 	 *
 	 * @param computerId the computer ID
-	 * @throws SQLException the SQL exception
 	 */
 
 	@Transactional
@@ -194,7 +195,6 @@ public class ComputerDAO {
 	 *
 	 * @param computerId the computer ID
 	 * @return the computer
-	 * @throws SQLException the SQL exception
 	 */
 	public Computer viewCompDetails(int computerId) {
 
@@ -209,7 +209,6 @@ public class ComputerDAO {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search id
-	 * @throws SQLException the SQL exception
 	 */
 	public List<Computer> getSearchId(String search, Page page) {
 
@@ -240,7 +239,6 @@ public class ComputerDAO {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search intro
-	 * @throws SQLException the SQL exception
 	 */
 	public List<Computer> getSearchIntro(String search, Page page) {
 
@@ -271,7 +269,6 @@ public class ComputerDAO {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search name
-	 * @throws SQLException the SQL exception
 	 */
 	public List<Computer> getSearchName(String search, Page page) {
 

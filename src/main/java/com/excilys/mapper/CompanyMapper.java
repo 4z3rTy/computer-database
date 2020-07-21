@@ -18,20 +18,6 @@ public class CompanyMapper {
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
 	/**
-	 * Company map.
-	 *
-	 * @param rs the rs
-	 * @return the company
-	 * @throws SQLException the SQL exception
-	 */
-	public static Company companyMap(ResultSet rs) throws SQLException {
-		Company c = new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
-		logger.debug("New Company Object initialized", c);
-
-		return c;
-	}
-
-	/**
 	 * Pretty company map.
 	 *
 	 * @param rs the rs

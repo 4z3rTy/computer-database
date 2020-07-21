@@ -9,11 +9,22 @@ import org.slf4j.LoggerFactory;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
 
+/**
+ * The Class ComputerValidator.
+ */
 public class ComputerValidator {
 
+	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
 
+	/**
+	 * Validate.
+	 *
+	 * @param dto the dto
+	 * @param messages the messages
+	 * @return the map
+	 */
 	public static Map<String, String> validate(ComputerDTO dto, Map<String, String> messages) {
 
 		if ((ComputerValidator.emptyName(dto.getComputerName()))) {
@@ -47,6 +58,12 @@ public class ComputerValidator {
 		return messages;
 	}
 
+	/**
+	 * Empty name.
+	 *
+	 * @param name the name
+	 * @return true, if successful
+	 */
 	public static boolean emptyName(String name) {
 		boolean result = false;
 		if (name == null || name == "") {
@@ -55,6 +72,12 @@ public class ComputerValidator {
 		return result;
 	}
 
+	/**
+	 * Empty date.
+	 *
+	 * @param intro the intro
+	 * @return true, if successful
+	 */
 	public static boolean emptyDate(String intro) {
 		boolean result = false;
 		if (intro.equals(null) || intro.equals("")) {
@@ -63,6 +86,13 @@ public class ComputerValidator {
 		return result;
 	}
 
+	/**
+	 * Wrong date.
+	 *
+	 * @param intro the intro
+	 * @param disco the disco
+	 * @return true, if successful
+	 */
 	public static boolean wrongDate(String intro, String disco) {
 		boolean result = false;
 		if (ComputerMapper.stringToLocal(intro).compareTo(ComputerMapper.stringToLocal(disco)) > 0) {
@@ -71,6 +101,12 @@ public class ComputerValidator {
 		return result;
 	}
 
+	/**
+	 * Empty company.
+	 *
+	 * @param companyId the company id
+	 * @return true, if successful
+	 */
 	public static boolean emptyCompany(String companyId) {
 		boolean result = false;
 		if (companyId.equals("0")) { // ????
@@ -79,6 +115,12 @@ public class ComputerValidator {
 		return result;
 	}
 
+	/**
+	 * Wrong format.
+	 *
+	 * @param intro the intro
+	 * @return true, if successful
+	 */
 	public static boolean wrongFormat(String intro) {
 		boolean result = false;
 

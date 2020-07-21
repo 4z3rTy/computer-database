@@ -1,9 +1,6 @@
 package com.excilys.service;
 
-import java.io.IOException;
-
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ComputerService {
 
+	/** The computer dao. */
 	@Autowired
 	private ComputerDAO computerDao;
 
@@ -59,9 +57,6 @@ public class ComputerService {
 	 *
 	 * @param computerID the computer ID
 	 * @return the list
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 
 	public ComputerDTO getCompDetails(int computerID) {
@@ -80,9 +75,6 @@ public class ComputerService {
 	 *
 	 * @param p the page
 	 * @return the computer
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public List<ComputerDTO> viewSomeComputers(Page p) {
 		logger.debug("Page object initialized", p);
@@ -100,9 +92,6 @@ public class ComputerService {
 	 *
 	 * @param newName    the new name
 	 * @param computerID the computer ID
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void updateComputerName(String newName, int computerID) {
 		computerDao.updateComputerName(newName, computerID);
@@ -115,9 +104,6 @@ public class ComputerService {
 	 * @param disc       the disc
 	 * @param computerID the computer ID
 	 * @return the int
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public boolean updateComputerDisc(Date intr, Date disc, int computerID) {
 		return computerDao.updateComputerDisc(intr, disc, computerID);
@@ -127,10 +113,6 @@ public class ComputerService {
 	 * Update computer.
 	 *
 	 * @param myComp the my comp
-	 * @return
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void updateComputer(Computer myComp) {
 		computerDao.updateComputer(myComp);
@@ -140,9 +122,6 @@ public class ComputerService {
 	 * Insert computer.
 	 *
 	 * @param myComp the my comp
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void insertComputer(Computer myComp) {
 		computerDao.insertComputer(myComp);
@@ -152,9 +131,6 @@ public class ComputerService {
 	 * Delete computer.
 	 *
 	 * @param computerID the computer ID
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException            Signals that an I/O exception has occurred.
 	 */
 	public void deleteComputer(int computerID) {
 		computerDao.deleteComputer(computerID);
@@ -166,7 +142,6 @@ public class ComputerService {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search id
-	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchId(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchId(search, page);
@@ -181,7 +156,6 @@ public class ComputerService {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search intro
-	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchIntro(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchIntro(search, page);
@@ -196,7 +170,6 @@ public class ComputerService {
 	 * @param search the search
 	 * @param page   the page
 	 * @return the search name
-	 * @throws SQLException the SQL exception
 	 */
 	public List<ComputerDTO> getSearchName(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchName(search, page);

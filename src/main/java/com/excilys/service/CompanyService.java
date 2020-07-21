@@ -1,7 +1,5 @@
 package com.excilys.service;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +20,11 @@ public class CompanyService {
 	/** The company DAO. */
 	private CompanyDAO companyDao;
 	
+	/**
+	 * Sets the company dao.
+	 *
+	 * @param companyDao the new company dao
+	 */
 	@Autowired
 	public void setCompanyDao(CompanyDAO companyDao)
 	{
@@ -42,9 +45,6 @@ public class CompanyService {
 	 * Gets the all companies.
 	 *
 	 * @return the all companies
-	 * @throws SQLException           the SQL exception
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public List<CompanyDTO> getAllCompanies() {
 		List<Company> temp = companyDao.viewCompany();
@@ -58,7 +58,6 @@ public class CompanyService {
 	 * Delete company.
 	 *
 	 * @param companyId the company id
-	 * @throws SQLException the SQL exception
 	 */
 	public void deleteCompany(int companyId) {
 		companyDao.deleteCompany(companyId);

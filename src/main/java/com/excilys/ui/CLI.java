@@ -45,7 +45,9 @@ public class CLI {
 	}
 
 	private CompanyService companyService;
+	
 	private ComputerService computerService;
+	
 	protected static Scanner myScan;
 
 	/** The Constant logger. */
