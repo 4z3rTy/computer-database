@@ -32,6 +32,7 @@ public class ComputerMapper {
 	public static Computer computerMap(ResultSet rs) throws SQLException {
 		Company temp = CompanyMapper.companyMap(rs);
 		logger.debug("Temporary Company Object initialized", temp);
+		
 		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {
 			intr = null;
@@ -51,11 +52,11 @@ public class ComputerMapper {
 			disc = sqlDate2.toLocalDate();
 		}
 
-		Computer c = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
+		Computer computer = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
 				.setIntro(intr).setDisco(disc).build();
-		logger.debug("New Computer Object initialized", c);
+		logger.debug("New Computer Object initialized", computer);
 
-		return c;
+		return computer;
 	}
 
 	/**
@@ -68,6 +69,7 @@ public class ComputerMapper {
 	public static Computer prettyMap(ResultSet rs) throws SQLException {
 		Company temp = CompanyMapper.prettyCompanyMap(rs);
 		logger.debug("Temporary Company Object initialized", temp);
+		
 		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {
 			intr = null;
@@ -87,11 +89,11 @@ public class ComputerMapper {
 			disc = sqlDate2.toLocalDate();
 		}
 
-		Computer c = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
+		Computer computer = new Computer.ComputerBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).setAny(temp)
 				.setIntro(intr).setDisco(disc).build();
-		logger.debug("New Computer Object initialized", c);
+		logger.debug("New Computer Object initialized", computer);
 
-		return c;
+		return computer;
 	}
 
 	/**
@@ -102,11 +104,11 @@ public class ComputerMapper {
 	 */
 	public static String localToString(LocalDate d) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		String s = null;
+		String string = null;
 		if (d != null) {
-			s = d.format(formatter);
+			string = d.format(formatter);
 		}
-		return s;
+		return string;
 	}
 
 	/**
@@ -116,10 +118,9 @@ public class ComputerMapper {
 	 * @return the date
 	 */
 	public static Date localToSql(LocalDate d) {
-		Date sqld=null;
-		if(d!=null)
-		{
-		sqld = Date.valueOf(d);
+		Date sqld = null;
+		if (d != null) {
+			sqld = Date.valueOf(d);
 		}
 
 		return sqld;
@@ -133,11 +134,10 @@ public class ComputerMapper {
 	 */
 	public static LocalDate stringToLocal(String d) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i=null;
-		if(d!=null)
-		{
-		i = LocalDate.parse(d, formatter);
-		}		
+		LocalDate i = null;
+		if (d != null) {
+			i = LocalDate.parse(d, formatter);
+		}
 		return i;
 	}
 
@@ -148,57 +148,58 @@ public class ComputerMapper {
 	 * @return the computer
 	 */
 	public static Computer toComputer(ComputerDTO dto) {
-		
-		int c_id = Integer.parseInt(dto.getCompanyId());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i,d;
-		
-		if (dto.getIntroduced()!=null && dto.getIntroduced().equals("")==false) {
-			i = LocalDate.parse(dto.getIntroduced(), formatter);
-		}
-		else {
-			i=null;
-		}
-		if (dto.getDiscontinued()!=null && dto.getDiscontinued().equals("")==false) {
-			d = LocalDate.parse(dto.getDiscontinued(), formatter);
-		}
-		else {
-			d=null;
-		}
-		
-		Company company = new Company.CompanyBuilder().setId(c_id).build();
-		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName()).setId(Integer.parseInt(dto.getId())).setAny(company).build();
-		return c;
-	}
-	
-public static Computer toComputerBis(ComputerDTO dto) {
 
-	int c_id=0;
-	if(dto.getCompanyId()!=null)
-	{
-		c_id = Integer.parseInt(dto.getCompanyId());
-	}
+		Integer cId = Integer.parseInt(dto.getCompanyId());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i,d;
-		
-		if (dto.getIntroduced()!=null && dto.getIntroduced().equals("")==false) {
+		LocalDate i, d;
+
+		if (dto.getIntroduced() != null && dto.getIntroduced().equals("") == false) {
 			i = LocalDate.parse(dto.getIntroduced(), formatter);
+		} else {
+			i = null;
 		}
-		else {
-			i=null;
-		}
-		if (dto.getDiscontinued()!=null && dto.getDiscontinued().equals("")==false) {
+		if (dto.getDiscontinued() != null && dto.getDiscontinued().equals("") == false) {
 			d = LocalDate.parse(dto.getDiscontinued(), formatter);
+		} else {
+			d = null;
 		}
+
+		Company company = new Company.CompanyBuilder().setId(cId).build();
+		Computer computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName())
+				.setId(Integer.parseInt(dto.getId())).setAny(company).build();
+		return computer;
+	}
+
+	public static Computer toComputerBis(ComputerDTO dto) {
+
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+		LocalDate i, d;
+
+		if (dto.getIntroduced() != null && dto.getIntroduced().equals("") == false) {
+			i = LocalDate.parse(dto.getIntroduced(), formatter);
+		} else {
+			i = null;
+		}
+		if (dto.getDiscontinued() != null && dto.getDiscontinued().equals("") == false) {
+			d = LocalDate.parse(dto.getDiscontinued(), formatter);
+		} else {
+			d = null;
+		}
+
+		Computer computer=null;
+		if (dto.getCompany()!=null) {
+			Integer cId = Integer.parseInt(dto.getCompanyId());
+			Company company = new Company.CompanyBuilder().setId(cId).build();
+			computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName())
+					.setAny(company).build();
+		} 
 		else {
-			d=null;
+			computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName()).build();
 		}
-		
-		
-		Company company = new Company.CompanyBuilder().setId(c_id).build();
-		Computer c = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName()).setAny(company).build();
-		//setId not used because when AddingComputers  computerId is autoincremented by the sql side
-		return c;
+		// setId not used because when AddingComputers computerId is autoincremented by
+		// the sql side
+		return computer;
 	}
 
 	/**
@@ -210,8 +211,9 @@ public static Computer toComputerBis(ComputerDTO dto) {
 	public static ComputerDTO toDto(Computer computer) {
 
 		ComputerDTO d = new ComputerDTO.ComputerDTOBuilder().setComputerName(computer.getName())
-				.setDiscontinued(localToString(computer.getDiscontinued())).setIntroduced(localToString(computer.getIntroduced()))
-				.setId(String.valueOf(computer.getId())).setCompany(CompanyMapper.toDto(computer.getCompany())).build();
+				.setDiscontinued(localToString(computer.getDiscontinued()))
+				.setIntroduced(localToString(computer.getIntroduced())).setId(String.valueOf(computer.getId()))
+				.setCompany(CompanyMapper.toDto(computer.getCompany())).build();
 		return d;
 	}
 }

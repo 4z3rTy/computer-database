@@ -20,12 +20,12 @@ public class ComputerRowMapper implements RowMapper<Computer>{
 	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Company temp = CompanyMapper.prettyCompanyMap(rs);
 		logger.debug("Temporary Company Object initialized", temp);
+		
 		LocalDate intr;
 		if ((rs.getDate("introduced")) == null) {
 			intr = null;
 			logger.info("Introduced date is set as NULL inside the database");
 		} else {
-
 			Date sqlDate = (rs.getDate("introduced"));
 			intr = sqlDate.toLocalDate();
 		}

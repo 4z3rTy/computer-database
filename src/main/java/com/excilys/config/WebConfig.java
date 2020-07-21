@@ -1,13 +1,11 @@
 package com.excilys.config;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.orm.jpa.DefaultJpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -57,10 +55,6 @@ public class WebConfig implements WebMvcConfigurer {
 		return new HikariDataSource(config);
 	}
 
-	@Bean
-	public NamedParameterJdbcTemplate namedJdbcTemplate(HikariDataSource d) {
-		return new NamedParameterJdbcTemplate(d);
-	}
 
 	@Bean
 	public PlatformTransactionManager transactionManager() {
@@ -68,10 +62,6 @@ public class WebConfig implements WebMvcConfigurer {
 
 	}
 	
-	@Bean
-	public EntityManager getEntityManager() {
-		return getEntityManagerFactory().createEntityManager();
-	}
 
 	@Bean
 	public EntityManagerFactory getEntityManagerFactory() {

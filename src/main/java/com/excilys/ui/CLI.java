@@ -16,8 +16,6 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.excilys.config.CLIconfig;
@@ -31,9 +29,8 @@ import com.excilys.service.ComputerService;
 /**
  * The Class CLI.
  */
-@Configuration
+
 @Import(CLIconfig.class)
-@ComponentScan({ "com.excilys.persistence", "com.excilys.service" })
 public class CLI {
 
 	/**
@@ -47,16 +44,12 @@ public class CLI {
 		this.computerService = computerService;
 	}
 
+	private CompanyService companyService;
+	private ComputerService computerService;
+	protected static Scanner myScan;
+
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CLI.class);
-
-	/** The company service. */
-	private CompanyService companyService;
-
-	/** The computer service. */
-	private ComputerService computerService;
-
-	protected static Scanner myScan;
 
 	/**
 	 * Prints the computers.
@@ -143,7 +136,6 @@ public class CLI {
 			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
 			System.out.println();
 		}
-		// scan.close();
 	}
 
 	/**

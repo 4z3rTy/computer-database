@@ -53,7 +53,7 @@ public class CompanyMapper {
 	 * @return the company
 	 */
 	public static Company toCompany(CompanyDTO dto) {
-		int c_id = Integer.parseInt(dto.getcId());
+		Integer c_id = Integer.parseInt(dto.getcId());
 		String name = dto.getName();
 		Company c = new Company.CompanyBuilder().setId(c_id).setName(name).build();
 		return c;

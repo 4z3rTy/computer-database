@@ -22,7 +22,7 @@ public class Computer {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
+	@ManyToOne //(cascade=CascadeType.ALL)
 	@JoinColumn(name="company_id")
 	private Company company;
 
@@ -47,7 +47,7 @@ public class Computer {
 		return company.getName();
 	}
 
-	public int getCompanyId() {
+	public Integer getCompanyId() {
 		return company.getId();
 	}
 

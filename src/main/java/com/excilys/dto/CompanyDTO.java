@@ -13,8 +13,7 @@ public class CompanyDTO {
 
 
 	public String getcId() {
-		String result=cId;
-		return result;
+		return cId;
 	}
 
 

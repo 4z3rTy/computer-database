@@ -16,7 +16,7 @@ public class Company {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="name")
 	private String name;
@@ -36,10 +36,10 @@ public class Company {
 	}
 
 	public static class CompanyBuilder {
-		private int id;
+		private Integer id;
 		private String name;
 
-		public CompanyBuilder setId(int id) {
+		public CompanyBuilder setId(Integer id) {
 			this.id = id;
 			return this;
 		}

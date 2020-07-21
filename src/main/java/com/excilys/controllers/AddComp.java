@@ -33,11 +33,11 @@ public class AddComp {
 	@Autowired
 	private ComputerService C;
 	private static final Logger logger = LoggerFactory.getLogger(AddComp.class);
-	
-	@GetMapping()
-	public ModelAndView doGet(MyLittleDTO dto){
 
-		ModelAndView mv=new ModelAndView("addComputer");
+	@GetMapping()
+	public ModelAndView doGet(MyLittleDTO dto) {
+
+		ModelAndView mv = new ModelAndView("addComputer");
 		try {
 			List<CompanyDTO> companies = CS.getAllCompanies();
 			mv.getModel().put("companies", companies);
@@ -46,35 +46,35 @@ public class AddComp {
 		}
 		return mv;
 	}
-	
-	
+
 	@PostMapping()
 	public ModelAndView doPost(ComputerDTOBuilder dtoBuilder, CompanyDTOBuilder fyouBuilder) {
 		Map<String, String> messages = new HashMap<String, String>();
-		ModelAndView mv=new ModelAndView("addComputer");
-		
-		ComputerDTO dto= dtoBuilder.build();
-		CompanyDTO fyou=fyouBuilder.build();
+		ModelAndView mv = new ModelAndView("addComputer");
+
+		ComputerDTO dto = dtoBuilder.build();
+		CompanyDTO fyou = fyouBuilder.build();
 		String name = dto.getComputerName();
 		String intro = dto.getIntroduced();
 		String disco = dto.getDiscontinued();
-		//String companyId = dto.getCompanyId();
-		String companyId= fyou.getcId();
-		if (companyId.equals("0"))
-		{
-			companyId=null;
-		}
-		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro).setDiscontinued(disco)
-				.setCompany(anyDto).build();
+		String companyId = fyou.getcId();
 
+		ComputerDTO compDto;
+		if (!companyId.equals("0")) {
+			CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(companyId).build();
+			compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
+					.setDiscontinued(disco).setCompany(anyDto).build();
+		} else {
+			compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intro)
+					.setDiscontinued(disco).build();
+		}
 		messages = ComputerValidator.validate(compDto, messages);
-		
+
 		try {
 			if (messages.isEmpty()) {
 				messages.put("success", "Insertion completed successfully!!!!");
-			
-			C.insertComputer(ComputerMapper.toComputerBis(compDto));
+
+				C.insertComputer(ComputerMapper.toComputerBis(compDto));
 			}
 
 		} catch (SQLException e) {
@@ -83,7 +83,7 @@ public class AddComp {
 		}
 
 		mv.getModel().put("messages", messages);
-		
+
 		return mv;
 	}
 }

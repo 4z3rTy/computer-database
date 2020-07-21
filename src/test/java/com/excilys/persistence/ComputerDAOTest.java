@@ -24,7 +24,7 @@ import com.excilys.service.ComputerService;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
-import com.excilys.mysql.DataSource;
+import javax.sql.DataSource;
 
 public class ComputerDAOTest {
 
@@ -52,7 +52,6 @@ public class ComputerDAOTest {
 	@Mock
 	DataSource ds;
 
-	@SuppressWarnings("static-access")
 	@Before
 	public void setup() throws SQLException, ClassNotFoundException, IOException {
 		MockitoAnnotations.initMocks(this);
