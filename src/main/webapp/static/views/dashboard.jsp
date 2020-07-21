@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Computer Database</title>
+<title><spring:message code="Title"/></title>
 <!-- Bootstrap -->
 <link href="static/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
@@ -25,7 +25,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${sum} Computers found</h1>
+			<h1 id="homeTitle">${sum}Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
@@ -66,12 +66,12 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
+						<th><spring:message code="Name"/></th>
+						<th><spring:message code="Intro"/></th>
 						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
+						<th><spring:message code="Disco"/></th>
 						<!-- Table header for Company -->
-						<th>Company</th>
+						<th><spring:message code="Company"/></th>
 
 					</tr>
 				</thead>
