@@ -1,7 +1,6 @@
 package com.excilys.ui;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -45,9 +44,9 @@ public class CLI {
 	}
 
 	private CompanyService companyService;
-	
+
 	private ComputerService computerService;
-	
+
 	protected static Scanner myScan;
 
 	/** The Constant logger. */
@@ -59,11 +58,8 @@ public class CLI {
 	public void printComputers() {
 		System.out.println("'List all computers' selected ->");
 		System.out.println("");
-		ArrayList<ComputerDTO> c = (ArrayList<ComputerDTO>) computerService.getAllComputers();
-		for (int i = 0; i < c.size(); i++) {
-			System.out.println(c.get(i).toString());
-
-		}
+		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) computerService.getAllComputers();
+		computers.forEach(computer -> System.out.println(computer.toString()));
 	}
 
 	/**
@@ -72,14 +68,10 @@ public class CLI {
 	public void printCompanies() {
 		System.out.println("'List all companies' selected ->");
 		System.out.println("");
-		ArrayList<CompanyDTO> co;
-			co = (ArrayList<CompanyDTO>) companyService.getAllCompanies();
-			for (int i = 0; i < co.size(); i++) {
-				System.out.println(co.get(i).toString());
-
-			}
-		} 
-
+		ArrayList<CompanyDTO> companies;
+		companies = (ArrayList<CompanyDTO>) companyService.getAllCompanies();
+		companies.forEach(company -> System.out.println(company.toString()));
+	}
 
 	/**
 	 * Show computer details.
@@ -88,9 +80,9 @@ public class CLI {
 		System.out.println("'Show computer details' selected:");
 		System.out.println("Please indicate which computer you are interested in using its id ->");
 		try {
-			int id = myScan.nextInt();
-			System.out.println("Attempting to fetch computer details for computer ID=" + id);
-			System.out.println(computerService.getCompDetails(id));
+			int computerId = myScan.nextInt();
+			System.out.println("Attempting to fetch computer details for computer ID=" + computerId);
+			System.out.println(computerService.getCompDetails(computerId));
 
 		}
 
@@ -108,7 +100,7 @@ public class CLI {
 		String name = null;
 		String intr = null;
 		String disc = null;
-		int c_id = -1;
+		Integer companyId = null;
 
 		System.out.println("'Create a computer' selected:");
 		System.out.println(
@@ -117,21 +109,21 @@ public class CLI {
 			name = myScan.next();
 			intr = myScan.next();
 			disc = myScan.next();
-			c_id = myScan.nextInt();
+			companyId = myScan.nextInt();
 		} catch (InputMismatchException e) {
-			System.out.println("Sorry,there was an issue with the number of inputs. Creation aborted.");
+			System.out.println("Sorry,there was an issue with the number of inputs. Try again.");
 		}
 		System.out.println("Attempting to create computer with following attributes name=" + name);
 		System.out.println("date introduced=" + intr);
 		System.out.println("date discontinued=" + disc);
-		System.out.println("company ID=" + c_id);
-		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(c_id)).build();
-		ComputerDTO compDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intr)
+		System.out.println("company ID=" + companyId);
+		CompanyDTO anyDto = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(companyId)).build();
+		ComputerDTO uterDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intr)
 				.setDiscontinued(disc).setCompany(anyDto).build();
 		try {
-			computerService.insertComputer(ComputerMapper.toComputerBis(compDto));
+			computerService.insertComputer(ComputerMapper.toComputerBis(uterDto));
 		} catch (DateTimeParseException e) {
-			System.out.println("Sorry,there was an issue with the format of either or both of the dates input.");
+			System.out.println("Sorry,there was an issue with the format of either or both of your dates input.");
 			System.out.println();
 		}
 	}
@@ -141,7 +133,7 @@ public class CLI {
 	 */
 	public void edit() {
 
-		int id = -1;
+		int computerId = -1;
 		String name = null;
 		String intr = null;
 		String disc = null;
@@ -151,28 +143,28 @@ public class CLI {
 		Scanner scan = new Scanner(System.in);
 
 		try {
-			id = scan.nextInt();
+			computerId = scan.nextInt();
 		} catch (InputMismatchException e) {
 			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Update Failed");
 			System.out.println();
 		}
 
-		System.out.println("Please input '1' if you wish to update " + id
-				+ "'s Computer name or '2' if you wish to update " + id + "'s discontinued date ->");
-		int subc;
-		subc = scan.nextInt();
-		switch (subc) {
+		System.out.println("Please input '1' if you wish to update " + computerId
+				+ "'s Computer name or '2' if you wish to update " + computerId + "'s discontinued date ->");
+		int subOption;
+		subOption = scan.nextInt();
+		switch (subOption) {
 		case 1:
-			System.out.println("Please input a new name for Computer id=" + id + ":");
-			Scanner scan1 = new Scanner(System.in);
+			System.out.println("Please input a new name for Computer id=" + computerId + ":");
+			Scanner subScan1 = new Scanner(System.in);
 
 			try {
-				name = scan1.next();
-				computerService.updateComputerName(name, id);
+				name = subScan1.next();
+				computerService.updateComputerName(name, computerId);
 				System.out.println(
-						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless " + id
-								+ " didn't even exist to begin with)");
+						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless "
+								+ computerId + " didn't even exist to begin with)");
 				System.out.println("");
 			} catch (NoSuchElementException e) {
 				scan.next();
@@ -181,18 +173,16 @@ public class CLI {
 			}
 			break;
 		case 2:
-			System.out.println("Please input a new introduced & discontinued date for Computer " + id + ":");
-			Scanner scan2 = new Scanner(System.in);
-			intr = scan2.next();
-			disc = scan2.next();
+			System.out.println("Please input a new introduced & discontinued date for Computer " + computerId + ":");
+			Scanner subScan2 = new Scanner(System.in);
+			intr = subScan2.next();
+			disc = subScan2.next();
 			DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 			try {
-				LocalDate date1 = LocalDate.parse(disc, formatter1);
-				Date sqlDate1 = Date.valueOf(date1);
-				LocalDate date2 = LocalDate.parse(intr, formatter1);
-				Date sqlDate2 = Date.valueOf(date2);
+				LocalDate introduced = LocalDate.parse(intr, formatter1);
+				LocalDate discontinued = LocalDate.parse(disc, formatter1);
 
-				if (computerService.updateComputerDisc(sqlDate2, sqlDate1, id)) {
+				if (computerService.updateComputerDisc(introduced, discontinued, computerId)) {
 					System.out
 							.println("Your modification has been carried out (hopefully, maybe, probably, definitely)");
 					System.out.println("");
@@ -212,15 +202,16 @@ public class CLI {
 	 * Delete a computer.
 	 */
 	public void deleteComputer() {
-		int id = -1;
+		int computerId = -1;
 
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which computer you wish to delete using it's id ->");
 		try {
-			id = myScan.nextInt();
-			computerService.deleteComputer(id);
-			System.out.println("Computer " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
-					+ id + " didn't even exist to begin with)");
+			computerId = myScan.nextInt();
+			computerService.deleteComputer(computerId);
+			System.out.println(
+					"Computer " + computerId + " has been deleted (hopefully, maybe, probably, definitely...unless "
+							+ computerId + " didn't even exist to begin with)");
 
 		} catch (InputMismatchException e) {
 			myScan.next();
@@ -233,30 +224,28 @@ public class CLI {
 	 * Show some amounts of computers (per Page).
 	 */
 	public void showSome() {
-		int id = -1;
+		int computerId = -1;
 
-		boolean notdone = true;
+		boolean notDone = true;
 		System.out.println("List some or all of the computers in the db ->");
 		Page p = new Page(computerService.count("computer"));
 		p.calcPages();
-		while (notdone) {
+		while (notDone) {
 			System.out.println("Please indicate which page you wish to see:");
 			try {
-				id = myScan.nextInt();
-				System.out.println("Attempting to display page " + id);
-				p.setPage(id);
-				ArrayList<ComputerDTO> com = (ArrayList<ComputerDTO>) computerService.viewSomeComputers(p);
-				for (int i = 0; i < com.size(); i++) {
-					System.out.println(com.get(i).toString());
+				computerId = myScan.nextInt();
+				System.out.println("Attempting to display page " + computerId);
+				p.setPage(computerId);
+				ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) computerService.viewSomeComputers(p);
+				computers.forEach(computer -> System.out.println(computer.toString()));
 
-				}
 				System.out.println();
 				System.out.println("If you wish to exit please input 'exit'");
 			}
 
 			catch (InputMismatchException e) {
 				if (myScan.next().equals("exit")) {
-					notdone = false;
+					notDone = false;
 					System.out.println("Option exited succesfully.");
 				} else {
 					System.out.println("That’s not an integer => ");
@@ -270,15 +259,16 @@ public class CLI {
 	 * Delete a company.
 	 */
 	public void deleteCompany() {
-		int id = -1;
+		Integer companyId = null;
 
 		System.out.println("'Delete a computer' selected:");
 		System.out.println("Please indicate which company you wish to delete using it's id ->");
 		try {
-			id = myScan.nextInt();
-			companyService.deleteCompany(id);
-			System.out.println("Company " + id + " has been deleted (hopefully, maybe, probably, definitely...unless "
-					+ id + " didn't even exist to begin with)");
+			companyId = myScan.nextInt();
+			companyService.deleteCompany(companyId);
+			System.out.println(
+					"Company " + companyId + " has been deleted (hopefully, maybe, probably, definitely...unless "
+							+ companyId + " didn't even exist to begin with)");
 
 		} catch (InputMismatchException e) {
 			myScan.next();

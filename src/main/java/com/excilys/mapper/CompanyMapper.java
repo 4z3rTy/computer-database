@@ -25,11 +25,11 @@ public class CompanyMapper {
 	 * @throws SQLException the SQL exception
 	 */
 	public static Company prettyCompanyMap(ResultSet rs) throws SQLException {
-		Company c = new Company.CompanyBuilder().setId(rs.getInt("computer.company_id"))
+		Company company = new Company.CompanyBuilder().setId(rs.getInt("computer.company_id"))
 				.setName(rs.getString("company.name")).build();
-		logger.debug("New Company Object initialized", c);
+		logger.debug("New Company Object initialized", company);
 
-		return c;
+		return company;
 	}
 
 	/**
@@ -39,10 +39,10 @@ public class CompanyMapper {
 	 * @return the company
 	 */
 	public static Company toCompany(CompanyDTO dto) {
-		Integer c_id = Integer.parseInt(dto.getcId());
+		Integer companyId = Integer.parseInt(dto.getcId());
 		String name = dto.getName();
-		Company c = new Company.CompanyBuilder().setId(c_id).setName(name).build();
-		return c;
+		Company company = new Company.CompanyBuilder().setId(companyId).setName(name).build();
+		return company;
 	}
 
 	/**
@@ -52,13 +52,13 @@ public class CompanyMapper {
 	 * @return the company DTO
 	 */
 	public static CompanyDTO toDto(Company company) {
-		CompanyDTO d;
+		CompanyDTO companyDto;
 		if (company != null) {
-			d = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(company.getId())).setName(company.getName())
+			companyDto = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(company.getId())).setName(company.getName())
 					.build();
 		} else {
-			d = new CompanyDTO.CompanyDTOBuilder().setcId(null).setName(null).build();
+			companyDto = new CompanyDTO.CompanyDTOBuilder().setcId(null).setName(null).build();
 		}
-		return d;
+		return companyDto;
 	}
 }

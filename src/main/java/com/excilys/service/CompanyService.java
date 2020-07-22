@@ -48,9 +48,9 @@ public class CompanyService {
 	 */
 	public List<CompanyDTO> getAllCompanies() {
 		List<Company> temp = companyDao.viewCompany();
-		List<CompanyDTO> res = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
+		List<CompanyDTO> companies = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
 
-		return res;
+		return companies;
 
 	}
 

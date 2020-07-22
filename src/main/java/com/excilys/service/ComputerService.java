@@ -1,6 +1,6 @@
 package com.excilys.service;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +47,9 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getAllComputers() {
 		List<Computer> temp = computerDao.viewComputer();
-		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
-		return res;
+		return computers;
 	}
 
 	/**
@@ -60,14 +60,19 @@ public class ComputerService {
 	 */
 
 	public ComputerDTO getCompDetails(int computerID) {
-		Computer temp = computerDao.viewCompDetails(computerID);
-		if (temp.getCompany() == null) {
-			Company tempany = new Company.CompanyBuilder().setId(0).setName(null).build();
-			temp = new Computer.ComputerBuilder().setId(temp.getId()).setName(temp.getName()).setAny(tempany)
-					.setIntro(temp.getIntroduced()).setDisco(temp.getDiscontinued()).build();
+		Computer tempUter = computerDao.viewCompDetails(computerID);
+		ComputerDTO computer = null;
+		if (tempUter != null) {
+			if (tempUter.getCompany() == null) {
+				Company tempAny = new Company.CompanyBuilder().setId(0).setName(null).build();
+				tempUter = new Computer.ComputerBuilder().setId(tempUter.getId()).setName(tempUter.getName())
+						.setAny(tempAny).setIntro(tempUter.getIntroduced()).setDisco(tempUter.getDiscontinued())
+						.build();
+
+			}
+			computer = ComputerMapper.toDto(tempUter);
 		}
-		ComputerDTO res = ComputerMapper.toDto(temp);
-		return res;
+		return computer;
 	}
 
 	/**
@@ -78,13 +83,11 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> viewSomeComputers(Page p) {
 		logger.debug("Page object initialized", p);
-		// page.setMax(count("computer"));
-		// page.calcPages();
 		List<Computer> temp = computerDao.viewSomeComputers(p);
-		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
 
-		return res;
+		return computers;
 	}
 
 	/**
@@ -100,13 +103,13 @@ public class ComputerService {
 	/**
 	 * Update computer disc.
 	 *
-	 * @param intr       the intr
-	 * @param disc       the disc
+	 * @param date2       the intr
+	 * @param date1       the disc
 	 * @param computerID the computer ID
 	 * @return the int
 	 */
-	public boolean updateComputerDisc(Date intr, Date disc, int computerID) {
-		return computerDao.updateComputerDisc(intr, disc, computerID);
+	public boolean updateComputerDisc(LocalDate date2, LocalDate date1, int computerID) {
+		return computerDao.updateComputerDisc(date2, date1, computerID);
 	}
 
 	/**
@@ -145,9 +148,9 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchId(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchId(search, page);
-		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
-		return res;
+		return computerFound;
 	}
 
 	/**
@@ -159,9 +162,9 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchIntro(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchIntro(search, page);
-		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
-		return res;
+		return computerFound;
 	}
 
 	/**
@@ -173,9 +176,9 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchName(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchName(search, page);
-		List<ComputerDTO> res = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
 				.collect(Collectors.toList());
-		return res;
+		return computerFound;
 	}
 
 	/**

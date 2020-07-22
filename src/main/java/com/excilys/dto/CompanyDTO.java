@@ -19,7 +19,7 @@ public class CompanyDTO {
 
 	@Override
 	public String toString() {
-		return " [name=" + name + ", cId=" + cId + "]";
+		return " [name=" + name + ", Id=" + cId + "]";
 	}
 
 	

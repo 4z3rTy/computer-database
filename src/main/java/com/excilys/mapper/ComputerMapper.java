@@ -121,10 +121,10 @@ public class ComputerMapper {
 	 */
 	public static ComputerDTO toDto(Computer computer) {
 
-		ComputerDTO d = new ComputerDTO.ComputerDTOBuilder().setComputerName(computer.getName())
+		ComputerDTO computerDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(computer.getName())
 				.setDiscontinued(localToString(computer.getDiscontinued()))
 				.setIntroduced(localToString(computer.getIntroduced())).setId(String.valueOf(computer.getId()))
 				.setCompany(CompanyMapper.toDto(computer.getCompany())).build();
-		return d;
+		return computerDto;
 	}
 }

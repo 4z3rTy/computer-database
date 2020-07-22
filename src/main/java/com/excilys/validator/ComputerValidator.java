@@ -17,11 +17,10 @@ public class ComputerValidator {
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
-
 	/**
 	 * Validate.
 	 *
-	 * @param dto the dto
+	 * @param dto      the dto
 	 * @param messages the messages
 	 * @return the map
 	 */
@@ -47,14 +46,15 @@ public class ComputerValidator {
 			}
 		}
 
-		if (!(ComputerValidator.emptyDate(dto.getIntroduced())) && !(ComputerValidator.emptyDate(dto.getDiscontinued()))) {
-			if (ComputerValidator.wrongFormat(dto.getIntroduced()) && (ComputerValidator.wrongFormat(dto.getDiscontinued()))) {
+		if (!(ComputerValidator.emptyDate(dto.getIntroduced()))
+				&& !(ComputerValidator.emptyDate(dto.getDiscontinued()))) {
+			if (ComputerValidator.wrongFormat(dto.getIntroduced())
+					&& (ComputerValidator.wrongFormat(dto.getDiscontinued()))) {
 				if (ComputerValidator.wrongDate(dto.getIntroduced(), dto.getDiscontinued())) {
 					messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
 				}
 			}
 		}
-
 		return messages;
 	}
 
@@ -109,7 +109,7 @@ public class ComputerValidator {
 	 */
 	public static boolean emptyCompany(String companyId) {
 		boolean result = false;
-		if (companyId.equals("0")) { // ????
+		if (companyId.equals("0")) {
 			result = true;
 		}
 		return result;

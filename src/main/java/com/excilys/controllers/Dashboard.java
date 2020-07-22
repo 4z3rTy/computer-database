@@ -101,15 +101,6 @@ public class Dashboard {
 		ModelAndView mv = new ModelAndView("redirect:dashboard");
 
 		selection.forEach(computer -> ComputerService.deleteComputer(Integer.parseInt(computer)));
-		/*for (String i : selection) {
-			try {
-				
-				ComputerService.deleteComputer(Integer.parseInt(i));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-		}
-		*/
 
 		return mv;
 	}

@@ -1,6 +1,6 @@
 package com.excilys.persistence;
 
-import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -30,11 +30,14 @@ import com.excilys.model.Page;
 @Repository
 public class ComputerDAO {
 
+	/** The emf. */
 	@Autowired
 	private EntityManagerFactory emf;
 
+	/** The em. */
 	private EntityManager em;
 	
+	/** The cb. */
 	private CriteriaBuilder cb;
 	
 	/** The logger. */
@@ -108,36 +111,44 @@ public class ComputerDAO {
 	 * @param newName    the new name
 	 * @param computerId the computer ID
 	 */
+	@Transactional
 	public void updateComputerName(String newName, int computerId) {
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		em.getTransaction().begin();
 		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
 		Root<Computer> e = update.from(Computer.class);
 		update.set("name", newName);
 		update.where(cb.equal(e.get("id"), computerId));
 		this.em.createQuery(update).executeUpdate();
+		em.getTransaction().commit();
 	}
 
 	/**
 	 * Update computer disc.
 	 *
-	 * @param intr       the intr
-	 * @param disc       the disc
+	 * @param date2       the intr
+	 * @param date1       the disc
 	 * @param computerId the computer ID
 	 * @return the int
 	 */
-	public boolean updateComputerDisc(Date intr, Date disc, int computerId) {
+	@Transactional
+	public boolean updateComputerDisc(LocalDate date2, LocalDate date1, int computerId) {
 
 		boolean res = true;
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+		em.getTransaction().begin();
 		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
 		Root<Computer> e = update.from(Computer.class);
-		update.set("introduced", intr);
-		update.set("discontinued", disc);
+		update.set("introduced", date2);
+		update.set("discontinued", date1);
 		update.where(cb.equal(e.get("id"), computerId));
 		this.em.createQuery(update).executeUpdate();
-
+		em.getTransaction().commit();
+		
 		return res;
 	}
 
