@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
 import com.excilys.config.CLIconfig;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.model.Page;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
@@ -31,7 +31,6 @@ import com.excilys.service.ComputerService;
 
 @Import(CLIconfig.class)
 public class CLI {
-
 	/**
 	 * Instantiates a new cli.
 	 *
@@ -44,9 +43,7 @@ public class CLI {
 	}
 
 	private CompanyService companyService;
-
 	private ComputerService computerService;
-
 	protected static Scanner myScan;
 
 	/** The Constant logger. */
@@ -83,7 +80,6 @@ public class CLI {
 			int computerId = myScan.nextInt();
 			System.out.println("Attempting to fetch computer details for computer ID=" + computerId);
 			System.out.println(computerService.getCompDetails(computerId));
-
 		}
 
 		catch (InputMismatchException e) {
@@ -111,8 +107,8 @@ public class CLI {
 			disc = myScan.next();
 			companyId = myScan.nextInt();
 		} catch (InputMismatchException e) {
-			System.out.println("Sorry,there was an issue with the number of inputs. Try again.");
-		}
+			System.out.println("Sorry,there was an issue with the number of inputs. Please try again.");
+		}	
 		System.out.println("Attempting to create computer with following attributes name=" + name);
 		System.out.println("date introduced=" + intr);
 		System.out.println("date discontinued=" + disc);
@@ -121,9 +117,9 @@ public class CLI {
 		ComputerDTO uterDto = new ComputerDTO.ComputerDTOBuilder().setComputerName(name).setIntroduced(intr)
 				.setDiscontinued(disc).setCompany(anyDto).build();
 		try {
-			computerService.insertComputer(ComputerMapper.toComputerBis(uterDto));
+			computerService.insertComputer(ComputerDtoMapper.toComputerAdd(uterDto));
 		} catch (DateTimeParseException e) {
-			System.out.println("Sorry,there was an issue with the format of either or both of your dates input.");
+			System.out.println("Sorry,there was an issue with the format of either or both of your date input. Please try again.");
 			System.out.println();
 		}
 	}
@@ -286,9 +282,8 @@ public class CLI {
 	 * @throws ParseException         the parse exception
 	 * @throws ClassNotFoundException the class not found exception
 	 */
-	public static void main(String[] args) throws IOException, SQLException, ParseException, ClassNotFoundException {
+	public static void main(String[] args) {
 
-		// Scanner sc = new Scanner(System.in);
 		myScan = new Scanner(System.in);
 		boolean running = true;
 		int option = 0;
@@ -298,7 +293,7 @@ public class CLI {
 
 		ComputerService computerService = ctx.getBean(ComputerService.class);
 		CompanyService companyService = ctx.getBean(CompanyService.class);
-		CLI myne = new CLI(computerService, companyService);
+		CLI cli = new CLI(computerService, companyService);
 
 		while (running) {
 
@@ -332,35 +327,35 @@ public class CLI {
 			switch (option) {
 
 			case 1:
-				myne.printComputers();
+				cli.printComputers();
 				break;
 
 			case 2:
-				myne.printCompanies();
+				cli.printCompanies();
 				break;
 
 			case 3:
-				myne.show();
+				cli.show();
 				break;
 
 			case 4:
-				myne.createComputer();
+				cli.createComputer();
 				break;
 
 			case 5:
-				myne.edit();
+				cli.edit();
 				break;
 
 			case 6:
-				myne.deleteComputer();
+				cli.deleteComputer();
 				break;
 
 			case 7:
-				myne.deleteCompany();
+				cli.deleteCompany();
 				break;
 
 			case 8:
-				myne.showSome();
+				cli.showSome();
 				break;
 
 			case 9:
@@ -373,7 +368,6 @@ public class CLI {
 				System.out.println("The option you selected is not currently available, please try again :) ");
 				break;
 			}
-
 		}
 	}
 }

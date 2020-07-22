@@ -1,4 +1,4 @@
-package com.excilys.mysql;
+package com.excilys.persistence;
 
 import java.io.FileOutputStream;
 import java.sql.Connection;

@@ -17,7 +17,6 @@ public class CDBInitializer implements WebApplicationInitializer {
 	public void onStartup(final ServletContext sc) throws ServletException {
 
 		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-
 		root.scan("com.excilys");
 		sc.addListener(new ContextLoaderListener(root));
 
@@ -26,5 +25,4 @@ public class CDBInitializer implements WebApplicationInitializer {
 		appServlet.setLoadOnStartup(1);
 		appServlet.addMapping("/");
 	}
-
 }

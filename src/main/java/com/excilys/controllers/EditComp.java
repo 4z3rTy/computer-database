@@ -15,7 +15,7 @@ import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.dto.ComputerDTO.ComputerDTOBuilder;
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
@@ -68,7 +68,7 @@ public class EditComp {
 		if (messages.isEmpty()) {
 			messages.put("success", "Update completed successfully!!!!");
 
-			C.updateComputer(ComputerMapper.toComputer(compDto));
+			C.updateComputer(ComputerDtoMapper.toComputerEdit(compDto));
 		}
 		mv.getModel().put("messages", messages);
 

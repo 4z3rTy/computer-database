@@ -28,30 +28,12 @@ public class Dashboard {
 		ModelAndView mv = new ModelAndView("dashboard");
 		List<ComputerDTO> computers = null;
 
-		Page p = new Page(sum);
-		if (dto.getcurrentPage() != null) {
-			p.setPage(Integer.parseInt(dto.getcurrentPage()));
-		}
-
-		if (dto.getpageAmount() != null && dto.getpageAmount() != "") {
-			p.setAmount(Integer.parseInt(dto.getpageAmount()));
-		}
-		p.calcPages();
-
+		Page p = updatePage(dto);
 		String search = dto.getsearch();
 		String searchType = dto.getsearchType();
 		if (searchType == null) {
 
-			if (search == null) {
-				sum = ComputerService.count("computer");
-				p.setMax(sum);
-				p.calcPages();
-				computers = ComputerService.viewSomeComputers(p);
-			} else {
-				sum = ComputerService.searchCount(search);
-				p.setMax(sum);
-				p.calcPages();
-			}
+			computers = ifNoSearch(computers, p, search);
 
 			if (dto.getsearchName() != null) {
 				computers = ComputerService.getSearchName(search, p);
@@ -62,26 +44,45 @@ public class Dashboard {
 			}
 
 		} else {
-
-			p.setMax(sum);
-			p.calcPages();
-
 			switch (searchType) {
-
 			case "":
-				computers = ComputerService.viewSomeComputers(p);
+				computers = continueCurrentSearch(p);
 				break;
-
 			case "searchName":
-				computers = ComputerService.getSearchName(search, p);
+				computers = newSearchName(p, search);
 				break;
-
 			case "searchIntro":
-				computers = ComputerService.getSearchIntro(search, p);
+				computers = newSearchIntro(p, search);
 				break;
 			}
 		}
+		updateModelView(mv, computers, p, search, searchType);
+		return mv;
+	}
 
+	@PostMapping()
+	public ModelAndView doPost(@RequestParam List<String> selection) {
+		ModelAndView mv = new ModelAndView("redirect:dashboard");
+		selection.forEach(computer -> ComputerService.deleteComputer(Integer.parseInt(computer)));
+
+		return mv;
+	}
+
+	private Page updatePage(MyLittleDTO dto) {
+		Page p = new Page(sum);
+		if (dto.getcurrentPage() != null) {
+			p.setPage(Integer.parseInt(dto.getcurrentPage()));
+		}
+
+		if (dto.getpageAmount() != null && dto.getpageAmount() != "") {
+			p.setAmount(Integer.parseInt(dto.getpageAmount()));
+		}
+		p.calcPages();
+		return p;
+	}
+
+	private void updateModelView(ModelAndView mv, List<ComputerDTO> computers, Page p, String search,
+			String searchType) {
 		mv.getModel().put("sum", sum);
 		mv.getModel().put("compList", computers);
 		mv.getModel().put("pageTotal", p.getTotal());
@@ -90,19 +91,42 @@ public class Dashboard {
 		mv.getModel().put("search", search);
 		mv.getModel().put("searchType", searchType);
 		mv.getModel().put("pageAmount", p.getAmount());
-
-		return mv;
-
 	}
 
-	@PostMapping()
-	public ModelAndView doPost(@RequestParam List<String> selection) {
+	private List<ComputerDTO> newSearchIntro(Page p, String search) {
+		List<ComputerDTO> computers;
+		p.setMax(sum);
+		p.calcPages();
+		computers = ComputerService.getSearchIntro(search, p);
+		return computers;
+	}
 
-		ModelAndView mv = new ModelAndView("redirect:dashboard");
+	private List<ComputerDTO> newSearchName(Page p, String search) {
+		List<ComputerDTO> computers;
+		p.setMax(sum);
+		p.calcPages();
+		computers = ComputerService.getSearchName(search, p);
+		return computers;
+	}
 
-		selection.forEach(computer -> ComputerService.deleteComputer(Integer.parseInt(computer)));
+	private List<ComputerDTO> continueCurrentSearch(Page p) {
+		List<ComputerDTO> computers;
+		p.setMax(sum);
+		p.calcPages();
+		computers = ComputerService.viewSomeComputers(p);
+		return computers;
+	}
 
-		return mv;
+	private List<ComputerDTO> ifNoSearch(List<ComputerDTO> computers, Page p, String search) {
+		if (search == null) {
+			sum = ComputerService.count("computer");
+			computers = continueCurrentSearch(p);
+		} else {
+			sum = ComputerService.searchCount(search);
+			p.setMax(sum);
+			p.calcPages();
+		}
+		return computers;
 	}
 
 }

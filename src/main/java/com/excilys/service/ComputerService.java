@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
@@ -47,7 +47,7 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getAllComputers() {
 		List<Computer> temp = computerDao.viewComputer();
-		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerDtoMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return computers;
 	}
@@ -70,7 +70,7 @@ public class ComputerService {
 						.build();
 
 			}
-			computer = ComputerMapper.toDto(tempUter);
+			computer = ComputerDtoMapper.toDto(tempUter);
 		}
 		return computer;
 	}
@@ -84,7 +84,7 @@ public class ComputerService {
 	public List<ComputerDTO> viewSomeComputers(Page p) {
 		logger.debug("Page object initialized", p);
 		List<Computer> temp = computerDao.viewSomeComputers(p);
-		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computers = temp.stream().map(computer -> ComputerDtoMapper.toDto(computer))
 				.collect(Collectors.toList());
 
 		return computers;
@@ -148,7 +148,7 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchId(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchId(search, page);
-		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerDtoMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return computerFound;
 	}
@@ -162,7 +162,7 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchIntro(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchIntro(search, page);
-		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerDtoMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return computerFound;
 	}
@@ -176,7 +176,7 @@ public class ComputerService {
 	 */
 	public List<ComputerDTO> getSearchName(String search, Page page) {
 		List<Computer> temp = computerDao.getSearchName(search, page);
-		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerMapper.toDto(computer))
+		List<ComputerDTO> computerFound = temp.stream().map(computer -> ComputerDtoMapper.toDto(computer))
 				.collect(Collectors.toList());
 		return computerFound;
 	}

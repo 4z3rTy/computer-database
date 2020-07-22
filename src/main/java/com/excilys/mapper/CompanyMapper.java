@@ -5,14 +5,14 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 
-import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
 /**
  * The Class CompanyMapper.
  */
-public class CompanyMapper {
+public class CompanyMapper implements RowMapper <Company>{
 
 	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
@@ -31,34 +31,15 @@ public class CompanyMapper {
 
 		return company;
 	}
-
-	/**
-	 * To company.
-	 *
-	 * @param dto the dto
-	 * @return the company
-	 */
-	public static Company toCompany(CompanyDTO dto) {
-		Integer companyId = Integer.parseInt(dto.getcId());
-		String name = dto.getName();
-		Company company = new Company.CompanyBuilder().setId(companyId).setName(name).build();
-		return company;
+	
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Company company = new Company.CompanyBuilder().setId(rs.getInt("id")).setName(rs.getString("name")).build();
+		logger.debug("New Company Object initialized", company);
+		
+		return company; 
+		
 	}
 
-	/**
-	 * To dto.
-	 *
-	 * @param company the company
-	 * @return the company DTO
-	 */
-	public static CompanyDTO toDto(Company company) {
-		CompanyDTO companyDto;
-		if (company != null) {
-			companyDto = new CompanyDTO.CompanyDTOBuilder().setcId(String.valueOf(company.getId())).setName(company.getName())
-					.build();
-		} else {
-			companyDto = new CompanyDTO.CompanyDTOBuilder().setcId(null).setName(null).build();
-		}
-		return companyDto;
-	}
+	
 }

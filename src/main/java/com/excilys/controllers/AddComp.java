@@ -16,7 +16,7 @@ import com.excilys.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.dto.ComputerDTO.ComputerDTOBuilder;
 import com.excilys.dto.MyLittleDTO;
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
@@ -26,15 +26,15 @@ import com.excilys.validator.ComputerValidator;
 public class AddComp {
 
 	@Autowired
-	private CompanyService CS;
+	private CompanyService anyService;
 	@Autowired
-	private ComputerService C;
+	private ComputerService uterService;
 
 	@GetMapping()
 	public ModelAndView doGet(MyLittleDTO dto) {
 
 		ModelAndView mv = new ModelAndView("addComputer");
-		List<CompanyDTO> companies = CS.getAllCompanies();
+		List<CompanyDTO> companies = anyService.getAllCompanies();
 		mv.getModel().put("companies", companies);
 
 		return mv;
@@ -67,7 +67,7 @@ public class AddComp {
 		if (messages.isEmpty()) {
 			messages.put("success", "Insertion completed successfully!!!!");
 
-			C.insertComputer(ComputerMapper.toComputerBis(uterDto));
+			uterService.insertComputer(ComputerDtoMapper.toComputerAdd(uterDto));
 		}
 
 		mv.getModel().put("messages", messages);

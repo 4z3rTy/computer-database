@@ -169,15 +169,13 @@ public class ComputerDAO {
 	 * Insert computer.
 	 *
 	 * @param myComp the my comp
-	 * @return the computer
 	 */
 	@Transactional
-	public Computer insertComputer(Computer myComp) {
+	public void insertComputer(Computer myComp) {
 
 		em.getTransaction().begin();
 		em.persist(myComp);
 		em.getTransaction().commit();
-		return myComp;
 	}
 
 	/**

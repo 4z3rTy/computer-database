@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.dto.CompanyDTO;
-import com.excilys.mapper.CompanyMapper;
+import com.excilys.mapper.CompanyDtoMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 
@@ -48,7 +48,7 @@ public class CompanyService {
 	 */
 	public List<CompanyDTO> getAllCompanies() {
 		List<Company> temp = companyDao.viewCompany();
-		List<CompanyDTO> companies = temp.stream().map(company -> CompanyMapper.toDto(company)).collect(Collectors.toList());
+		List<CompanyDTO> companies = temp.stream().map(company -> CompanyDtoMapper.toDto(company)).collect(Collectors.toList());
 
 		return companies;
 
