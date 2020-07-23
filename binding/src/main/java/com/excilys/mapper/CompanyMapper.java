@@ -24,7 +24,7 @@ public class CompanyMapper implements RowMapper <Company>{
 	 * @return the company
 	 * @throws SQLException the SQL exception
 	 */
-	public static Company prettyCompanyMap(ResultSet rs) throws SQLException {
+	public static Company companyMap(ResultSet rs) throws SQLException {
 		Company company = new Company.CompanyBuilder().setId(rs.getInt("computer.company_id"))
 				.setName(rs.getString("company.name")).build();
 		logger.debug("New Company Object initialized", company);

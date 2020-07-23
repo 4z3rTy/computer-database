@@ -37,8 +37,8 @@ public class ComputerMapper implements RowMapper <Computer>{
 	}
 
 	@Override
-	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Company temp = CompanyMapper.prettyCompanyMap(rs);
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException{
+		Company temp = CompanyMapper.companyMap(rs);
 		logger.debug("Temporary Company Object initialized", temp);
 		
 		LocalDate intr;

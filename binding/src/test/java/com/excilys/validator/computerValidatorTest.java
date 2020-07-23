@@ -12,7 +12,7 @@ public class computerValidatorTest {
 		assertTrue(true);
 }
 	@Test
-	public void emptyNameTestNull() {
+	public void emptyNameTestNotOk() {
 }
 	@Test
 	public void emptyNameTestEmpty() {
@@ -22,7 +22,7 @@ public class computerValidatorTest {
 	public void emptyDateTestOk() {
 }
 	@Test
-	public void emptyDateTestNull() {
+	public void emptyDateTestNotOk() {
 }
 	@Test
 	public void emptyDateTestEmpty() {
@@ -33,7 +33,7 @@ public class computerValidatorTest {
 	public void emptyCompanyTestOk() {
 }
 	@Test
-	public void emptyCompanyTestNull() {
+	public void emptyCompanyTestNotOk() {
 }
 	@Test
 	public void emptyCompanyTestEmpty() {

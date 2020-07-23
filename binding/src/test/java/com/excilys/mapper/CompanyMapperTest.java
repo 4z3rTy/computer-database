@@ -7,55 +7,41 @@ import org.junit.Test;
 public class CompanyMapperTest {
 
 	@Test
-	public void companyMapTest_ok()
+	public void companyMap_ok()
 	{
 		assertTrue(true);
 	}
 	
 	@Test
-	public void companyMapTest_not_ok()
+	public void companyMap_not_ok()
 	{
 		
 	}
 	
 	@Test
-	public void companyMapTest_null()
+	public void companyMap_null()
 	{
 		
 	}
 	
 	@Test
-	public void toCompany_ok()
+	public void mapRow_ok()
+	{
+		assertTrue(true);
+	}
+	
+	@Test
+	public void mapRow_not_ok()
 	{
 		
 	}
 	
 	@Test
-	public void toCompany_not_ok()
+	public void mapRow_null()
 	{
 		
 	}
 	
-	@Test
-	public void toCompany_null()
-	{
-		
-	}
-	
-	@Test
-	public void toDto_ok()
-	{
-	}
-	
-	@Test
-	public void toDto_not_ok()
-	{
-	}
-	
-	@Test
-	public void toDto_null()
-	{
-	}
 	
 }
 	
