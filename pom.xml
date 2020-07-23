@@ -4,20 +4,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 
-	<modelVersion>4.0.0</modelVersion>
+	<modelVersion>${model.version}</modelVersion>
 
 	<groupId>com.excilys</groupId>
 	<artifactId>cdb</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>${module.version}</version>
 	<name>cdb</name>
 	<url>http://maven.apache.org</url>
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<model.version>6.0.0</model.version>
+		<module.version>6.0.0</module.version>
 
 		<spring.version>5.2.7.RELEASE</spring.version>
 
@@ -33,19 +35,17 @@
 		<dbunit.version>2.7.0</dbunit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<slf4j.version>1.7.30</slf4j.version>
-		<checkstyle.version>3.1.1</checkstyle.version>
-
 	</properties>
 
 	<dependencies>
-	<dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-	</dependency>
-	
-	<dependency>
+		</dependency>
+
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
@@ -69,10 +69,10 @@
 
 	<modules>
 		<module>core</module>
-		<module>service</module>
 		<module>binding</module>
-		<module>cli</module>
 		<module>persistence</module>
+		<module>service</module>
+		<module>cli</module>
 		<module>webmodule</module>
 	</modules>
 

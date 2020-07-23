@@ -1,4 +1,6 @@
-package com.excilys;
+package com.excilys.model;
+
+import com.excilys.model.AppTest;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -6,6 +6,6 @@
 	version="2.5">
 	<display-name>computerdatabase</display-name>
 	<welcome-file-list>
-		<welcome-file>/dashboard</welcome-file>
+		<welcome-file>dashboard</welcome-file>
 	</welcome-file-list>
 </web-app>
