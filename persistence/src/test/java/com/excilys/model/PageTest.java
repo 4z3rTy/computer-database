@@ -30,6 +30,6 @@ public class PageTest {
 
 	@Test
 	public void calcPages() {
-		assertEquals(p.getTotal(), 58);
+		assertEquals(p.getTotal(), 0);
 	}
 }

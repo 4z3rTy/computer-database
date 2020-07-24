@@ -15,13 +15,14 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Import;
 
 import com.excilys.config.CLIconfig;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.model.Page;
+import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
@@ -29,7 +30,6 @@ import com.excilys.service.ComputerService;
  * The Class CLI.
  */
 
-@Import(CLIconfig.class)
 public class CLI {
 	/**
 	 * Instantiates a new cli.
@@ -289,7 +289,7 @@ public class CLI {
 		int option = 0;
 
 		logger.info("Log4j Enabled");
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLI.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLIconfig.class, ComputerService.class,CompanyService.class,ComputerDAO.class,CompanyDAO.class);
 
 		ComputerService computerService = ctx.getBean(ComputerService.class);
 		CompanyService companyService = ctx.getBean(CompanyService.class);

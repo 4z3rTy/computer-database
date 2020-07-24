@@ -18,7 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @EnableTransactionManagement
 @Configuration
-@ComponentScan({ "com.excilys.persistence", "com.excilys.service" })
+@ComponentScan({ "com.excilys.persistence.ComputerDAO","com.excilys.persistence.CompanyDAO", "com.excilys.service.ComputerService", "com.excilys.service.CompanyService" })
 public class CLIconfig {
 	@Bean
 	  public HikariDataSource mysqlDataSource() {
