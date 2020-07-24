@@ -34,7 +34,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @Configuration
-@ComponentScan(basePackages = { "com.excilys.controllers" })
+@ComponentScan(basePackages = { "com.excilys"})
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
@@ -43,7 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/js","static/css","static/fonts");
 	}
 
 	@Bean

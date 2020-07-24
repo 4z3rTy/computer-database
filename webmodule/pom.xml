@@ -9,15 +9,18 @@
 		<artifactId>cdb</artifactId>
 		<version>${module.version}</version>
 	</parent>
-	<groupId>com.excilys.webapp</groupId>
-	<artifactId>webapp</artifactId>
-	<packaging>war</packaging>
-	<name>webapp Maven Webapp</name>
-	<url>http://maven.apache.org</url>
 
-	<properties>
-	</properties>
+	<groupId>com.excilys.webmodule</groupId>
+	<artifactId>webmodule</artifactId>
+	<packaging>war</packaging>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>com.excilys.service</groupId>
+			<artifactId>service</artifactId>
+			<version>${module.version}</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<dependency>
@@ -31,7 +34,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.3.3.RELEASE</version>
+			<version>${spring.security.version}</version>
 		</dependency>
 
 

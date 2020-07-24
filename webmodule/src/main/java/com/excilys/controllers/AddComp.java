@@ -36,10 +36,8 @@ public class AddComp {
 		ModelAndView mv = new ModelAndView("addComputer");
 		List<CompanyDTO> companies = anyService.getAllCompanies();
 		mv.getModel().put("companies", companies);
-		
 		return mv;
 	}
-
 	@PostMapping()
 	public ModelAndView doPost(ComputerDTOBuilder uterBuilder, CompanyDTOBuilder anyBuilder) {
 		Map<String, String> messages = new HashMap<String, String>();

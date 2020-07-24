@@ -1,10 +1,10 @@
-package com.excilys.config;
+package com.excilys.controllers;
 
 import com.excilys.model.PdfUserDetails;
+import com.excilys.model.User;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;s
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class Login {
 
-	private static final Logger log = LogManager.getLogger(Login.class);
+	private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -35,7 +35,7 @@ public class Login {
 	@RequestMapping(value = "/loginFailed", method = RequestMethod.GET)
 	public String loginError(Model model) {
 
-		log.info("Login attempt failed");
+		logger.info("Login attempt failed");
 
 		model.addAttribute("error", "true");
 
@@ -57,7 +57,7 @@ public class Login {
 	@RequestMapping(value = "/postLogin", method = RequestMethod.POST)
 	public String postLogin(Model model, HttpSession session) {
 
-		log.info("postLogin()");
+		logger.info("postLogin()");
 
 		// read principal out of security context and set it to session
 
