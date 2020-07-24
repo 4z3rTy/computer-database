@@ -39,7 +39,7 @@ public class EditComp {
 		mv.getModel().put("id", compId);
 		List<CompanyDTO> companies = CS.getAllCompanies();
 		mv.getModel().put("companies", companies);
-
+		
 		return mv;
 	}
 
