@@ -24,10 +24,10 @@ import com.excilys.validator.ComputerValidator;
 @Controller
 public class EditComp {
 	@Autowired
-	private CompanyService CS;
+	private CompanyService anyService;
 
 	@Autowired
-	private ComputerService C;
+	private ComputerService uterService;
 
 
 	@GetMapping()
@@ -35,9 +35,9 @@ public class EditComp {
 
 		ModelAndView mv = new ModelAndView("editComputer");
 
-		String compId = dto.build().getId();
-		mv.getModel().put("id", compId);
-		List<CompanyDTO> companies = CS.getAllCompanies();
+		String computerId = dto.build().getId();
+		mv.getModel().put("id", computerId);
+		List<CompanyDTO> companies = anyService.getAllCompanies();
 		mv.getModel().put("companies", companies);
 		
 		return mv;
@@ -49,7 +49,6 @@ public class EditComp {
 		ComputerDTO computerDto = uterBuilder.build();
 		CompanyDTO companyDto = anyBuilder.build();
 
-		// ModelAndView mv = new ModelAndView("redirect:editComputer?Id="+temp.getId());
 		ModelAndView mv = new ModelAndView("editComputer");
 		Map<String, String> messages = new HashMap<String, String>();
 
@@ -67,10 +66,12 @@ public class EditComp {
 
 		if (messages.isEmpty()) {
 			messages.put("success", "Update completed successfully!!!!");
-
-			C.updateComputer(ComputerDtoMapper.toComputerEdit(compDto));
+			uterService.updateComputer(ComputerDtoMapper.toComputerEdit(compDto));
 		}
+		
 		mv.getModel().put("messages", messages);
+		mv.getModel().put("id", computerId);
+		mv.getModel().put("companies", anyService.getAllCompanies());
 
 		return mv;
 	}

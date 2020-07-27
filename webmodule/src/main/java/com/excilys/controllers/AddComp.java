@@ -69,6 +69,7 @@ public class AddComp {
 		}
 
 		mv.getModel().put("messages", messages);
+		mv.getModel().put("companies", anyService.getAllCompanies());
 
 		return mv;
 	}

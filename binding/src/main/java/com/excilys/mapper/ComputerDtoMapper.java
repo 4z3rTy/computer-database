@@ -2,13 +2,20 @@ package com.excilys.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
 public class ComputerDtoMapper {
+
+	/** The logger. */
+	private static Logger logger = LoggerFactory.getLogger(ComputerDtoMapper.class);
 
 	/**
 	 * To computer.
@@ -35,7 +42,7 @@ public class ComputerDtoMapper {
 		Company company = new Company.CompanyBuilder().setId(cId).build();
 		Computer computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName())
 				.setId(Integer.parseInt(dto.getId())).setAny(company).build();
-		
+
 		return computer;
 	}
 
@@ -89,19 +96,24 @@ public class ComputerDtoMapper {
 				.setCompany(CompanyDtoMapper.toDto(computer.getCompany())).build();
 		return computerDto;
 	}
-		/**
-		 * Local to string.
-		 *
-		 * @param d the d
-		 * @return the string
-		 */
-		public static String localToString(LocalDate d) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-			String string = null;
-			if (d != null) {
+
+	/**
+	 * Local to string.
+	 *
+	 * @param d the d
+	 * @return the string
+	 */
+	public static String localToString(LocalDate d) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+		String string = null;
+		if (d != null) {
+			try {
 				string = d.format(formatter);
+			} catch (DateTimeParseException e) {
+				logger.debug("Error formating your LocalDate");
 			}
-			return string;
 		}
-	
+		return string;
+	}
+
 }

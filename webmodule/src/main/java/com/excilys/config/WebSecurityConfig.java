@@ -3,6 +3,7 @@ package com.excilys.config;
 import com.excilys.service.MyUserDetailsService;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,17 +14,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 @Configuration
+@ComponentScan(basePackages = { "com.excilys.service.MyUserDetailsService" })
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	/*
-	 * @Autowired private MyUserDetailsService userDetailsService;
-	 */
 
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -42,9 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public DaoAuthenticationProvider authenticationProvider() {
 
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
 		authProvider.setUserDetailsService(userDetailsService());
-
 		authProvider.setPasswordEncoder(passwordEncoder());
 
 		return authProvider;
@@ -63,6 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/dashboard").hasAnyRole("ADMIN", "USER")
 
+				.and().authorizeRequests().antMatchers("/addComputer").hasAnyRole("ADMIN", "USER")
+				.and().authorizeRequests().antMatchers("/editComputer").hasAnyRole("ADMIN", "USER")
+				
 				.and().authorizeRequests().antMatchers("/login", "/resource/**").permitAll()
 
 				.and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
@@ -71,7 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().logout().logoutUrl("/doLogout").logoutSuccessUrl("/logout").permitAll()
 
 				.and().csrf().disable();
-		//http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
+
+		// http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
+		http.addFilter(new DigestAuthenticationFilter());
 
 	}
 }

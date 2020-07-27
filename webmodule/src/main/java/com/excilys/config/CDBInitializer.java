@@ -11,7 +11,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class CDBInitializer implements WebApplicationInitializer {
 
 	@Override
-
 	public void onStartup(final ServletContext sc) throws ServletException {
 
 		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();

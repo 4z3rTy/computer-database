@@ -34,7 +34,7 @@
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="<spring:message code="Search"/>" /> <input
 							type="submit" id="searchsubmit" name="searchName"
-							value="<spring:message code="Add"/>" class="btn btn-primary" /> <input
+							value="<spring:message code="FilterName"/>" class="btn btn-primary" /> <input
 							type="submit" id="searchsubmit2" name="searchIntro"
 							value="<spring:message code="FilterIntro"/>" class="btn btn-primary" />
 					</form>

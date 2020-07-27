@@ -6,19 +6,6 @@ import com.excilys.model.Company;
 public class CompanyDtoMapper {
 
 	/**
-	 * To company.
-	 *
-	 * @param dto the dto
-	 * @return the company
-	 */
-	public static Company toCompany(CompanyDTO dto) {
-		Integer companyId = Integer.parseInt(dto.getcId());
-		String name = dto.getName();
-		Company company = new Company.CompanyBuilder().setId(companyId).setName(name).build();
-		return company;
-	}
-
-	/**
 	 * To dto.
 	 *
 	 * @param company the company

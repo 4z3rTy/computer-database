@@ -1,5 +1,6 @@
 package com.excilys.validator;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class ComputerValidator {
 
 		if (!(ComputerValidator.emptyDate(dto.getIntroduced()))) {
 
-			if ((ComputerValidator.wrongFormat(dto.getDiscontinued()))) {
+			if ((ComputerValidator.wrongFormat(dto.getIntroduced()))) {
 				messages.put("introduced", "Your input for introduced has the wrong format :(");
 			}
 		}
@@ -48,8 +49,8 @@ public class ComputerValidator {
 
 		if (!(ComputerValidator.emptyDate(dto.getIntroduced()))
 				&& !(ComputerValidator.emptyDate(dto.getDiscontinued()))) {
-			if (ComputerValidator.wrongFormat(dto.getIntroduced())
-					&& (ComputerValidator.wrongFormat(dto.getDiscontinued()))) {
+			if (!ComputerValidator.wrongFormat(dto.getIntroduced())
+					&& (!ComputerValidator.wrongFormat(dto.getDiscontinued()))) {
 				if (ComputerValidator.wrongDate(dto.getIntroduced(), dto.getDiscontinued())) {
 					messages.put("discontinued", "Discontinued date cannot be more recent than introduced date");
 				}
@@ -118,17 +119,22 @@ public class ComputerValidator {
 	/**
 	 * Wrong format.
 	 *
-	 * @param intro the intro
+	 * @param date the intro
 	 * @return true, if successful
 	 */
-	public static boolean wrongFormat(String intro) {
-		boolean result = false;
-
+	public static boolean wrongFormat(String string) throws DateTimeParseException{
+		boolean result = true;
+		if(string!=null)
+		{
 		try {
-			ComputerMapper.stringToLocal(intro);
+			LocalDate date=ComputerMapper.stringToLocal(string);
+			if(date!=null)
+			{
+			result = false;
+			}
 		} catch (DateTimeParseException e) {
-			result = true;
-			logger.error("Sorry,there was an issue with the format of your discontinued date input. Insertion failed");
+			logger.error("Sorry,there was an issue with the format of your date input. Insertion failed");
+		}
 		}
 		return result;
 	}

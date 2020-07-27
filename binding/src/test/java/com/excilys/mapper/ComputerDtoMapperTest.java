@@ -2,7 +2,10 @@ package com.excilys.mapper;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
+
 
 public class ComputerDtoMapperTest {
 
@@ -38,17 +41,18 @@ public class ComputerDtoMapperTest {
 
 	@Test
 	public void testLocalToString_Ok() {
-		assertTrue(true);
+		LocalDate ld = LocalDate.of(2020, 10, 2);
+		String test="2020-10-02";
+		assertEquals(test,ComputerDtoMapper.localToString(ld));
 	}
 	
 	@Test
 	public void testLocalToString_notOk() {
-		assertTrue(true);
+		LocalDate ld = LocalDate.of(2020, 10, 2);
+		String test="2020-10-2";
+		assertNotEquals(test,ComputerDtoMapper.localToString(ld));
 	}
 	
-	@Test
-	public void testLocalToString_empty() {
-		assertTrue(true);
-	}
-
+	
+	
 }

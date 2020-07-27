@@ -1,10 +1,9 @@
 package com.excilys.model;
 
+public enum AuthorityType {
 
-public enum  AuthorityType {
+	ROLE_ADMIN,
 
-    ROLE_ADMIN,
-
-    ROLE_USER
+	ROLE_USER
 
 }

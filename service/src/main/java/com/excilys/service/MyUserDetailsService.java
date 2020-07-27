@@ -13,8 +13,7 @@ import com.excilys.model.MyUserDetails;
 import com.excilys.model.User;
 import com.excilys.persistence.UserDAO;
 
-@Service("userDetailsService")
-
+@Service
 public class MyUserDetailsService implements UserDetailsService {
 
 	private static final Logger log = LoggerFactory.getLogger(MyUserDetailsService.class);

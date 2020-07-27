@@ -1,5 +1,6 @@
 package com.excilys.validator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -73,16 +74,19 @@ public class computerValidatorTest {
 
 	@Test
 	public void wrongFormatTestOk() {
-		assertTrue(true);
+		String date="2020-11-11";
+		assertFalse(ComputerValidator.wrongFormat(date));
 	}
 
 	@Test
 	public void wrongFormatTestNotOk() {
-		assertTrue(true);
+		String date="24";
+		assertTrue(ComputerValidator.wrongFormat(date));
 	}
 
 	@Test
 	public void wrongFormatTestNull() {
-		assertTrue(true);
+		String date=null;
+		assertTrue(ComputerValidator.wrongFormat(date));
 	}
 }
