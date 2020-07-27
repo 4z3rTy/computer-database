@@ -2,10 +2,12 @@ package com.excilys.persistence;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,15 +23,18 @@ public class UserDAO {
 	/** The em. */
 	private EntityManager em;
 
-	/** The cb. */
 	private CriteriaBuilder cb;
-
-	/** The logger. */
-	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	public User getUserByUsername(String username) {
 		em = emf.createEntityManager();
-		User user = em.find(User.class, username);
+		cb = em.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		Predicate predicate = cb.equal(root.get("username"), username);
+		cq.select(root).where(predicate);
+		TypedQuery<User> userQuery = em.createQuery(cq);
+		User user = userQuery.getSingleResult();
+
 		return user;
 	}
 }

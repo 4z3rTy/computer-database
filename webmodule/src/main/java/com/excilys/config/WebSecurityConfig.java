@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/wallPage").hasAnyRole("ADMIN", "USER")
+		http.authorizeRequests().antMatchers("/dashboard").hasAnyRole("ADMIN", "USER")
 
 				.and().authorizeRequests().antMatchers("/login", "/resource/**").permitAll()
 
@@ -71,10 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().logout().logoutUrl("/doLogout").logoutSuccessUrl("/logout").permitAll()
 
 				.and().csrf().disable();
-		http.addFilterAfter(new CustomFilter(),BasicAuthenticationFilter.class);
-				
-				
-
+		//http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
 
 	}
 }

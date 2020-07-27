@@ -1,7 +1,5 @@
 package com.excilys.service;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.model.PdfUserDetails;
+import com.excilys.model.MyUserDetails;
 import com.excilys.model.User;
 import com.excilys.persistence.UserDAO;
 
@@ -19,30 +17,27 @@ import com.excilys.persistence.UserDAO;
 
 public class MyUserDetailsService implements UserDetailsService {
 
-    private static final Logger log = LoggerFactory.getLogger(MyUserDetailsService.class);
+	private static final Logger log = LoggerFactory.getLogger(MyUserDetailsService.class);
 
-    @Autowired
+	@Autowired
+	private UserDAO userDao;
 
-    private UserDAO userDao;
+	@Transactional(readOnly = true)
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    @Transactional(readOnly = true)
+		User user = userDao.getUserByUsername(username);
 
-    @Override
+		if (user == null) {
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+			throw new UsernameNotFoundException("User not found.");
 
-        User user = userDao.getUserByUsername(username);
+		}
 
-        if (user == null) {
+		log.info("loadUserByUsername() : {}", username);
 
-            throw new UsernameNotFoundException("User not found.");
+		return new MyUserDetails(user);
 
-        }
-
-        log.info("loadUserByUsername() : {}", username);
-
-        return new PdfUserDetails(user);
-
-    }
+	}
 
 }

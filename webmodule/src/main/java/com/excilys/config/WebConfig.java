@@ -34,7 +34,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @Configuration
-@ComponentScan(basePackages = { "com.excilys"})
+@ComponentScan(basePackages = { "com.excilys" })
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
@@ -43,7 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/static/js","static/css","static/fonts");
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/js", "static/css", "static/fonts");
 	}
 
 	@Bean
@@ -58,43 +58,38 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	 public LocaleResolver localeResolver() 
-	 {
-		 CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-		 localeResolver.setDefaultLocale(new Locale("en"));
-		 
-		 return localeResolver;
-	 }
-		 
-	@Bean(name="messageSource")
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:message");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
-	
-	
-	 public void addInterceptors(InterceptorRegistry registry) 
-	 {	    
-		 LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-		 localeChangeInterceptor.setParamName("lang");
-		 registry.addInterceptor(localeChangeInterceptor);
-	 }
-	 
+	public LocaleResolver localeResolver() {
+		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+		localeResolver.setDefaultLocale(new Locale("en"));
+
+		return localeResolver;
+	}
+
+	@Bean(name = "messageSource")
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:message");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
+
+	public void addInterceptors(InterceptorRegistry registry) {
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		registry.addInterceptor(localeChangeInterceptor);
+	}
+
 	@Bean
 	public HikariDataSource mysqlDataSource() {
 		HikariConfig config = new HikariConfig("/hikari.properties");
 		return new HikariDataSource(config);
 	}
 
-
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		return new JpaTransactionManager(getEntityManagerFactory());
 
 	}
-	
 
 	@Bean
 	public EntityManagerFactory getEntityManagerFactory() {

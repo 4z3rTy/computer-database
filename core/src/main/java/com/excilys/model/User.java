@@ -1,5 +1,5 @@
 package com.excilys.model;
- 
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
- 
+import javax.validation.constraints.NotEmpty;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,23 +26,26 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
 
-    private Integer id;
+	@NotEmpty
+	@Column(name = "username", nullable = false, unique = true)
+	private String username;
 
-    @Column(nullable = false, unique = true)
+	@NotEmpty
+	@Column(name = "password")
+	private String password;
 
-    private String username;
+	@Column(name = "dateCreated")
+	private Date dateCreated;
 
-    private String password;
+	public User() {
 
-    private Date dateCreated;
-    
-    public User() {
+	}
 
-    }
-    
-    public Integer getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -73,7 +76,7 @@ public class User implements Serializable {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	
+
 	public Set<Authority> getAuthorities() {
 		return authorities;
 	}
@@ -82,15 +85,9 @@ public class User implements Serializable {
 		this.authorities = authorities;
 	}
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
-    @JoinTable(name = "user_authority",
-
-            joinColumns = { @JoinColumn(name = "user_id") },
-
-            inverseJoinColumns = { @JoinColumn(name = "authority_id") })
-
-    private Set<Authority> authorities = new HashSet<>();
-
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authority", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "authority_id") })
+	private Set<Authority> authorities = new HashSet<>();
 
 }

@@ -1,6 +1,6 @@
 package com.excilys.controllers;
 
-import com.excilys.model.PdfUserDetails;
+import com.excilys.model.MyUserDetails;
 import com.excilys.model.User;
 
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class Login {
 
 		session.setComplete();
 
-		return "redirect:/welcome";
+		return "redirect:/login";
 
 	}
 
@@ -66,19 +66,19 @@ public class Login {
 
 		validatePrinciple(authentication.getPrincipal());
 
-		User loggedInUser = ((PdfUserDetails) authentication.getPrincipal()).getUserDetails();
+		User loggedInUser = ((MyUserDetails) authentication.getPrincipal()).getUserDetails();
 
 		model.addAttribute("currentUser", loggedInUser.getUsername());
 
 		session.setAttribute("userId", loggedInUser.getId());
 
-		return "redirect:/wallPage";
+		return "redirect:/dashboard";
 
 	}
 
 	private void validatePrinciple(Object principal) {
 
-		if (!(principal instanceof PdfUserDetails)) {
+		if (!(principal instanceof MyUserDetails)) {
 
 			throw new IllegalArgumentException("Principal can not be null!");
 

@@ -15,12 +15,9 @@ public class CDBInitializer implements WebApplicationInitializer {
 	public void onStartup(final ServletContext sc) throws ServletException {
 
 		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-		root.register(WebConfig.class ,WebSecurityConfig.class);
+		root.register(WebConfig.class, WebSecurityConfig.class);
 
-		//root.scan("com.excilys"); sc.addListener(new ContextLoaderListener(root));
-		
-		ServletRegistration.Dynamic appServlet = sc.addServlet("mvc",
-				new DispatcherServlet(root));
+		ServletRegistration.Dynamic appServlet = sc.addServlet("mvc", new DispatcherServlet(root));
 		appServlet.setLoadOnStartup(1);
 		appServlet.addMapping("/");
 	}
