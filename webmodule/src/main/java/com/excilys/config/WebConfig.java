@@ -34,7 +34,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @Configuration
-@ComponentScan(basePackages = { "com.excilys" })
+@ComponentScan(basePackages = { "com.excilys.persistence","com.excilys.service","com.excilys.controllers" })
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override

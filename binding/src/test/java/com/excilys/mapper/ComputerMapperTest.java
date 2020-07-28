@@ -29,11 +29,8 @@ public class ComputerMapperTest {
 	
 	@Test
 	public void stringToLocal_wrongFormat() {
-		String s = "2011-11-11";
 		String t= "20111111";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate test=LocalDate.parse(s,formatter);
-		assertNotEquals(test,ComputerMapper.stringToLocal(t));
+		assertNull(ComputerMapper.stringToLocal(t));
 	}
 
 	@Test
