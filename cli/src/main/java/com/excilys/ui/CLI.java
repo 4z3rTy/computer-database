@@ -108,7 +108,7 @@ public class CLI {
 			companyId = myScan.nextInt();
 		} catch (InputMismatchException e) {
 			System.out.println("Sorry,there was an issue with the number of inputs. Please try again.");
-		}	
+		}
 		System.out.println("Attempting to create computer with following attributes name=" + name);
 		System.out.println("date introduced=" + intr);
 		System.out.println("date discontinued=" + disc);
@@ -119,7 +119,8 @@ public class CLI {
 		try {
 			computerService.insertComputer(ComputerDtoMapper.toComputerAdd(uterDto));
 		} catch (DateTimeParseException e) {
-			System.out.println("Sorry,there was an issue with the format of either or both of your date input. Please try again.");
+			System.out.println(
+					"Sorry,there was an issue with the format of either or both of your date input. Please try again.");
 			System.out.println();
 		}
 	}
@@ -129,7 +130,7 @@ public class CLI {
 	 */
 	public void edit() {
 
-		int computerId = -1;
+		Integer computerId = null;
 		String name = null;
 		String intr = null;
 		String disc = null;
@@ -140,57 +141,68 @@ public class CLI {
 
 		try {
 			computerId = scan.nextInt();
-		} catch (InputMismatchException e) {
+		} catch (NullPointerException | InputMismatchException e) {
 			scan.next();
 			System.out.println("That’s not a valid ID (integer required) => Update Failed");
 			System.out.println();
 		}
 
-		System.out.println("Please input '1' if you wish to update " + computerId
-				+ "'s Computer name or '2' if you wish to update " + computerId + "'s discontinued date ->");
-		int subOption;
-		subOption = scan.nextInt();
-		switch (subOption) {
-		case 1:
-			System.out.println("Please input a new name for Computer id=" + computerId + ":");
-			Scanner subScan1 = new Scanner(System.in);
-
+		if (computerId != null) {
+			System.out.println("Please input '1' if you wish to update " + computerId
+					+ "'s Computer name or '2' if you wish to update " + computerId + "'s discontinued date ->");
+			Integer subOption = null;
 			try {
-				name = subScan1.next();
-				computerService.updateComputerName(name, computerId);
-				System.out.println(
-						"Your modification has been carried out (hopefully, maybe, probably, definitely...unless "
-								+ computerId + " didn't even exist to begin with)");
-				System.out.println("");
-			} catch (NoSuchElementException e) {
+				subOption = scan.nextInt();
+			} catch (NullPointerException | InputMismatchException e) {
 				scan.next();
-				scan.close();
-				System.out.println("This computer is not present in the database");
-			}
-			break;
-		case 2:
-			System.out.println("Please input a new introduced & discontinued date for Computer " + computerId + ":");
-			Scanner subScan2 = new Scanner(System.in);
-			intr = subScan2.next();
-			disc = subScan2.next();
-			DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-			try {
-				LocalDate introduced = LocalDate.parse(intr, formatter1);
-				LocalDate discontinued = LocalDate.parse(disc, formatter1);
-
-				if (computerService.updateComputerDisc(introduced, discontinued, computerId)) {
-					System.out
-							.println("Your modification has been carried out (hopefully, maybe, probably, definitely)");
-					System.out.println("");
-				}
-			}
-
-			catch (DateTimeParseException e) {
-				System.out.println(
-						"Sorry,there was an issue with the format of your discontinued date input. Update failed");
+				System.out.println("That’s not a valid ID (integer required) => Update Failed");
 				System.out.println();
 			}
-			break;
+			if (subOption != null) {
+				switch (subOption) {
+				case 1:
+					System.out.println("Please input a new name for Computer id=" + computerId + ":");
+					Scanner subScan1 = new Scanner(System.in);
+
+					try {
+						name = subScan1.next();
+						computerService.updateComputerName(name, computerId);
+						System.out.println(
+								"Your modification has been carried out (hopefully, maybe, probably, definitely...unless "
+										+ computerId + " didn't even exist to begin with)");
+						System.out.println("");
+					} catch (NullPointerException | NoSuchElementException e) {
+						scan.next();
+						scan.close();
+						System.out.println("This computer is not present in the database");
+					}
+					break;
+				case 2:
+					System.out.println(
+							"Please input a new introduced & discontinued date for Computer " + computerId + ":");
+					Scanner subScan2 = new Scanner(System.in);
+					intr = subScan2.next();
+					disc = subScan2.next();
+					DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+					try {
+						LocalDate introduced = LocalDate.parse(intr, formatter1);
+						LocalDate discontinued = LocalDate.parse(disc, formatter1);
+
+						if (computerService.updateComputerDisc(introduced, discontinued, computerId)) {
+							System.out.println(
+									"Your modification has been carried out (hopefully, maybe, probably, definitely)");
+							System.out.println("");
+						}
+					}
+
+					catch (DateTimeParseException e) {
+						System.out.println(
+								"Sorry,there was an issue with the format of your discontinued date input. Update failed");
+						System.out.println();
+					}
+					break;
+				}
+			}
 		}
 	}
 
@@ -289,7 +301,8 @@ public class CLI {
 		int option = 0;
 
 		logger.info("Log4j Enabled");
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLIconfig.class, ComputerService.class,CompanyService.class,ComputerDAO.class,CompanyDAO.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(CLIconfig.class,
+				ComputerService.class, CompanyService.class, ComputerDAO.class, CompanyDAO.class);
 
 		ComputerService computerService = ctx.getBean(ComputerService.class);
 		CompanyService companyService = ctx.getBean(CompanyService.class);
@@ -301,14 +314,14 @@ public class CLI {
 			System.out.println("|   CDB WONDERFUL CLI (Much options such wow) |");
 			System.out.println("===============================================");
 			System.out.println("| Available Options:                          |");
-			System.out.println("|        1. List all computers                |");
-			System.out.println("|        2. List all companies                |");
+			System.out.println("|        1. Display all computers             |");
+			System.out.println("|        2. Display all companies             |");
 			System.out.println("|        3. Show computer details             |");
 			System.out.println("|        4. Create a computer                 |");
 			System.out.println("|        5. Update a computer                 |");
 			System.out.println("|        6. Delete a computer                 |");
 			System.out.println("|        7. Delete a company                  |");
-			System.out.println("|        8. List some or all of the computers |");
+			System.out.println("|        8. Display pages of computers        |");
 			System.out.println("|        9. Exit                              |");
 			System.out.println("===============================================");
 			System.out.println("");
