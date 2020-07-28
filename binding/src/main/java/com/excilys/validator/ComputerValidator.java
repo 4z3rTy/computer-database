@@ -67,7 +67,7 @@ public class ComputerValidator {
 	 */
 	public static boolean emptyName(String name) {
 		boolean result = false;
-		if (name == null || name == "") {
+		if (name == null || name.equals("")) {
 			result = true;
 		}
 		return result;
@@ -81,7 +81,7 @@ public class ComputerValidator {
 	 */
 	public static boolean emptyDate(String intro) {
 		boolean result = false;
-		if (intro.equals(null) || intro.equals("")) {
+		if (intro==null || intro.equals("")) {
 			result = true;
 		}
 		return result;
@@ -110,7 +110,7 @@ public class ComputerValidator {
 	 */
 	public static boolean emptyCompany(String companyId) {
 		boolean result = false;
-		if (companyId.equals("0")) {
+		if (companyId!=null && companyId.equals("0")) {
 			result = true;
 		}
 		return result;

@@ -32,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 
 		return new BCryptPasswordEncoder();
-
 	}
 
 	@Bean
@@ -43,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		authProvider.setPasswordEncoder(passwordEncoder());
 
 		return authProvider;
-
 	}
 
 	@Override
@@ -58,9 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/dashboard").hasAnyRole("ADMIN", "USER")
 
-				.and().authorizeRequests().antMatchers("/addComputer").hasAnyRole("ADMIN", "USER")
-				.and().authorizeRequests().antMatchers("/editComputer").hasAnyRole("ADMIN", "USER")
-				
+				.and().authorizeRequests().antMatchers("/addComputer").hasAnyRole("ADMIN", "USER").and()
+				.authorizeRequests().antMatchers("/editComputer").hasAnyRole("ADMIN", "USER")
+
 				.and().authorizeRequests().antMatchers("/login", "/resource/**").permitAll()
 
 				.and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")

@@ -24,6 +24,12 @@
 			<groupId>com.excilys.binding</groupId>
 			<artifactId>binding</artifactId>
 			<version>${module.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.excilys.core</groupId>
+					<artifactId>core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 

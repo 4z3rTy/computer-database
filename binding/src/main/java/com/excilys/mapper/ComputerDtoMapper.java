@@ -25,22 +25,22 @@ public class ComputerDtoMapper {
 	 */
 	public static Computer toComputerEdit(ComputerDTO dto) {
 
-		Integer cId = Integer.parseInt(dto.getCompanyId());
+		Integer companyId = Integer.parseInt(dto.getCompanyId());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i, d;
+		LocalDate intro, disco;
 
 		if (dto.getIntroduced() != null && dto.getIntroduced().equals("") == false) {
-			i = LocalDate.parse(dto.getIntroduced(), formatter);
+			intro = LocalDate.parse(dto.getIntroduced(), formatter);
 		} else {
-			i = null;
+			intro = null;
 		}
 		if (dto.getDiscontinued() != null && dto.getDiscontinued().equals("") == false) {
-			d = LocalDate.parse(dto.getDiscontinued(), formatter);
+			disco = LocalDate.parse(dto.getDiscontinued(), formatter);
 		} else {
-			d = null;
+			disco = null;
 		}
-		Company company = new Company.CompanyBuilder().setId(cId).build();
-		Computer computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName())
+		Company company = new Company.CompanyBuilder().setId(companyId).build();
+		Computer computer = new Computer.ComputerBuilder().setDisco(disco).setIntro(intro).setName(dto.getComputerName())
 				.setId(Integer.parseInt(dto.getId())).setAny(company).build();
 
 		return computer;
@@ -55,27 +55,27 @@ public class ComputerDtoMapper {
 	public static Computer toComputerAdd(ComputerDTO dto) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate i, d;
+		LocalDate intro, disco;
 
 		if (dto.getIntroduced() != null && dto.getIntroduced().equals("") == false) {
-			i = LocalDate.parse(dto.getIntroduced(), formatter);
+			intro = LocalDate.parse(dto.getIntroduced(), formatter);
 		} else {
-			i = null;
+			intro = null;
 		}
 		if (dto.getDiscontinued() != null && dto.getDiscontinued().equals("") == false) {
-			d = LocalDate.parse(dto.getDiscontinued(), formatter);
+			disco = LocalDate.parse(dto.getDiscontinued(), formatter);
 		} else {
-			d = null;
+			disco = null;
 		}
 
 		Computer computer = null;
 		if (dto.getCompany() != null && !dto.getCompanyId().equals("0")) {
 			Integer cId = Integer.parseInt(dto.getCompanyId());
 			Company company = new Company.CompanyBuilder().setId(cId).build();
-			computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName())
+			computer = new Computer.ComputerBuilder().setDisco(disco).setIntro(intro).setName(dto.getComputerName())
 					.setAny(company).build();
 		} else {
-			computer = new Computer.ComputerBuilder().setDisco(d).setIntro(i).setName(dto.getComputerName()).build();
+			computer = new Computer.ComputerBuilder().setDisco(disco).setIntro(intro).setName(dto.getComputerName()).build();
 		}
 		// setId not used because when AddingComputers computerId is autoincremented by
 		// the sql side
@@ -100,15 +100,15 @@ public class ComputerDtoMapper {
 	/**
 	 * Local to string.
 	 *
-	 * @param d the d
+	 * @param date the d
 	 * @return the string
 	 */
-	public static String localToString(LocalDate d) {
+	public static String localToString(LocalDate date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		String string = null;
-		if (d != null) {
+		if (date != null) {
 			try {
-				string = d.format(formatter);
+				string = date.format(formatter);
 			} catch (DateTimeParseException e) {
 				logger.debug("Error formating your LocalDate");
 			}
