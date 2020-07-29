@@ -176,7 +176,7 @@ Steps to fix before final release, code quality overview and possible improvemen
 ### 4.8. Front End
 Create another project on your Github : **cdb-front**.
 
-**cdb-front** is a Single Page Application (SPA) that enables the listing, creation, deletion and modification of compagnies for an admin user.
+**cdb-front** is a Single Page Application (SPA) that enables the listing, creation, deletion and modification of companies for an admin user.
 
 You must choose one of the 3 following frameworks (choose wisely) :
 * AngularJs
@@ -219,7 +219,7 @@ Each room of your house could be a module (see [documentation](https://angular.i
 
 We recommend you to follow the [style guide of John Papa](https://github.com/johnpapa/angular-styleguide/blob/master/a2/README.md) (same person than AngularJS style guide)
 
-##### Usefull links
+##### Useful links
 - [Angular Tower of Heroes Tutorial](https://angular.io/tutorial)
 - [Angular Docs](https://angular.io/guide/architecture)
 - [Angular Style guide](https://github.com/johnpapa/angular-styleguide/blob/master/a2/README.md)
@@ -241,7 +241,7 @@ Then, you will have to look at the UI you want to build, and separate it in comp
 Here's my advice :
 - Make small, reusable and logic-free components. Put them in "components" directory. (Your UI library will already provide you a lot of them)
 - Make business-aware and complex components. Put them in "containers" directory.
-- Make layout components which organizes the components in page. Put them in "page" directory.
+- Make layout components which organize the components in pages. Put them in "page" directory.
 
 Maybe [this](http://havesome-react.surge.sh) will help.
 
@@ -290,7 +290,7 @@ A technical review: you will reassure your client on what he paid for. Give him 
 Replace existing connection logic with a ThreadLocal object. 
 
 ## 5.2. Performance Challenge with Gatling (3 days)
-Now is the time to start evaluating your global application performance with a stress-test campain.
+Now is the time to start evaluating your global application performance with a stress-test campaign.
 Using Gatling, you have one day to stress-test your web application (gatling test and directions present in the folder gatling-test) and use tools like VisualVM to improve the performances. See the relevant README file for more explanations. For now, choose the simulation without Spring Security.
 
 ## 5.3. Continuous Integration / Continuous Delivery (6 days)
@@ -304,7 +304,7 @@ Create two Docker images :
 
 The both will need to communicate so the unit tests can access to the tests data
 
-Install and configure a Jenkins and create a job that starts the build process everytime a push is performed on master.
+Install and configure Jenkins and create a job that starts the build process everytime a push is performed on master.
 
 ### 5.3.2 Your app in docker
 

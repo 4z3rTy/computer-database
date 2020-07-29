@@ -1,81 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  	
+  <modelVersion>4.0.0</modelVersion>
+  	
+  <groupId>com.excilys</groupId>
+  	
+  <artifactId>cdb</artifactId>
+  	
+  <packaging>pom</packaging>
+  	
+  <version>${module.version}</version>
+  	
+  <name>cdb</name>
+  	
+  <url>http://maven.apache.org</url>
+  	
+  <properties>
+    		
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  		
+    <maven.compiler.source>1.8</maven.compiler.source>  		
+    <maven.compiler.target>1.8</maven.compiler.target>
+    		
+    <module.version>6.0.0</module.version>
+    		
+    <spring.version>5.2.7.RELEASE</spring.version>  		
+    <spring.security.version>5.3.3.RELEASE</spring.security.version>
+    <rest.version>3.3.2.RELEASE</rest.version>	
+    
+    <hibernate.version>5.4.18.Final</hibernate.version>	
+    <mysql.version>8.0.20</mysql.version> 		
+    <hikari.version>3.4.5</hikari.version>
+    		
+    <servlet.version>3.1.0</servlet.version>	
+    <jstl.version>1.2</jstl.version>		
+    <jquery.version>1.19.0</jquery.version>		
+    <validation.version>2.0.1.Final</validation.version>
+    		
+    <junit.version>4.11</junit.version>		
+    <dbunit.version>2.7.0</dbunit.version>		
+    <mockito.version>1.9.5</mockito.version>		
+   
+    <slf4j.version>1.7.30</slf4j.version>
+    	
+  </properties>
+  	
+  <dependencies>
+    		
+    <dependency>
+      			
+      <groupId>junit</groupId>
+      			
+      <artifactId>junit</artifactId>
+      			
+      <version>${junit.version}</version>
+      			
+      <scope>test</scope>
+      		
+    </dependency>
+    		
+    <dependency>
+      			
+      <groupId>org.mockito</groupId>
+      			
+      <artifactId>mockito-all</artifactId>
+      			
+      <version>${mockito.version}</version>
+      			
+      <scope>test</scope>
+      		
+    </dependency>
+    		
+    <dependency>
+      			
+      <groupId>org.slf4j</groupId>
+      			
+      <artifactId>slf4j-api</artifactId>
+      			
+      <version>${slf4j.version}</version>
+      		
+    </dependency>
+    		
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+    		
+    <dependency>
+      			
+      <groupId>org.slf4j</groupId>
+      			
+      <artifactId>slf4j-simple</artifactId>
+      			
+      <version>${slf4j.version}</version>
+      		
+    </dependency>
+    	
+  </dependencies>
+  	
 
 
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.excilys</groupId>
-	<artifactId>cdb</artifactId>
-	<packaging>pom</packaging>
-	<version>${module.version}</version>
-	<name>cdb</name>
-	<url>http://maven.apache.org</url>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-
-		<module.version>6.0.0</module.version>
-
-		<spring.version>5.2.7.RELEASE</spring.version>
-		<spring.security.version>5.3.3.RELEASE</spring.security.version>
-
-		<hibernate.version>5.4.18.Final</hibernate.version>
-		<mysql.version>8.0.20</mysql.version>
-		<hikari.version>3.4.5</hikari.version>
-
-		<servlet.version>3.1.0</servlet.version>
-		<jstl.version>1.2</jstl.version>
-		<jquery.version>1.19.0</jquery.version>
-
-		<validation.version>2.0.1.Final</validation.version>
-		<junit.version>4.11</junit.version>
-		<dbunit.version>2.7.0</dbunit.version>
-		<mockito.version>1.9.5</mockito.version>
-		<slf4j.version>1.7.30</slf4j.version>
-	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-	</dependencies>
 	
-
-
-	<modules>
-		<module>core</module>
-		<module>binding</module>
-		<module>persistence</module>
-		<module>service</module>
-		<module>cli</module>
-		<module>webmodule</module>
-	</modules>
-
+  <modules>
+    		
+    <module>core</module>
+    		
+    <module>binding</module>
+    		
+    <module>persistence</module>
+    		
+    <module>service</module>
+    		
+    <module>cli</module>
+    		
+    <module>webmodule</module>
+    	  
+    <module>webservice</module>
+      
+  </modules>
+  
 </project>

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -26,10 +27,10 @@ import com.excilys.persistence.ComputerDAO;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
+
 /**
  * The Class CLI.
  */
-
 public class CLI {
 	/**
 	 * Instantiates a new cli.
@@ -55,7 +56,7 @@ public class CLI {
 	public void printComputers() {
 		System.out.println("'List all computers' selected ->");
 		System.out.println("");
-		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) computerService.getAllComputers();
+		List<ComputerDTO> computers = computerService.getAllComputers();
 		computers.forEach(computer -> System.out.println(computer.toString()));
 	}
 
@@ -65,8 +66,8 @@ public class CLI {
 	public void printCompanies() {
 		System.out.println("'List all companies' selected ->");
 		System.out.println("");
-		ArrayList<CompanyDTO> companies;
-		companies = (ArrayList<CompanyDTO>) companyService.getAllCompanies();
+		List<CompanyDTO> companies;
+		companies =  companyService.getAllCompanies();
 		companies.forEach(company -> System.out.println(company.toString()));
 	}
 

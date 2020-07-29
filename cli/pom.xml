@@ -15,9 +15,10 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.excilys.service</groupId>
-			<artifactId>service</artifactId>
+			<groupId>com.excilys.webservice</groupId>
+			<artifactId>webservice</artifactId>
 			<version>${module.version}</version>
 		</dependency>
+
 	</dependencies>
 </project>
