@@ -160,6 +160,7 @@ public class ComputerDAO {
 	@Transactional
 	public void updateComputer(Computer myComp) {
 
+		em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(myComp);
 		em.getTransaction().commit();
@@ -173,6 +174,7 @@ public class ComputerDAO {
 	@Transactional
 	public void insertComputer(Computer myComp) {
 
+		em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(myComp);
 		em.getTransaction().commit();

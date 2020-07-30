@@ -94,5 +94,11 @@ public class CompanyDAO {
 		TypedQuery<Company> allQuery = em.createQuery(all);
 		return allQuery.getResultList();
 	}
+	
+	public Company getCompany(int companyId){
+		em = emf.createEntityManager();
+		Company company = em.find(Company.class, companyId);
+		return company;
+	}
 
 }

@@ -13,6 +13,16 @@ public class Company {
 
 	public Company() {}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Company))
+		{
+			return false;
+		}
+		Company company=(Company) o;
+		return (this.id.equals(company.getId()) && this.name.equals(company.getName()));
+	}
+
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

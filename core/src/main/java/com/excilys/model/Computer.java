@@ -15,6 +15,16 @@ import javax.persistence.Table;
 @Table(name = "computer")
 public class Computer {
 
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Computer))
+		{
+			return false;
+		}
+		Computer computer=(Computer) o;
+		return (this.id==computer.getId() && this.name.equals(computer.getName()));
+	}
+
 	public Computer() {}
 	
 	@Id

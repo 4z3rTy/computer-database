@@ -6,22 +6,27 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.dto.MyLittleDTO;
 import com.excilys.mapper.ComputerDtoMapper;
 import com.excilys.model.Page;
 import com.excilys.service.ComputerService;
 import com.excilys.validator.ComputerValidator;
 
+@RequestMapping("/computers")
 @RestController
 public class ComputerController {
 
@@ -29,7 +34,6 @@ public class ComputerController {
 	private ComputerService ComputerService;
 	private int sum;
 
-	
 	@GetMapping("/computer/{Id}")
 	public ComputerDTO getComputer(@PathVariable int Id) {
 
@@ -37,26 +41,22 @@ public class ComputerController {
 
 		return computerDto;
 	}
-	
-	@GetMapping("/computer")
-	public List<ComputerDTO> getComputers(@RequestParam(value = "currentPage", required = false) String currentPage,
-			@RequestParam(value = "pageAmount", required = false) String pageAmount,
-			@RequestParam(value = "search", required = false) String search,
-			@RequestParam(value = "searchName", required = false) String searchName,
-			@RequestParam(value = "searchIntro", required = false) String searchIntro,
-			@RequestParam(value = "searchType", required = false) String searchType) {
 
+	@GetMapping("/computer")
+	public List<ComputerDTO> getComputers(@Valid @RequestBody MyLittleDTO dto) {
 		List<ComputerDTO> computers = null;
 
-		Page p = updatePage(currentPage, pageAmount);
-
+		Page p = updatePage(dto);
+		String search = dto.getsearch();
+		String searchType = dto.getsearchType();
 		if (searchType == null) {
+
 			computers = ifNoSearch(computers, p, search);
 
-			if (searchName != null) {
+			if (dto.getsearchName() != null) {
 				computers = ComputerService.getSearchName(search, p);
 				searchType = "searchName";
-			} else if (searchIntro != null) {
+			} else if (dto.getsearchIntro() != null) {
 				computers = ComputerService.getSearchIntro(search, p);
 				searchType = "searchIntro";
 			}
@@ -77,9 +77,9 @@ public class ComputerController {
 		return computers;
 	}
 
-
-	@PostMapping("/computer/update/{id}")
-	public void updateComputer(@RequestBody ComputerDTO computerDto,HttpServletResponse response) {
+	@PutMapping("/computer")
+	public void updateComputer(@Valid @RequestBody ComputerDTO computerDto, HttpServletResponse response)
+			throws IOException {
 		Map<String, String> messages = new HashMap<String, String>();
 
 		String computerId = computerDto.getId();
@@ -97,26 +97,20 @@ public class ComputerController {
 		if (messages.isEmpty()) {
 			messages.put("success", "Update completed successfully!!!!");
 			ComputerService.updateComputer(ComputerDtoMapper.toComputerEdit(compDto));
+		} else {
+			response.sendError(304, "whoopsie");
 		}
+	}
 
-		/*
-		 * mv.getModel().put("messages", messages); 
-		 * mv.getModel().put("id", computerId);
-		 * mv.getModel().put("companies", anyService.getAllCompanies());
-		 */
-	}
-	
-	@PostMapping("/computer/delete/{id}")
-	public void deleteComputer(@RequestParam List<String> selection, HttpServletResponse response)
-			throws IOException {
+	@DeleteMapping("/computer/{selection}")
+	public void deleteComputer(@PathVariable List<String> selection, HttpServletResponse response) {
 		selection.forEach(computer -> ComputerService.deleteComputer(Integer.parseInt(computer)));
-		response.sendRedirect("dashboard");
+		// response.sendRedirect("/computers/computer");
 	}
-	
-	@PostMapping("/computer/add")
-	public void addComputer(@RequestBody ComputerDTO computerDto, HttpServletResponse response) {
+
+	@PostMapping("/computer")
+	public void addComputer(@RequestBody ComputerDTO computerDto, HttpServletResponse response) throws IOException {
 		Map<String, String> messages = new HashMap<String, String>();
-		// ModelAndView mv = new ModelAndView("addComputer");
 
 		String name = computerDto.getComputerName();
 		String intro = computerDto.getIntroduced();
@@ -137,35 +131,25 @@ public class ComputerController {
 		if (messages.isEmpty()) {
 			messages.put("success", "Insertion completed successfully!!!!");
 			ComputerService.insertComputer(ComputerDtoMapper.toComputerAdd(uterDto));
+		} else {
+			response.sendError(304, "whoopsie");
 		}
 
-		/*  mv.getModel().put("messages", messages); */
 	}
 
-	/*
-	 * private void updateModelView(ModelAndView mv, List<ComputerDTO> computers,
-	 * Page p, String search, String searchType) { mv.getModel().put("sum", sum);
-	 * mv.getModel().put("compList", computers); mv.getModel().put("pageTotal",
-	 * p.getTotal()); mv.getModel().put("currentPage", p.getPage());
-	 * mv.getModel().put("items", p.getAmount()); mv.getModel().put("search",
-	 * search); mv.getModel().put("searchType", searchType);
-	 * mv.getModel().put("pageAmount", p.getAmount()); }
-	 */
-	
-	private Page updatePage(String currentPage, String pageAmount) {
+	private Page updatePage(MyLittleDTO dto) {
 		Page p = new Page(sum);
-		if (currentPage != null) {
-			p.setPage(Integer.parseInt(currentPage));
+		if (dto.getcurrentPage() != null) {
+			p.setPage(Integer.parseInt(dto.getcurrentPage()));
 		}
 
-		if (pageAmount != null && pageAmount != "") {
-			p.setAmount(Integer.parseInt(pageAmount));
+		if (dto.getpageAmount() != null && dto.getpageAmount() != "") {
+			p.setAmount(Integer.parseInt(dto.getpageAmount()));
 		}
 		p.calcPages();
 		return p;
 	}
-	
-	
+
 	private List<ComputerDTO> newSearchIntro(Page p, String search) {
 		List<ComputerDTO> computers;
 		p.setMax(sum);

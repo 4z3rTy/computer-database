@@ -21,9 +21,9 @@
     <maven.compiler.source>1.8</maven.compiler.source>  		
     <maven.compiler.target>1.8</maven.compiler.target>
     		
-    <module.version>6.0.0</module.version>
+    <module.version>7.0.0</module.version>
     		
-    <spring.version>5.2.7.RELEASE</spring.version>  		
+    <spring.version>5.2.8.RELEASE</spring.version>  		
     <spring.security.version>5.3.3.RELEASE</spring.security.version>
     <rest.version>3.3.2.RELEASE</rest.version>	
     
@@ -36,11 +36,12 @@
     <jquery.version>1.19.0</jquery.version>		
     <validation.version>2.0.1.Final</validation.version>
     		
-    <junit.version>4.11</junit.version>		
+    <junit.version>4.13</junit.version>		
     <dbunit.version>2.7.0</dbunit.version>		
     <mockito.version>1.9.5</mockito.version>		
    
     <slf4j.version>1.7.30</slf4j.version>
+    <jackson.version>2.11.1</jackson.version>
     	
   </properties>
   	
