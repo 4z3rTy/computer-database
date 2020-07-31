@@ -22,18 +22,17 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceConfigTest.class })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,TransactionalTestExecutionListener.class , DbUnitTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class,
+		DbUnitTestExecutionListener.class })
 @DatabaseSetup("/sampleData.xml")
 @DatabaseTearDown
-@DbUnitConfiguration(databaseConnection= {"mysqlDataSource"})
+@DbUnitConfiguration(databaseConnection = { "mysqlDataSource" })
 public class CompanyDAOTest {
 
 	@Autowired
 	private CompanyDAO test;
-	
 
 	@Test
 	public void getCompanyTestOk() {
@@ -52,7 +51,7 @@ public class CompanyDAOTest {
 		int toDelete = 1;
 		int count = test.countDb("company");
 		test.deleteCompany(toDelete);
-		assertEquals(count-1,test.countDb("company"));
+		assertEquals(count - 1, test.countDb("company"));
 		assertNull(test.getCompany(toDelete));
 	}
 
@@ -61,7 +60,7 @@ public class CompanyDAOTest {
 		int toDelete = 700;
 		int count = test.countDb("company");
 		test.deleteCompany(toDelete);
-		assertEquals(count,test.countDb("company"));
+		assertEquals(count, test.countDb("company"));
 		assertNull(test.getCompany(toDelete));
 	}
 
@@ -82,7 +81,7 @@ public class CompanyDAOTest {
 		List<Company> l = test.viewCompany();
 		assertEquals(test.viewCompany(), l);
 	}
-	
+
 	@Test
 	public void testGetCompanyOk() {
 		Company l = new Company.CompanyBuilder().setId(2).setName("Two").build();
