@@ -22,7 +22,7 @@ import com.excilys.model.Page;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceConfigTest.class, ComputerDAO.class })
+@ContextConfiguration(classes = { PersistenceConfigTest.class})
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 //@DatabaseSetup("sampleData.xml")

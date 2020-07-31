@@ -4,6 +4,7 @@ import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.DefaultJpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,6 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @EnableTransactionManagement
 @Configuration
+@ComponentScan(basePackages = { "com.excilys.persistence" })
 public class PersistenceConfig {
 	@Bean
 	  public HikariDataSource mysqlDataSource() {

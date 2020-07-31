@@ -14,7 +14,7 @@ public class CDBInitializer implements WebApplicationInitializer {
 	public void onStartup(final ServletContext sc) throws ServletException {
 
 		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-		root.register(WebConfig.class);
+		root.register(WebConfig.class, WebSecurityConfig.class);
 
 		ServletRegistration.Dynamic appServlet = sc.addServlet("mvc", new DispatcherServlet(root));
 		appServlet.setLoadOnStartup(1);

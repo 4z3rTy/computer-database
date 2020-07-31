@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableTransactionManagement
 @Configuration
 @Import(PersistenceConfig.class)
-@ComponentScan(basePackages = { "com.excilys.persistence", "com.excilys.service", "com.excilys.controllers" })
+@ComponentScan(basePackages = { "com.excilys.service", "com.excilys.controllers" })
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override

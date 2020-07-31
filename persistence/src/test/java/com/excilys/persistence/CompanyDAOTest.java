@@ -23,7 +23,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceConfigTest.class, CompanyDAO.class })
+@ContextConfiguration(classes = { PersistenceConfigTest.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,TransactionalTestExecutionListener.class , DbUnitTestExecutionListener.class })
 //@DatabaseSetup("/home/a/eclipse-workspace/mvncdb/cdbmulti/cdb/persistence/src/main/resources/sampleData.xml")
 @DatabaseTearDown
