@@ -43,12 +43,11 @@ public class ComputerDAO {
 	/** The logger. */
 	private static Logger logger=LoggerFactory.getLogger(ComputerDAO.class);
 
-	/**
-	 * Count db.
-	 *
-	 * @param tbName the tb name
-	 * @return the int
-	 */
+	private void initialize() {
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+	}
+	
 	/*
 	 * Count db.
 	 *
@@ -57,12 +56,12 @@ public class ComputerDAO {
 	 * @return the int
 	 */
 	public int countDb(String tbName) {
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		cq.select(cb.count(cq.from(Computer.class)));
 		return em.createQuery(cq).getSingleResult().intValue();
 	}
+
 
 	/**
 	 * View computer.
@@ -70,8 +69,7 @@ public class ComputerDAO {
 	 * @return the list
 	 */
 	public List<Computer> viewComputer() {
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);
 		CriteriaQuery<Computer> all = cq.select(rootEntry);
@@ -114,8 +112,7 @@ public class ComputerDAO {
 	@Transactional
 	public void updateComputerName(String newName, int computerId) {
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		em.getTransaction().begin();
 		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
 		Root<Computer> e = update.from(Computer.class);
@@ -138,8 +135,7 @@ public class ComputerDAO {
 
 		boolean res = true;
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		em.getTransaction().begin();
 		CriteriaUpdate<Computer> update = cb.createCriteriaUpdate(Computer.class);
 		Root<Computer> e = update.from(Computer.class);
@@ -189,8 +185,7 @@ public class ComputerDAO {
 	@Transactional
 	public void deleteComputer(int computerId) {
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaDelete<Computer> delete = cb.createCriteriaDelete(Computer.class);
 		Root<Computer> e = delete.from(Computer.class);
 		delete.where(cb.equal(e.get("id"), computerId));
@@ -312,8 +307,7 @@ public class ComputerDAO {
 	 */
 	public int searchCount(String search) {
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Computer> rootEntry = cq.from(Computer.class);

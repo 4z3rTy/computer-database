@@ -36,6 +36,12 @@ public class CompanyDAO {
 	/** The logger. */
 	private static Logger logger=LoggerFactory.getLogger(CompanyDAO.class);
 
+	
+	private void initialize() {
+		em = emf.createEntityManager();
+		cb = em.getCriteriaBuilder();
+	}
+	
 	/**
 	 * Delete company.
 	 *
@@ -44,8 +50,7 @@ public class CompanyDAO {
 	@Transactional
 	public void deleteCompany(int companyId) {
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaDelete<Computer> criteriaDelete = cb.createCriteriaDelete(Computer.class);
 		Root<Computer> root = criteriaDelete.from(Computer.class);
 		criteriaDelete.where(cb.equal(root.get("company").get("id"), companyId));
@@ -62,6 +67,7 @@ public class CompanyDAO {
 		em.getTransaction().commit();
 	}
 
+
 	/**
 	 * Count db.
 	 *
@@ -70,8 +76,7 @@ public class CompanyDAO {
 	 */
 	public int countDb(String tbName) {
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		cq.select(cb.count(cq.from(Company.class)));
 		return em.createQuery(cq).getSingleResult().intValue();
@@ -86,8 +91,7 @@ public class CompanyDAO {
 
 	public List<Company> viewCompany(){
 
-		em = emf.createEntityManager();
-		cb = em.getCriteriaBuilder();
+		initialize();
 		CriteriaQuery<Company> cq = cb.createQuery(Company.class);
 		Root<Company> rootEntry = cq.from(Company.class);
 		CriteriaQuery<Company> all = cq.select(rootEntry);

@@ -20,12 +20,16 @@ import com.excilys.config.PersistenceConfigTest;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceConfigTest.class})
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 //@DatabaseSetup("sampleData.xml")
+@DatabaseTearDown
+@DbUnitConfiguration(databaseConnection= {"mysqlDataSource"})
 public class ComputerDAOTest {
 
 	@Autowired
