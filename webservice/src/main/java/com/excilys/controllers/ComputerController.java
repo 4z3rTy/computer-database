@@ -34,7 +34,7 @@ public class ComputerController {
 	private ComputerService ComputerService;
 	private int sum;
 
-	@GetMapping("/computer/{Id}")
+	@GetMapping("/{Id}")
 	public ComputerDTO getComputer(@PathVariable int Id) {
 
 		ComputerDTO computerDto = ComputerService.getCompDetails(Id);
@@ -42,7 +42,7 @@ public class ComputerController {
 		return computerDto;
 	}
 
-	@GetMapping("/computer")
+	@GetMapping()
 	public List<ComputerDTO> getComputers(@Valid @RequestBody MyLittleDTO dto) {
 		List<ComputerDTO> computers = null;
 
@@ -77,7 +77,7 @@ public class ComputerController {
 		return computers;
 	}
 
-	@PutMapping("/computer")
+	@PutMapping()
 	public void updateComputer(@Valid @RequestBody ComputerDTO computerDto, HttpServletResponse response)
 			throws IOException {
 		Map<String, String> messages = new HashMap<String, String>();
@@ -102,13 +102,13 @@ public class ComputerController {
 		}
 	}
 
-	@DeleteMapping("/computer/{selection}")
+	@DeleteMapping("/{selection}")
 	public void deleteComputer(@PathVariable List<String> selection, HttpServletResponse response) {
 		selection.forEach(computer -> ComputerService.deleteComputer(Integer.parseInt(computer)));
 		// response.sendRedirect("/computers/computer");
 	}
 
-	@PostMapping("/computer")
+	@PostMapping()
 	public void addComputer(@RequestBody ComputerDTO computerDto, HttpServletResponse response) throws IOException {
 		Map<String, String> messages = new HashMap<String, String>();
 

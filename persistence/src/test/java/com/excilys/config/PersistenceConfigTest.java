@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @EnableTransactionManagement
 @Configuration
-public class PersistenceConfig {
+public class PersistenceConfigTest {
 	@Bean
 	  public HikariDataSource mysqlDataSource() {
 		  HikariConfig config = new HikariConfig("/hikari.properties");

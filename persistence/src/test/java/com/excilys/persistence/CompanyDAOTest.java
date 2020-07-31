@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import com.excilys.config.PersistenceConfig;
+import com.excilys.config.PersistenceConfigTest;
 import com.excilys.model.Company;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
@@ -23,7 +23,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceConfig.class, CompanyDAO.class })
+@ContextConfiguration(classes = { PersistenceConfigTest.class, CompanyDAO.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,TransactionalTestExecutionListener.class , DbUnitTestExecutionListener.class })
 //@DatabaseSetup("/home/a/eclipse-workspace/mvncdb/cdbmulti/cdb/persistence/src/main/resources/sampleData.xml")
 @DatabaseTearDown

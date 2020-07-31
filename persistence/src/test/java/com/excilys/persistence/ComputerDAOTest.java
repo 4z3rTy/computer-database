@@ -16,13 +16,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import com.excilys.config.PersistenceConfig;
+import com.excilys.config.PersistenceConfigTest;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceConfig.class, ComputerDAO.class })
+@ContextConfiguration(classes = { PersistenceConfigTest.class, ComputerDAO.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 //@DatabaseSetup("sampleData.xml")

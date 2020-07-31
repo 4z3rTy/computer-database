@@ -19,7 +19,7 @@ public class CompanyController {
 	@Autowired
 	private CompanyService anyService;
 
-	@GetMapping("/company")
+	@GetMapping()
 	public List<CompanyDTO> getCompanies() {
 
 		List<CompanyDTO> companies = anyService.getAllCompanies();
@@ -27,7 +27,7 @@ public class CompanyController {
 		return companies;
 	}
 
-	@DeleteMapping("/company/{companyId}")
+	@DeleteMapping("/{companyId}")
 	public void deleteCompany(@PathVariable int companyId) {
 
 		anyService.deleteCompany(companyId);

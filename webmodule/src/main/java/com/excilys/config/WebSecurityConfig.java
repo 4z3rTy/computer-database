@@ -17,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 @ComponentScan(basePackages = { "com.excilys.service.MyUserDetailsService" })
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -61,15 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and().authorizeRequests().antMatchers("/login", "/resource/**").permitAll()
 
-				.and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
-				.permitAll().loginProcessingUrl("/doLogin").successForwardUrl("/postLogin").failureUrl("/loginFailed")
-
+				.and().formLogin()
 				.and().logout().logoutUrl("/doLogout").logoutSuccessUrl("/logout").permitAll()
 
 				.and().csrf().disable();
 
 		// http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
-		http.addFilter(new DigestAuthenticationFilter());
+		//http.addFilter(new DigestAuthenticationFilter());
 
 	}
 }
