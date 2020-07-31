@@ -20,6 +20,7 @@ import com.excilys.config.PersistenceConfigTest;
 import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
@@ -27,7 +28,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 @ContextConfiguration(classes = { PersistenceConfigTest.class})
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
-//@DatabaseSetup("sampleData.xml")
+@DatabaseSetup("/sampleData.xml")
 @DatabaseTearDown
 @DbUnitConfiguration(databaseConnection= {"mysqlDataSource"})
 public class ComputerDAOTest {
@@ -37,7 +38,7 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testCountDb() {
-		assertEquals(dao.countDb("computer"), 525);
+		assertEquals(dao.countDb("computer"), 10);
 	}
 
 	@Test
@@ -51,8 +52,8 @@ public class ComputerDAOTest {
 		Page p = new Page(10);
 		p.setPage(1);
 		List<Computer> l = dao.viewSomeComputers(p);
-		Computer computer = dao.viewCompDetails(7);
-		Computer computer2 = dao.viewCompDetails(32);
+		Computer computer = dao.viewCompDetails(1);
+		Computer computer2 = dao.viewCompDetails(11);
 		assertTrue(l.size() == 10);
 		assertTrue(l.get(0).equals(computer));
 		assertTrue(l.get(9).equals(computer2));
@@ -62,74 +63,68 @@ public class ComputerDAOTest {
 	public void updateComputerNameTest() {
 		Computer computer = new Computer.ComputerBuilder().setName("Not yet Updated").build();
 		dao.insertComputer(computer);
-		dao.updateComputerName("Updated", 598);
-		assertEquals(dao.viewCompDetails(598), new Computer.ComputerBuilder().setId(598).setName("Updated").build());
+		dao.updateComputerName("Updated", 11);
+		assertEquals(dao.viewCompDetails(11), new Computer.ComputerBuilder().setId(11).setName("Updated").build());
 	}
 
 	@Test
 	public void updateComputerDiscTest() {
-		Computer computer = new Computer.ComputerBuilder().setName("testUpdateComputerDisc").setIntro(LocalDate.of(2019, 11, 11)).setDisco(LocalDate.of(2019, 12, 12)).build();
-		dao.insertComputer(computer);
-		dao.updateComputerDisc(LocalDate.of(2020, 11, 11),LocalDate.of(2020, 12, 12), 579);
-		assertEquals(dao.viewCompDetails(579).getIntroduced(),LocalDate.of(2020, 11, 11));
-		assertEquals(dao.viewCompDetails(579).getDiscontinued(),LocalDate.of(2020, 12, 12));
+		dao.updateComputerDisc(LocalDate.of(2020, 11, 11),LocalDate.of(2020, 12, 12), 11);
+		assertEquals(dao.viewCompDetails(11).getIntroduced(),LocalDate.of(2020, 11, 11));
+		assertEquals(dao.viewCompDetails(11).getDiscontinued(),LocalDate.of(2020, 12, 12));
 	}
 
 	@Test
 	public void updateComputerTest() {
-		Computer beforeUpdate = new Computer.ComputerBuilder().setName("testUpdateComputer").build();
-		dao.insertComputer(beforeUpdate);
-		Computer afterUpdate= new Computer.ComputerBuilder().setId(590).setName("updated").setIntro(LocalDate.of(2020, 11, 11)).setDisco(LocalDate.of(2020, 12, 12)).build();
+		Computer afterUpdate= new Computer.ComputerBuilder().setId(11).setName("updated").setIntro(LocalDate.of(2020, 11, 11)).setDisco(LocalDate.of(2020, 12, 12)).build();
 		dao.updateComputer(afterUpdate);
-		assertEquals(dao.viewCompDetails(590).getName(),"updated");
-		assertEquals(dao.viewCompDetails(590).getId(),590);
-		assertEquals(dao.viewCompDetails(590).getIntroduced(),LocalDate.of(2020, 11, 11));
-		assertEquals(dao.viewCompDetails(590).getDiscontinued(),LocalDate.of(2020, 12, 12));
+		assertEquals(dao.viewCompDetails(11).getName(),"updated");
+		assertEquals(dao.viewCompDetails(11).getId(),11);
+		assertEquals(dao.viewCompDetails(11).getIntroduced(),LocalDate.of(2020, 11, 11));
+		assertEquals(dao.viewCompDetails(11).getDiscontinued(),LocalDate.of(2020, 12, 12));
 	}
 
 	@Test
 	public void testInsertComputer() {
 		int count = dao.countDb("computer");
-		Computer computer = new Computer.ComputerBuilder().setName("Not yet Updated").build();
+		Computer computer = new Computer.ComputerBuilder().setName("Added Computer").build();
 		dao.insertComputer(computer);
 		assertTrue(dao.viewComputer().size() == count + 1);
 	}
 
 	@Test
 	public void testDeleteComputer() {
-		Computer computer = new Computer.ComputerBuilder().setName("testDeleteComputer").build();
-		dao.insertComputer(computer);
-		dao.deleteComputer(591);
-		assertNull(dao.viewCompDetails(591));
+		dao.deleteComputer(11);
+		assertNull(dao.viewCompDetails(11));
 	}
 
 	@Test
 	public void testViewCompDetails() {
-		Computer computer= new Computer.ComputerBuilder().setName("Dell Vostro").setId(572).build();
-		assertEquals(computer,dao.viewCompDetails(572));
+		Computer computer= new Computer.ComputerBuilder().setName("computerEleven").setId(11).build();
+		assertEquals(computer,dao.viewCompDetails(11));
 	}
 
 	@Test
 	public void testGetSearchId() {
 		Page page= new Page(10);
-		assertEquals(dao.getSearchId("Apple", page).size(),7);
+		assertEquals(dao.getSearchId("One", page).size(),4);
 	}
 
 	@Test
 	public void testGetSearchIntro() {
 		Page page= new Page(10);
-		assertEquals(dao.getSearchIntro("Apple", page).size(),7);
+		assertEquals(dao.getSearchIntro("One", page).size(),4);
 	}
 
 	@Test
 	public void testGetSearchName() {
 		Page page= new Page(10);
-		assertEquals(dao.getSearchName("Apple", page).size(),7);
+		assertEquals(dao.getSearchName("One", page).size(),4);
 	}
 
 	@Test
 	public void testSearchCount() {
-		assertEquals(dao.searchCount("Apple"),7);
+		assertEquals(dao.searchCount("One"),4);
 	}
 
 }

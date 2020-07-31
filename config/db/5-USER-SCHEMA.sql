@@ -1,4 +1,4 @@
-use `computer-database-db`;
+use `test-db`;
 
   drop table if exists authority;
   drop table if exists user;

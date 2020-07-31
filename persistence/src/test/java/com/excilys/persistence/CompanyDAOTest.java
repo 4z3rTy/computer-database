@@ -18,6 +18,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import com.excilys.config.PersistenceConfigTest;
 import com.excilys.model.Company;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
@@ -25,7 +26,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceConfigTest.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,TransactionalTestExecutionListener.class , DbUnitTestExecutionListener.class })
-//@DatabaseSetup("/home/a/eclipse-workspace/mvncdb/cdbmulti/cdb/persistence/src/main/resources/sampleData.xml")
+@DatabaseSetup("/sampleData.xml")
 @DatabaseTearDown
 @DbUnitConfiguration(databaseConnection= {"mysqlDataSource"})
 public class CompanyDAOTest {
@@ -37,18 +38,18 @@ public class CompanyDAOTest {
 	@Test
 	public void getCompanyTestOk() {
 
-		assertEquals(test.getCompany(43).getId(), 43);
+		assertEquals(test.getCompany(1).getId(), 1);
 	}
 
 	@Test
 	public void getCompanyTestNotOk() {
 
-		assertNotEquals(test.getCompany(43).getId(), 42);
+		assertNotEquals(test.getCompany(2).getId(), 42);
 	}
 
 	@Test
 	public void deleteCompanyTestExist() {
-		int toDelete = 43;
+		int toDelete = 1;
 		int count = test.countDb("company");
 		test.deleteCompany(toDelete);
 		assertEquals(count-1,test.countDb("company"));
@@ -66,7 +67,7 @@ public class CompanyDAOTest {
 
 	@Test
 	public void testCountDbOk() {
-		assertEquals(test.countDb("company"), 39);
+		assertEquals(test.countDb("company"), 2);
 
 	}
 
@@ -83,8 +84,8 @@ public class CompanyDAOTest {
 	}
 	
 	@Test
-	public void testViewCompanyNotOk() {
-		Company l = test.getCompany(42);
-		assertNotEquals(test.viewCompany(), l);
+	public void testGetCompanyOk() {
+		Company l = new Company.CompanyBuilder().setId(2).setName("Two").build();
+		assertEquals(test.getCompany(2), l);
 	}
 }

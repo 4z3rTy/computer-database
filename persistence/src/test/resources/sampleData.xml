@@ -1,5 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<Company id="1" name="One" />
-	<Company id="2" name="Two" />
+	<company id="1" name="One" />
+	<company id="2" name="Two" />
+	<computer id="1" name="computerOne" introduced="2020-11-11" discontinued="2020-12-12" company_id="1" />
+	<computer id="3" name="computerThree" company_id="1" />
+	<computer id="4" name="computerFour" company_id="2" />
+	<computer id="5" name="computerFive" />
+	<computer id="6" name="computerSix" company_id="2" />
+	<computer id="7" name="computerSeven" company_id="2" />
+	<computer id="8" name="computerEight" company_id="1" />
+	<computer id="9" name="computerNine" />
+	<computer id="10" name="computerTen" company_id="1" />
+	<computer id="11" name="computerEleven" company_id="2" />
 </dataset>
