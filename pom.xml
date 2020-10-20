@@ -36,7 +36,7 @@
     <jquery.version>1.19.0</jquery.version>		
     <validation.version>2.0.1.Final</validation.version>
     		
-    <junit.version>4.13</junit.version>		
+    <junit.version>4.13.1</junit.version>
     <dbunit.version>2.7.0</dbunit.version>		
     <mockito.version>1.9.5</mockito.version>		
    
